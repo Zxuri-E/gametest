@@ -1,0 +1,16 @@
+{
+  "name": "@game-engine/runtime",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@shared/core": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}
+
