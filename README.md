@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI-Powered 2D Game Generation & Automated Verification Platform
 
 A developer-focused engineering environment that autonomously synthesizes 2D Phaser games from natural language prompts, generates automated Playwright test suites, playtests game mechanics, diagnoses bugs, and attempts autonomous code repairs.
@@ -89,3 +90,6 @@ npm run build
 - **Shared**: Complete TypeScript types, Zod schemas, and runtime contracts for all cross-module data exchange.
 - **Backend, Game Engine, Testing**: Clean architectural scaffolding prepared for future implementation.
 
+=======
+# gametest
+>>>>>>> origin/main
