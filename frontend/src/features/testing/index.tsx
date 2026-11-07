@@ -17,6 +17,7 @@ export const TestingCenterPage: React.FC = () => {
     filterMechanic,
     fetchTests,
     runAllTests,
+    triggerControlledDefect,
     setSelectedTestCase,
     setFilterMechanic,
   } = useTestingStore();
@@ -51,6 +52,7 @@ export const TestingCenterPage: React.FC = () => {
           running={isRunningTests ? 2 : 0}
           isRunning={isRunningTests}
           onRunAll={runAllTests}
+          onTriggerDefect={triggerControlledDefect}
         />
 
         {/* Filter Tabs */}

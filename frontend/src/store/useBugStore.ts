@@ -1,6 +1,7 @@
 import { create } from 'zustand';
-import { BugReport, RepairIteration, BugSeverity, BugCategory, BugRepairStatus } from '@shared/core';
-import { mockApi } from '../services/mock/mockApiService';
+import { BugReport, RepairIteration, BugRepairStatus } from '@shared/core';
+import { api } from '../services/api/apiClient';
+import { useProjectStore } from './useProjectStore';
 
 interface BugState {
   bugs: BugReport[];
@@ -24,7 +25,7 @@ interface BugState {
   clearRepairResult: () => void;
 }
 
-export const useBugStore = create<BugState>((set, get) => ({
+export const useBugStore = create<BugState>((set) => ({
   bugs: [],
   selectedBug: null,
   filterSeverity: 'all',
@@ -38,7 +39,8 @@ export const useBugStore = create<BugState>((set, get) => ({
   fetchBugs: async () => {
     set({ isLoading: true });
     try {
-      const bugs = await mockApi.getBugReports();
+      const activeProj = useProjectStore.getState().activeProject;
+      const bugs = await api.getBugs(activeProj?.id);
       set({ bugs, isLoading: false });
     } catch {
       set({ isLoading: false });
@@ -53,13 +55,14 @@ export const useBugStore = create<BugState>((set, get) => ({
 
   updateBugStatus: async (id, status) => {
     try {
-      const updated = await mockApi.updateBugStatus(id, status);
+      const updated = await api.updateBugStatus(id, status);
       if (updated) {
         set((state) => ({
           bugs: state.bugs.map((b) => (b.id === id ? updated : b)),
           selectedBug: state.selectedBug?.id === id ? updated : state.selectedBug,
         }));
       }
+      await useProjectStore.getState().fetchProjects();
     } catch (err) {
       console.error(err);
     }
@@ -68,13 +71,14 @@ export const useBugStore = create<BugState>((set, get) => ({
   triggerAutoRepair: async (bugId: string) => {
     set({ isRepairing: true, repairResult: null });
     try {
-      const result = await mockApi.triggerAutoRepair(bugId);
+      const result = await api.triggerAutoRepair(bugId);
       set((state) => ({
         isRepairing: false,
         repairResult: { iteration: result.iteration, success: result.success },
         bugs: state.bugs.map((b) => (b.id === bugId ? result.updatedBug : b)),
         selectedBug: state.selectedBug?.id === bugId ? result.updatedBug : state.selectedBug,
       }));
+      await useProjectStore.getState().fetchProjects();
       return true;
     } catch (err) {
       set({ isRepairing: false });
@@ -84,4 +88,3 @@ export const useBugStore = create<BugState>((set, get) => ({
 
   clearRepairResult: () => set({ repairResult: null }),
 }));
-

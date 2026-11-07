@@ -40,7 +40,9 @@ Thumbs.db
 # Test reports
 playwright-report/
 test-results/
+testing/reports/
 coverage/
+*.tsbuildinfo
 
 # Scratch & temporary
 scratch/

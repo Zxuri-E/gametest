@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, XCircle, RotateCw, ListChecks, Play } from 'lucide-react';
+import { CheckCircle2, XCircle, RotateCw, ListChecks, Bug } from 'lucide-react';
 import { MetricCard } from '../../../components/ui/MetricCard';
 import { Button } from '../../../components/ui/Button';
 
@@ -10,6 +10,7 @@ interface TestExecutionSummaryProps {
   running: number;
   isRunning: boolean;
   onRunAll: () => void;
+  onTriggerDefect?: () => void;
 }
 
 export const TestExecutionSummary: React.FC<TestExecutionSummaryProps> = ({
@@ -19,6 +20,7 @@ export const TestExecutionSummary: React.FC<TestExecutionSummaryProps> = ({
   running,
   isRunning,
   onRunAll,
+  onTriggerDefect,
 }) => {
   const passRate = total > 0 ? Math.round((passed / total) * 100) : 0;
 
@@ -38,16 +40,29 @@ export const TestExecutionSummary: React.FC<TestExecutionSummaryProps> = ({
           </p>
         </div>
 
-        <Button
-          variant="primary"
-          size="md"
-          leftIcon={<RotateCw className={`w-4 h-4 ${isRunning ? 'animate-spin' : ''}`} />}
-          isLoading={isRunning}
-          onClick={onRunAll}
-          className="shrink-0"
-        >
-          {isRunning ? 'Executing Automated Suite...' : 'Run All Verification Tests'}
-        </Button>
+        <div className="flex items-center gap-2.5 shrink-0">
+          {onTriggerDefect && (
+            <Button
+              variant="secondary"
+              size="md"
+              leftIcon={<Bug className="w-4 h-4 text-rose-400" />}
+              onClick={onTriggerDefect}
+              disabled={isRunning}
+            >
+              Inject Controlled Defect
+            </Button>
+          )}
+
+          <Button
+            variant="primary"
+            size="md"
+            leftIcon={<RotateCw className={`w-4 h-4 ${isRunning ? 'animate-spin' : ''}`} />}
+            isLoading={isRunning}
+            onClick={onRunAll}
+          >
+            {isRunning ? 'Executing Suite...' : 'Run All Tests'}
+          </Button>
+        </div>
       </div>
 
       {/* 4 Summary Metric Cards */}
@@ -83,4 +98,3 @@ export const TestExecutionSummary: React.FC<TestExecutionSummaryProps> = ({
     </div>
   );
 };
-

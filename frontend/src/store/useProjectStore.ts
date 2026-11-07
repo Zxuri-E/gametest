@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { GameProject, GameSpecification } from '@shared/core';
-import { mockApi } from '../services/mock/mockApiService';
+import { api } from '../services/api/apiClient';
 
 interface ProjectState {
   projects: GameProject[];
@@ -23,12 +23,16 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   fetchProjects: async () => {
     set({ isLoading: true, error: null });
     try {
-      const projects = await mockApi.getProjects();
-      const spec = await mockApi.getActiveSpecification();
+      const projects = await api.getProjects();
+      const currentActive = get().activeProject;
+      const activeProj = currentActive
+        ? projects.find((p) => p.id === currentActive.id) || projects[0]
+        : projects[0];
+
       set({
         projects,
-        activeProject: projects[0] || null,
-        activeSpec: spec,
+        activeProject: activeProj || null,
+        activeSpec: activeProj?.specification || null,
         isLoading: false,
       });
     } catch (err: any) {
@@ -47,11 +51,10 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
     const current = get().activeSpec;
     if (!current) return;
     try {
-      const updated = await mockApi.updateSpecification(updatedFields);
+      const updated = await api.updateSpecification(current.id, updatedFields);
       set({ activeSpec: updated });
     } catch (err: any) {
       set({ error: err.message || 'Failed to update specification' });
     }
   },
 }));
-

@@ -25,7 +25,7 @@ interface WorkspaceState {
   toggleGrid: () => void;
   incrementScore: (amount: number) => void;
   decrementLives: () => void;
-  updateTelemetry: (telemetry: Partial<{ fps: number; elapsedTimeMs: number; entitiesCount: number; playerPos: { x: number; y: number; vx: number; vy: number } }>) => void;
+  updateTelemetry: (telemetry: Partial<{ fps: number; score: number; lives: number; elapsedTimeMs: number; entitiesCount: number; playerPos: { x: number; y: number; vx: number; vy: number } }>) => void;
 }
 
 export const useWorkspaceStore = create<WorkspaceState>((set) => ({

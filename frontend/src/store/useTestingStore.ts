@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { TestCase, TestResult, AgentStatus } from '@shared/core';
-import { mockApi } from '../services/mock/mockApiService';
+import { api } from '../services/api/apiClient';
+import { useProjectStore } from './useProjectStore';
 
 interface TestingState {
   testCases: TestCase[];
@@ -14,6 +15,7 @@ interface TestingState {
 
   fetchTests: () => Promise<void>;
   runAllTests: () => Promise<void>;
+  triggerControlledDefect: () => Promise<void>;
   setSelectedTestCase: (test: TestCase | null) => void;
   setFilterMechanic: (mechanic: string) => void;
   fetchAgentStatuses: () => Promise<void>;
@@ -32,8 +34,9 @@ export const useTestingStore = create<TestingState>((set, get) => ({
   fetchTests: async () => {
     set({ isLoading: true });
     try {
-      const tests = await mockApi.getTestCases();
-      const agents = await mockApi.getAgentStatuses();
+      const activeProj = useProjectStore.getState().activeProject;
+      const tests = await api.getTests(activeProj?.id);
+      const agents = await api.getAgentStatuses();
       set({ testCases: tests, agentStatuses: agents, isLoading: false });
     } catch {
       set({ isLoading: false });
@@ -41,16 +44,12 @@ export const useTestingStore = create<TestingState>((set, get) => ({
   },
 
   runAllTests: async () => {
+    const activeProj = useProjectStore.getState().activeProject;
+    if (!activeProj) return;
+
     set({ isRunningTests: true });
     try {
-      const result = await mockApi.executeTestSuite((testId, status) => {
-        set((state) => ({
-          activeRunningTestId: status === 'running' ? testId : null,
-          testCases: state.testCases.map((t) =>
-            t.id === testId ? { ...t, status } : t
-          ),
-        }));
-      });
+      const result = await api.runTests(activeProj.id);
       set({
         testResult: result,
         testCases: result.tests,
@@ -58,8 +57,28 @@ export const useTestingStore = create<TestingState>((set, get) => ({
         activeRunningTestId: null,
       });
       await get().fetchAgentStatuses();
+      await useProjectStore.getState().fetchProjects();
     } catch {
       set({ isRunningTests: false, activeRunningTestId: null });
+    }
+  },
+
+  triggerControlledDefect: async () => {
+    const activeProj = useProjectStore.getState().activeProject;
+    if (!activeProj) return;
+
+    set({ isRunningTests: true });
+    try {
+      const outcome = await api.triggerControlledDefect(activeProj.id);
+      set({
+        testResult: outcome.testResult,
+        testCases: outcome.testResult.tests,
+        isRunningTests: false,
+      });
+      await get().fetchAgentStatuses();
+      await useProjectStore.getState().fetchProjects();
+    } catch {
+      set({ isRunningTests: false });
     }
   },
 
@@ -68,11 +87,10 @@ export const useTestingStore = create<TestingState>((set, get) => ({
 
   fetchAgentStatuses: async () => {
     try {
-      const statuses = await mockApi.getAgentStatuses();
+      const statuses = await api.getAgentStatuses();
       set({ agentStatuses: statuses });
     } catch (err) {
       console.error(err);
     }
   },
 }));
-

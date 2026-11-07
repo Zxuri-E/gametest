@@ -9,7 +9,7 @@ import { RecentTestsCard } from './components/RecentTestsCard';
 import { RecentBugsCard } from './components/RecentBugsCard';
 import { LiveActivityFeed } from './components/LiveActivityFeed';
 import { useProjectStore } from '../../store/useProjectStore';
-import { mockApi } from '../../services/mock/mockApiService';
+import { api } from '@/services/api/apiClient';
 import { TestCase, BugReport } from '@shared/core';
 
 export const DashboardPage: React.FC = () => {
@@ -19,8 +19,8 @@ export const DashboardPage: React.FC = () => {
   const [bugs, setBugs] = useState<BugReport[]>([]);
 
   useEffect(() => {
-    mockApi.getTestCases().then(setTests);
-    mockApi.getBugReports().then(setBugs);
+    api.getTests().then(setTests);
+    api.getBugs().then(setBugs);
   }, []);
 
   const totalRuns = projects.reduce((acc, p) => acc + p.totalRuns, 0);

@@ -1,17 +1,37 @@
-/**
- * Playwright automated testing harness configuration foundation (Future implementation)
- */
+import { defineConfig, devices } from '@playwright/test';
 
-export const testConfig = {
+/**
+ * Novus Automated Playwright Testing Suite Configuration
+ */
+export default defineConfig({
   testDir: '../scenarios',
   timeout: 30000,
-  retries: 1,
+  fullyParallel: false,
+  forbidOnly: !!process.env.CI,
+  retries: 0,
+  workers: 1,
+  reporter: [['list'], ['html', { outputFolder: '../reports/html-report', open: 'never' }]],
   use: {
+    baseURL: 'http://localhost:5173',
     headless: true,
     viewport: { width: 1280, height: 720 },
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
   },
-};
-
-export default testConfig;
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'firefox',
+      use: {
+        ...devices['Desktop Firefox'],
+        launchOptions: {
+          executablePath: process.env.FIREFOX_BIN || '/usr/bin/firefox',
+        },
+      },
+    },
+  ],
+});
 

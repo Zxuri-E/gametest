@@ -2,7 +2,7 @@
   "name": "ai-2d-game-platform",
   "version": "0.1.0",
   "private": true,
-  "description": "AI-powered 2D game generation and automated verification platform",
+  "description": "Novus — AI-powered 2D game generation and automated verification platform",
   "workspaces": [
     "shared",
     "frontend",
@@ -12,10 +12,15 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace=frontend",
-    "build": "npm run build --workspace=shared && npm run build --workspace=frontend",
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:all": "npm run dev:backend & npm run dev --workspace=frontend",
+    "build": "npm run build --workspace=shared && npm run build --workspace=game-engine && npm run build:frontend",
     "build:frontend": "npm run build --workspace=frontend",
-    "typecheck": "npm run typecheck --workspace=shared && npm run typecheck --workspace=frontend",
-    "preview": "npm run preview --workspace=frontend"
+    "build:backend": "npm run build --workspace=backend",
+    "typecheck": "npm run typecheck --workspace=shared && npm run typecheck --workspace=game-engine && npm run typecheck --workspace=backend && npm run typecheck --workspace=frontend && npm run typecheck --workspace=testing",
+    "preview": "npm run preview --workspace=frontend",
+    "test": "npm run test --workspace=testing",
+    "test:repair": "npx tsx backend/src/scripts/testRepairFixture.ts"
   },
   "keywords": [
     "ai",
@@ -24,9 +29,9 @@
     "phaser",
     "playwright",
     "automated-testing",
-    "verification"
+    "verification",
+    "novus"
   ],
   "author": "zxurie",
   "license": "UNLICENSED"
 }
-

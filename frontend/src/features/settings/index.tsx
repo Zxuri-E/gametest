@@ -7,12 +7,34 @@ import { LocalModelSettings } from './components/LocalModelSettings';
 import { TestingSettings } from './components/TestingSettings';
 import { Tabs } from '../../components/ui/Tabs';
 import { Button } from '../../components/ui/Button';
-import { Sliders, Palette, Bot, Server, Shield, RotateCcw } from 'lucide-react';
+import { Sliders, Palette, Bot, Server, Shield, RotateCcw, Save, Check } from 'lucide-react';
 import { useSettingsStore } from '../../store/useSettingsStore';
+import { api } from '@/services/api/apiClient';
 
 export const SettingsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('ai');
-  const { resetDefaults } = useSettingsStore();
+  const [isSaving, setIsSaving] = useState(false);
+  const [savedSuccess, setSavedSuccess] = useState(false);
+  const settings = useSettingsStore();
+
+  const handleSaveSettings = async () => {
+    setIsSaving(true);
+    try {
+      await api.saveSettings({
+        general: settings.general,
+        appearance: settings.appearance,
+        aiProvider: settings.aiProvider,
+        localModel: settings.localModel,
+        testing: settings.testing,
+      });
+      setSavedSuccess(true);
+      setTimeout(() => setSavedSuccess(false), 2500);
+    } catch (err) {
+      console.error('Failed to save settings:', err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const settingsTabs = [
     { id: 'ai', label: 'AI Provider & Models', icon: <Bot className="w-3.5 h-3.5" /> },
@@ -27,14 +49,26 @@ export const SettingsPage: React.FC = () => {
       title="Platform Settings & Orchestrator Config"
       subtitle="Configure AI models, inference providers, headless Playwright testing, and workspace preferences."
       action={
-        <Button
-          variant="secondary"
-          size="sm"
-          leftIcon={<RotateCcw className="w-3.5 h-3.5" />}
-          onClick={resetDefaults}
-        >
-          Reset to Defaults
-        </Button>
+        <div className="flex items-center gap-2.5">
+          <Button
+            variant="secondary"
+            size="sm"
+            leftIcon={<RotateCcw className="w-3.5 h-3.5" />}
+            onClick={settings.resetDefaults}
+          >
+            Reset
+          </Button>
+
+          <Button
+            variant="primary"
+            size="sm"
+            leftIcon={savedSuccess ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Save className="w-3.5 h-3.5" />}
+            isLoading={isSaving}
+            onClick={handleSaveSettings}
+          >
+            {savedSuccess ? 'Saved!' : 'Save Changes'}
+          </Button>
+        </div>
       }
     >
       <div className="space-y-6">
@@ -60,4 +94,3 @@ export const SettingsPage: React.FC = () => {
     </PageContainer>
   );
 };
-

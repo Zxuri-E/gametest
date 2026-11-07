@@ -60,7 +60,7 @@ export const GameStudioPage: React.FC = () => {
           <div className="flex items-center gap-2.5 text-slate-300">
             <Info className="w-4 h-4 text-cyan-400 shrink-0" />
             <span>
-              Autonomous Synthesis Engine mode: <strong className="text-cyan-400">Mock Orchestrator Active</strong>. Generates standardized <code className="text-cyan-300 font-mono">GameSpecification</code> JSON and verification plans.
+              Autonomous Synthesis Engine mode: <strong className="text-cyan-400">Live Orchestrator Connected</strong>. Generates standardized <code className="text-cyan-300 font-mono">GameSpecification</code> JSON and verification plans.
             </span>
           </div>
           <span className="hidden sm:inline-block font-mono text-[10px] uppercase bg-canvas-800 text-slate-400 px-2 py-0.5 rounded border border-border-subtle">

@@ -24,8 +24,9 @@
     "paths": {
       "@/*": ["src/*"],
       "@shared/*": ["../shared/src/*"],
-      "@shared/core": ["../shared/src"]
+      "@shared/core": ["../shared/src"],
+      "@game-engine/runtime": ["../game-engine/src"]
     }
   },
-  "include": ["src", "../shared/src"]
+  "include": ["src", "../shared/src", "../game-engine/src"]
 }

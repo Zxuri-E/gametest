@@ -6,6 +6,8 @@ export type GameGenre = 'platformer' | 'top-down' | 'endless-runner';
 
 export type DifficultyLevel = 'easy' | 'medium' | 'hard';
 
+export type VisualTheme = 'cyberpunk' | 'forest' | 'dungeon' | 'retro-arcade' | 'neon-void';
+
 export type MechanicType =
   | 'player-movement'
   | 'jumping'
@@ -33,6 +35,100 @@ export interface GamePhysicsConfig {
   jumpVelocity: number;
 }
 
+export interface PlayerConfig {
+  startX: number;
+  startY: number;
+  width: number;
+  height: number;
+  color: string;
+  maxLives: number;
+  invulnerabilityDurationMs?: number;
+}
+
+export interface LevelPlatform {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  type: 'solid' | 'bouncy' | 'moving' | 'one-way' | 'hazard';
+  color?: string;
+  vx?: number;
+  minX?: number;
+  maxX?: number;
+}
+
+export interface LevelCollectible {
+  id: string;
+  x: number;
+  y: number;
+  type: 'coin' | 'gem' | 'key' | 'shard';
+  points: number;
+  color?: string;
+}
+
+export interface LevelEnemy {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  type: 'patrol' | 'roamer' | 'static';
+  speed: number;
+  minX?: number;
+  maxX?: number;
+  minY?: number;
+  maxY?: number;
+  damage: number;
+  color?: string;
+}
+
+export interface LevelObstacle {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  type: 'spike' | 'laser' | 'pit';
+  damage: number;
+  color?: string;
+}
+
+export interface LevelFinishPoint {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  type: 'portal' | 'flag' | 'door';
+}
+
+export interface RunnerConfig {
+  baseSpeed: number;
+  maxSpeed: number;
+  accelerationRate: number;
+  obstacleIntervalMs: number;
+  groundY: number;
+  minObstacleGap: number;
+  maxObstacleGap: number;
+}
+
+export interface TopDownConfig {
+  arenaWidth: number;
+  arenaHeight: number;
+  walls: { x: number; y: number; width: number; height: number }[];
+  exitX: number;
+  exitY: number;
+}
+
+export interface ReachabilityMetrics {
+  maxJumpHeight: number; // h = v^2 / (2g)
+  timeToApex: number;    // t = v / g
+  totalAirTime: number;  // 2 * t
+  maxJumpDistance: number; // playerSpeed * totalAirTime
+  isReachable: boolean;
+  warnings?: string[];
+}
+
 export interface GameSpecification {
   id: string;
   title: string;
@@ -40,8 +136,18 @@ export interface GameSpecification {
   prompt: string;
   dimensions: GameDimensions;
   difficulty: DifficultyLevel;
+  theme?: VisualTheme;
   mechanics: MechanicType[];
   physics: GamePhysicsConfig;
+  player?: PlayerConfig;
+  platforms?: LevelPlatform[];
+  collectibles?: LevelCollectible[];
+  enemies?: LevelEnemy[];
+  obstacles?: LevelObstacle[];
+  finishPoint?: LevelFinishPoint;
+  runnerConfig?: RunnerConfig;
+  topDownConfig?: TopDownConfig;
+  reachability?: ReachabilityMetrics;
   targetFPS: number;
   backgroundColor: string;
   createdFromPrompt: string;
@@ -69,6 +175,8 @@ export interface GameProject {
 export interface GameState {
   isRunning: boolean;
   isPaused: boolean;
+  isGameOver?: boolean;
+  isVictory?: boolean;
   score: number;
   lives: number;
   currentLevel: number;
@@ -83,10 +191,11 @@ export interface GameState {
   entitiesCount: number;
   elapsedTimeMs: number;
   fps: number;
+  collectiblesRemaining?: number;
 }
 
 /**
- * Standard programmatic interface for automated test drivers (Playwright / AI playtester)
+ * Programmatic interface for automated test drivers (Playwright / AI playtester)
  * to interact with a running 2D game instance.
  */
 export interface GameTestAPI {
@@ -98,6 +207,8 @@ export interface GameTestAPI {
   resumeGame(): Promise<void>;
   captureScreenshot(): Promise<string>;
   getCollisionMatrix(): Promise<Record<string, string[]>>;
+  getPlayerPosition(): Promise<{ x: number; y: number; vx: number; vy: number; isGrounded: boolean }>;
+  getEntitiesSummary(): Promise<{ platforms: number; collectibles: number; enemies: number; obstacles: number }>;
 }
 
 /**
@@ -113,6 +224,7 @@ export interface GameRuntimeAdapter {
   pause(): void;
   resume(): void;
   reset(): void;
+  loadSpecification(spec: GameSpecification): Promise<void>;
   getTestAPI(): GameTestAPI;
 }
 
@@ -151,11 +263,12 @@ export interface TestResult {
   durationMs: number;
   tests: TestCase[];
   overallStatus: 'passed' | 'failed';
+  browserLogs?: string[];
 }
 
 export type BugSeverity = 'critical' | 'high' | 'medium' | 'low';
 
-export type BugCategory = 'physics' | 'collision' | 'logic' | 'game-loop' | 'state' | 'render';
+export type BugCategory = 'physics' | 'collision' | 'logic' | 'level-reachability' | 'game-loop' | 'state' | 'render';
 
 export type BugRepairStatus = 'open' | 'diagnosing' | 'patch-in-progress' | 'verified-fixed' | 'rejected';
 
@@ -180,6 +293,7 @@ export interface BugReport {
     failedAssertion?: string;
     consoleLogs?: string[];
     traceUrl?: string;
+    screenshotUrl?: string;
   };
   repairStatus: BugRepairStatus;
   createdAt: string;
@@ -194,8 +308,10 @@ export interface RepairIteration {
   description: string;
   diffPatch: string;
   affectedFiles: string[];
+  appliedTimestamp?: string;
   testRunResultId?: string;
   isSuccessful: boolean;
+  verificationLogs?: string[];
   createdAt: string;
 }
 
@@ -212,3 +328,15 @@ export interface AgentStatus {
   timestamp: string;
 }
 
+export interface ProjectExportData {
+  projectId: string;
+  projectName: string;
+  version: string;
+  genre: GameGenre;
+  specification: GameSpecification;
+  standaloneHtml: string;
+  readme: string;
+  exportedAt: string;
+  fileName?: string;
+  fileSizeBytes?: number;
+}

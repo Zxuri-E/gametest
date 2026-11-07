@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { GameGenre, MechanicType, DifficultyLevel } from '@shared/core';
-import { mockApi } from '../services/mock/mockApiService';
+import { GameGenre, MechanicType, DifficultyLevel, VisualTheme } from '@shared/core';
+import { api } from '../services/api/apiClient';
 import { useProjectStore } from './useProjectStore';
 
 interface StudioState {
@@ -8,6 +8,7 @@ interface StudioState {
   genre: GameGenre;
   mechanics: MechanicType[];
   difficulty: DifficultyLevel;
+  theme: VisualTheme;
   dimensions: { width: number; height: number };
   physics: {
     gravityY: number;
@@ -23,6 +24,7 @@ interface StudioState {
   setGenre: (genre: GameGenre) => void;
   toggleMechanic: (mechanic: MechanicType) => void;
   setDifficulty: (difficulty: DifficultyLevel) => void;
+  setTheme: (theme: VisualTheme) => void;
   setDimensions: (dims: { width: number; height: number }) => void;
   setPhysics: (physics: Partial<StudioState['physics']>) => void;
   loadPreset: (genre: GameGenre) => void;
@@ -47,6 +49,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
   genre: 'platformer',
   mechanics: DEFAULT_MECHANICS,
   difficulty: 'medium',
+  theme: 'cyberpunk',
   dimensions: { width: 800, height: 600 },
   physics: {
     gravityY: 750,
@@ -76,6 +79,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
   },
 
   setDifficulty: (difficulty) => set({ difficulty }),
+  setTheme: (theme) => set({ theme }),
   setDimensions: (dimensions) => set({ dimensions }),
   setPhysics: (physics) =>
     set((state) => ({ physics: { ...state.physics, ...physics } })),
@@ -84,6 +88,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
     if (genre === 'platformer') {
       set({
         mechanics: DEFAULT_MECHANICS,
+        theme: 'cyberpunk',
         physics: { gravityY: 750, playerSpeed: 280, jumpVelocity: 520 },
       });
     } else if (genre === 'top-down') {
@@ -96,7 +101,8 @@ export const useStudioStore = create<StudioState>((set, get) => ({
           'game-over-condition',
           'level-completion',
         ],
-        physics: { gravityY: 0, playerSpeed: 320, jumpVelocity: 0 },
+        theme: 'dungeon',
+        physics: { gravityY: 0, playerSpeed: 240, jumpVelocity: 0 },
       });
     } else if (genre === 'endless-runner') {
       set({
@@ -110,33 +116,44 @@ export const useStudioStore = create<StudioState>((set, get) => ({
           'score-system',
           'game-over-condition',
         ],
-        physics: { gravityY: 850, playerSpeed: 360, jumpVelocity: 580 },
+        theme: 'retro-arcade',
+        physics: { gravityY: 850, playerSpeed: 300, jumpVelocity: 580 },
       });
     }
   },
 
   generateGame: async () => {
-    const { prompt, genre, mechanics, difficulty, dimensions, physics } = get();
+    const { prompt, genre, difficulty, theme } = get();
     if (!prompt.trim()) return false;
 
     set({
       isGenerating: true,
-      generationStep: 'Initializing AI orchestration pipeline...',
-      generationProgress: 5,
+      generationStep: 'Connecting to AI Game Generator...',
+      generationProgress: 15,
       generationError: null,
     });
 
     try {
-      const newSpec = await mockApi.generateGame(
-        { prompt, genre, mechanics, difficulty, dimensions, physics },
-        (step, progress) => {
-          set({ generationStep: step, generationProgress: progress });
-        }
-      );
+      setTimeout(() => {
+        set({ generationStep: 'Synthesizing scene AST & computing reachability physics...', generationProgress: 45 });
+      }, 300);
+
+      setTimeout(() => {
+        set({ generationStep: 'Synthesizing Playwright verification scenarios...', generationProgress: 75 });
+      }, 700);
+
+      const outcome = await api.generateGame({
+        prompt,
+        genre,
+        difficulty,
+        theme,
+      });
+
+      set({ generationStep: 'Phaser 3 Engine bundle synthesized!', generationProgress: 100 });
 
       // Refresh project store
       await useProjectStore.getState().fetchProjects();
-      useProjectStore.getState().updateActiveSpec(newSpec);
+      await useProjectStore.getState().selectProject(outcome.project.id);
 
       set({ isGenerating: false });
       return true;
@@ -158,4 +175,3 @@ export const useStudioStore = create<StudioState>((set, get) => ({
     });
   },
 }));
-

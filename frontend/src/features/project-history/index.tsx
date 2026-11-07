@@ -4,6 +4,7 @@ import { VersionTimeline } from './components/VersionTimeline';
 import { VersionDiffViewer } from './components/VersionDiffViewer';
 import { GenerationAuditLogs } from './components/GenerationAuditLogs';
 import { mockApi } from '../../services/mock/mockApiService';
+import { api } from '@/services/api/apiClient';
 import { RepairIteration } from '@shared/core';
 import { History, GitBranch } from 'lucide-react';
 
@@ -17,7 +18,7 @@ export const ProjectHistoryPage: React.FC = () => {
       setHistoryVersions(v);
       if (v[0]) setSelectedVersion(v[0].version);
     });
-    mockApi.getRepairIterations().then(setRepairIterations);
+    api.getRepairs().then(setRepairIterations);
   }, []);
 
   return (
