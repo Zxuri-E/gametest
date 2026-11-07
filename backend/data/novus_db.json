@@ -1,6 +1,624 @@
 {
   "projects": [
     {
+      "id": "proj-1794052877627",
+      "name": "Retro Synthwave Highway Runner",
+      "description": "A retro synthwave highway runner with obstacle jumps and accelerating speed",
+      "status": "verified",
+      "currentVersion": "1.0.0",
+      "genre": "endless-runner",
+      "specification": {
+        "id": "spec-1794052877625",
+        "title": "Retro Synthwave Highway Runner",
+        "genre": "endless-runner",
+        "prompt": "A retro synthwave highway runner with obstacle jumps and accelerating speed",
+        "dimensions": {
+          "width": 800,
+          "height": 600
+        },
+        "difficulty": "hard",
+        "theme": "retro-arcade",
+        "mechanics": [
+          "player-movement",
+          "jumping",
+          "gravity",
+          "platform-collision",
+          "collectibles",
+          "level-completion"
+        ],
+        "physics": {
+          "gravityY": 800,
+          "gravityX": 0,
+          "bounce": 0.05,
+          "drag": 120,
+          "playerSpeed": 350,
+          "jumpVelocity": 550
+        },
+        "player": {
+          "startX": 100,
+          "startY": 448,
+          "width": 24,
+          "height": 32,
+          "color": "#ff00ff",
+          "maxLives": 3,
+          "invulnerabilityDurationMs": 1000
+        },
+        "runnerConfig": {
+          "baseSpeed": 280,
+          "maxSpeed": 520,
+          "accelerationRate": 2,
+          "obstacleIntervalMs": 1800,
+          "groundY": 480,
+          "minObstacleGap": 240,
+          "maxObstacleGap": 400
+        },
+        "targetFPS": 60,
+        "backgroundColor": "#09090b",
+        "createdFromPrompt": "A retro synthwave highway runner with obstacle jumps and accelerating speed",
+        "version": "1.0.0",
+        "createdAt": "2026-11-07T12:01:17.625Z",
+        "updatedAt": "2026-11-07T12:01:17.625Z"
+      },
+      "createdAt": "2026-11-07T12:01:17.627Z",
+      "updatedAt": "2026-11-07T12:06:03.943Z",
+      "totalRuns": 3,
+      "testsPassed": 3,
+      "testsFailed": 0,
+      "openBugsCount": 0
+    },
+    {
+      "id": "proj-1794052863224",
+      "name": "Dungeon Explorer",
+      "description": "A dungeon explorer with roaming guards, locked doors, and ancient keys",
+      "status": "ready",
+      "currentVersion": "1.0.0",
+      "genre": "top-down",
+      "specification": {
+        "id": "spec-1794052863221",
+        "title": "Dungeon Explorer",
+        "genre": "top-down",
+        "prompt": "A dungeon explorer with roaming guards, locked doors, and ancient keys",
+        "dimensions": {
+          "width": 800,
+          "height": 600
+        },
+        "difficulty": "medium",
+        "theme": "dungeon",
+        "mechanics": [
+          "player-movement",
+          "enemy-interaction",
+          "score-system",
+          "platform-collision",
+          "collectibles",
+          "level-completion"
+        ],
+        "physics": {
+          "gravityY": 0,
+          "gravityX": 0,
+          "bounce": 0.05,
+          "drag": 120,
+          "playerSpeed": 300,
+          "jumpVelocity": 0
+        },
+        "player": {
+          "startX": 100,
+          "startY": 100,
+          "width": 24,
+          "height": 32,
+          "color": "#ffcc00",
+          "maxLives": 3,
+          "invulnerabilityDurationMs": 1000
+        },
+        "collectibles": [
+          {
+            "id": "key1",
+            "x": 300,
+            "y": 140,
+            "type": "key",
+            "points": 150
+          },
+          {
+            "id": "gem1",
+            "x": 450,
+            "y": 320,
+            "type": "gem",
+            "points": 100
+          }
+        ],
+        "enemies": [
+          {
+            "id": "guard1",
+            "x": 400,
+            "y": 160,
+            "width": 24,
+            "height": 24,
+            "type": "roamer",
+            "speed": 70,
+            "damage": 1
+          }
+        ],
+        "topDownConfig": {
+          "arenaWidth": 900,
+          "arenaHeight": 700,
+          "walls": [
+            {
+              "x": 300,
+              "y": 200,
+              "width": 200,
+              "height": 28
+            },
+            {
+              "x": 550,
+              "y": 350,
+              "width": 28,
+              "height": 200
+            }
+          ],
+          "exitX": 820,
+          "exitY": 120
+        },
+        "targetFPS": 60,
+        "backgroundColor": "#0f0c1b",
+        "createdFromPrompt": "A dungeon explorer with roaming guards, locked doors, and ancient keys",
+        "version": "1.0.0",
+        "createdAt": "2026-11-07T12:01:03.221Z",
+        "updatedAt": "2026-11-07T12:01:03.221Z"
+      },
+      "createdAt": "2026-11-07T12:01:03.224Z",
+      "updatedAt": "2026-11-07T12:01:03.224Z",
+      "totalRuns": 0,
+      "testsPassed": 4,
+      "testsFailed": 0,
+      "openBugsCount": 0
+    },
+    {
+      "id": "proj-1794052849288",
+      "name": "Neon Cyberpunk Platformer",
+      "description": "A neon cyberpunk platformer with variable jump, wall slides, and data shard pickups",
+      "status": "verified",
+      "currentVersion": "1.0.0",
+      "genre": "platformer",
+      "specification": {
+        "id": "spec-1794052849285",
+        "title": "Neon Cyberpunk Platformer",
+        "genre": "platformer",
+        "prompt": "A neon cyberpunk platformer with variable jump, wall slides, and data shard pickups",
+        "dimensions": {
+          "width": 800,
+          "height": 600
+        },
+        "difficulty": "medium",
+        "theme": "cyberpunk",
+        "mechanics": [
+          "player-movement",
+          "jumping",
+          "gravity",
+          "platform-collision",
+          "collectibles",
+          "level-completion"
+        ],
+        "physics": {
+          "gravityY": 800,
+          "gravityX": 0,
+          "bounce": 0.05,
+          "drag": 120,
+          "playerSpeed": 300,
+          "jumpVelocity": 550
+        },
+        "player": {
+          "startX": 100,
+          "startY": 528,
+          "width": 24,
+          "height": 32,
+          "color": "#00ffff",
+          "maxLives": 3,
+          "invulnerabilityDurationMs": 1000
+        },
+        "platforms": [
+          {
+            "id": "ground",
+            "x": 0,
+            "y": 560,
+            "width": 1600,
+            "height": 40,
+            "type": "solid"
+          },
+          {
+            "id": "p1",
+            "x": 200,
+            "y": 420,
+            "width": 200,
+            "height": 20,
+            "type": "solid"
+          },
+          {
+            "id": "p2",
+            "x": 500,
+            "y": 350,
+            "width": 150,
+            "height": 20,
+            "type": "moving",
+            "minX": 500,
+            "maxX": 800
+          },
+          {
+            "id": "p3",
+            "x": 900,
+            "y": 213.54544,
+            "width": 200,
+            "height": 20,
+            "type": "solid"
+          },
+          {
+            "id": "p-goal",
+            "x": 1300,
+            "y": 260,
+            "width": 120,
+            "height": 20,
+            "type": "solid"
+          }
+        ],
+        "collectibles": [
+          {
+            "id": "c1",
+            "x": 250,
+            "y": 380,
+            "type": "gem",
+            "points": 100
+          },
+          {
+            "id": "c2",
+            "x": 650,
+            "y": 320,
+            "type": "gem",
+            "points": 100
+          }
+        ],
+        "enemies": [
+          {
+            "id": "e1",
+            "x": 400,
+            "y": 528,
+            "width": 24,
+            "height": 24,
+            "type": "patrol",
+            "speed": 60,
+            "minX": 400,
+            "maxX": 700,
+            "damage": 1
+          }
+        ],
+        "finishPoint": {
+          "x": 1310,
+          "y": 240,
+          "width": 36,
+          "height": 48,
+          "type": "portal"
+        },
+        "targetFPS": 60,
+        "backgroundColor": "#070a14",
+        "createdFromPrompt": "A neon cyberpunk platformer with variable jump, wall slides, and data shard pickups",
+        "version": "1.0.0",
+        "createdAt": "2026-11-07T12:00:49.285Z",
+        "updatedAt": "2026-11-07T12:00:49.285Z"
+      },
+      "createdAt": "2026-11-07T12:00:49.288Z",
+      "updatedAt": "2026-11-07T12:09:21.602Z",
+      "totalRuns": 6,
+      "testsPassed": 8,
+      "testsFailed": 0,
+      "openBugsCount": 0
+    },
+    {
+      "id": "proj-1794052691134",
+      "name": "Retro Synthwave Highway Runner",
+      "description": "A retro synthwave highway runner with obstacle jumps and accelerating speed",
+      "status": "ready",
+      "currentVersion": "1.0.0",
+      "genre": "endless-runner",
+      "specification": {
+        "id": "spec-1794052691133",
+        "title": "Retro Synthwave Highway Runner",
+        "genre": "endless-runner",
+        "prompt": "A retro synthwave highway runner with obstacle jumps and accelerating speed",
+        "dimensions": {
+          "width": 800,
+          "height": 600
+        },
+        "difficulty": "hard",
+        "theme": "retro-arcade",
+        "mechanics": [
+          "player-movement",
+          "jumping",
+          "gravity",
+          "platform-collision",
+          "collectibles",
+          "level-completion"
+        ],
+        "physics": {
+          "gravityY": 800,
+          "gravityX": 0,
+          "bounce": 0.05,
+          "drag": 120,
+          "playerSpeed": 300,
+          "jumpVelocity": 550
+        },
+        "player": {
+          "startX": 100,
+          "startY": 448,
+          "width": 24,
+          "height": 32,
+          "color": "#00ffff",
+          "maxLives": 3,
+          "invulnerabilityDurationMs": 1000
+        },
+        "runnerConfig": {
+          "baseSpeed": 280,
+          "maxSpeed": 520,
+          "accelerationRate": 2,
+          "obstacleIntervalMs": 1800,
+          "groundY": 480,
+          "minObstacleGap": 240,
+          "maxObstacleGap": 400
+        },
+        "targetFPS": 60,
+        "backgroundColor": "#09090b",
+        "createdFromPrompt": "A retro synthwave highway runner with obstacle jumps and accelerating speed",
+        "version": "1.0.0",
+        "createdAt": "2026-11-07T11:58:11.133Z",
+        "updatedAt": "2026-11-07T11:58:11.133Z"
+      },
+      "createdAt": "2026-11-07T11:58:11.134Z",
+      "updatedAt": "2026-11-07T11:58:11.134Z",
+      "totalRuns": 0,
+      "testsPassed": 3,
+      "testsFailed": 0,
+      "openBugsCount": 0
+    },
+    {
+      "id": "proj-1794052677704",
+      "name": "Dungeon Explorer",
+      "description": "A dungeon explorer with roaming guards, locked doors, and ancient keys",
+      "status": "ready",
+      "currentVersion": "1.0.0",
+      "genre": "top-down",
+      "specification": {
+        "id": "spec-1794052677702",
+        "title": "Dungeon Explorer",
+        "genre": "top-down",
+        "prompt": "A dungeon explorer with roaming guards, locked doors, and ancient keys",
+        "dimensions": {
+          "width": 800,
+          "height": 600
+        },
+        "difficulty": "medium",
+        "theme": "dungeon",
+        "mechanics": [
+          "player-movement",
+          "enemy-interaction",
+          "score-system",
+          "platform-collision",
+          "collectibles",
+          "level-completion"
+        ],
+        "physics": {
+          "gravityY": 0,
+          "gravityX": 0,
+          "bounce": 0.05,
+          "drag": 120,
+          "playerSpeed": 300,
+          "jumpVelocity": 0
+        },
+        "player": {
+          "startX": 100,
+          "startY": 650,
+          "width": 24,
+          "height": 32,
+          "color": "#8B0000",
+          "maxLives": 3,
+          "invulnerabilityDurationMs": 1000
+        },
+        "collectibles": [
+          {
+            "id": "key1",
+            "x": 300,
+            "y": 140,
+            "type": "key",
+            "points": 150
+          },
+          {
+            "id": "gem1",
+            "x": 450,
+            "y": 320,
+            "type": "gem",
+            "points": 100
+          }
+        ],
+        "enemies": [
+          {
+            "id": "guard1",
+            "x": 400,
+            "y": 160,
+            "width": 24,
+            "height": 24,
+            "type": "roamer",
+            "speed": 70,
+            "damage": 1
+          }
+        ],
+        "topDownConfig": {
+          "arenaWidth": 900,
+          "arenaHeight": 700,
+          "walls": [
+            {
+              "x": 300,
+              "y": 200,
+              "width": 200,
+              "height": 28
+            },
+            {
+              "x": 550,
+              "y": 350,
+              "width": 28,
+              "height": 200
+            }
+          ],
+          "exitX": 820,
+          "exitY": 120
+        },
+        "targetFPS": 60,
+        "backgroundColor": "#0f0c1b",
+        "createdFromPrompt": "A dungeon explorer with roaming guards, locked doors, and ancient keys",
+        "version": "1.0.0",
+        "createdAt": "2026-11-07T11:57:57.702Z",
+        "updatedAt": "2026-11-07T11:57:57.702Z"
+      },
+      "createdAt": "2026-11-07T11:57:57.704Z",
+      "updatedAt": "2026-11-07T11:57:57.704Z",
+      "totalRuns": 0,
+      "testsPassed": 4,
+      "testsFailed": 0,
+      "openBugsCount": 0
+    },
+    {
+      "id": "proj-1794052663811",
+      "name": "Neon Cyberpunk Platformer",
+      "description": "A neon cyberpunk platformer with variable jump, wall slides, and data shard pickups",
+      "status": "testing",
+      "currentVersion": "1.0.0",
+      "genre": "platformer",
+      "specification": {
+        "id": "spec-1794052663804",
+        "title": "Neon Cyberpunk Platformer",
+        "genre": "platformer",
+        "prompt": "A neon cyberpunk platformer with variable jump, wall slides, and data shard pickups",
+        "dimensions": {
+          "width": 800,
+          "height": 600
+        },
+        "difficulty": "medium",
+        "theme": "cyberpunk",
+        "mechanics": [
+          "player-movement",
+          "jumping",
+          "gravity",
+          "platform-collision",
+          "collectibles",
+          "level-completion"
+        ],
+        "physics": {
+          "gravityY": 800,
+          "gravityX": 0,
+          "bounce": 0.05,
+          "drag": 120,
+          "playerSpeed": 300,
+          "jumpVelocity": 550
+        },
+        "player": {
+          "startX": 100,
+          "startY": 500,
+          "width": 24,
+          "height": 32,
+          "color": "#00ffff",
+          "maxLives": 3,
+          "invulnerabilityDurationMs": 1000
+        },
+        "platforms": [
+          {
+            "id": "ground",
+            "x": 0,
+            "y": 560,
+            "width": 1600,
+            "height": 40,
+            "type": "solid"
+          },
+          {
+            "id": "p1",
+            "x": 200,
+            "y": 420,
+            "width": 200,
+            "height": 20,
+            "type": "solid"
+          },
+          {
+            "id": "p2",
+            "x": 500,
+            "y": 360,
+            "width": 150,
+            "height": 20,
+            "type": "moving",
+            "minX": 500,
+            "maxX": 800
+          },
+          {
+            "id": "p3",
+            "x": 900,
+            "y": 180,
+            "width": 250,
+            "height": 20,
+            "type": "solid"
+          },
+          {
+            "id": "p-goal",
+            "x": 1400,
+            "y": 200,
+            "width": 120,
+            "height": 20,
+            "type": "solid"
+          }
+        ],
+        "collectibles": [
+          {
+            "id": "c1",
+            "x": 250,
+            "y": 380,
+            "type": "gem",
+            "points": 100
+          },
+          {
+            "id": "c2",
+            "x": 750,
+            "y": 340,
+            "type": "gem",
+            "points": 100
+          }
+        ],
+        "enemies": [
+          {
+            "id": "e1",
+            "x": 600,
+            "y": 340,
+            "width": 24,
+            "height": 24,
+            "type": "patrol",
+            "speed": 60,
+            "minX": 600,
+            "maxX": 900,
+            "damage": 1
+          }
+        ],
+        "finishPoint": {
+          "x": 1400,
+          "y": 200,
+          "width": 36,
+          "height": 48,
+          "type": "portal"
+        },
+        "targetFPS": 60,
+        "backgroundColor": "#070a14",
+        "createdFromPrompt": "A neon cyberpunk platformer with variable jump, wall slides, and data shard pickups",
+        "version": "1.0.0",
+        "createdAt": "2026-11-07T11:57:43.804Z",
+        "updatedAt": "2026-11-07T11:57:43.804Z"
+      },
+      "createdAt": "2026-11-07T11:57:43.811Z",
+      "updatedAt": "2026-11-07T11:58:50.154Z",
+      "totalRuns": 3,
+      "testsPassed": 7,
+      "testsFailed": 1,
+      "openBugsCount": 0
+    },
+    {
       "id": "proj-1794042634311",
       "name": "A retro synthwave highway",
       "description": "A retro synthwave highway runner with obstacle jumps and accelerating speed",
@@ -348,8 +966,8 @@
         }
       },
       "createdAt": "2026-11-07T09:10:34.308Z",
-      "updatedAt": "2026-11-07T09:10:35.765Z",
-      "totalRuns": 3,
+      "updatedAt": "2026-11-07T11:55:21.184Z",
+      "totalRuns": 7,
       "testsPassed": 8,
       "testsFailed": 0,
       "openBugsCount": 0
@@ -1627,9 +2245,3878 @@
         "minObstacleGap": 220,
         "maxObstacleGap": 400
       }
+    },
+    "spec-1794052149052": {
+      "id": "spec-1794052149052",
+      "title": "Neon Tower Ascent",
+      "genre": "platformer",
+      "prompt": "A vertical neon cyberpunk tower ascent with moving light-beams and energy shard pickups",
+      "dimensions": {
+        "width": 800,
+        "height": 600
+      },
+      "difficulty": "hard",
+      "theme": "neon-void",
+      "mechanics": [
+        "player-movement",
+        "jumping",
+        "gravity",
+        "platform-collision",
+        "collectibles",
+        "level-completion"
+      ],
+      "physics": {
+        "gravityY": 800,
+        "gravityX": 0,
+        "bounce": 0.05,
+        "drag": 120,
+        "playerSpeed": 300,
+        "jumpVelocity": 550
+      },
+      "player": {
+        "startX": 100,
+        "startY": 500,
+        "width": 24,
+        "height": 32,
+        "color": "#ff00ff",
+        "maxLives": 3,
+        "invulnerabilityDurationMs": 1000
+      },
+      "platforms": [
+        {
+          "id": "ground",
+          "x": 0,
+          "y": 560,
+          "width": 1600,
+          "height": 40,
+          "type": "solid"
+        },
+        {
+          "id": "p1",
+          "x": 200,
+          "y": 460,
+          "width": 200,
+          "height": 20,
+          "type": "solid"
+        },
+        {
+          "id": "p2",
+          "x": 400,
+          "y": 380,
+          "width": 150,
+          "height": 20,
+          "type": "moving",
+          "minX": 350,
+          "maxX": 550
+        },
+        {
+          "id": "p3",
+          "x": 600,
+          "y": 300,
+          "width": 200,
+          "height": 20,
+          "type": "solid"
+        },
+        {
+          "id": "p-goal",
+          "x": 700,
+          "y": 163.54544,
+          "width": 120,
+          "height": 20,
+          "type": "solid"
+        }
+      ],
+      "collectibles": [
+        {
+          "id": "c1",
+          "x": 220,
+          "y": 440,
+          "type": "gem",
+          "points": 100
+        },
+        {
+          "id": "c2",
+          "x": 420,
+          "y": 360,
+          "type": "gem",
+          "points": 100
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "x": 200,
+          "y": 460,
+          "width": 24,
+          "height": 24,
+          "type": "patrol",
+          "speed": 60,
+          "minX": 200,
+          "maxX": 400,
+          "damage": 1
+        }
+      ],
+      "finishPoint": {
+        "x": 700,
+        "y": 80,
+        "width": 36,
+        "height": 48,
+        "type": "portal"
+      },
+      "targetFPS": 60,
+      "backgroundColor": "#030712",
+      "createdFromPrompt": "A vertical neon cyberpunk tower ascent with moving light-beams and energy shard pickups",
+      "version": "1.0.0",
+      "createdAt": "2026-11-07T11:49:09.052Z",
+      "updatedAt": "2026-11-07T11:49:09.052Z"
+    },
+    "spec-1794052163102": {
+      "id": "spec-1794052163102",
+      "title": "Ancient Crypt Dungeon",
+      "genre": "top-down",
+      "prompt": "An ancient crypt dungeon with roaming shadow guards, stone barricades, and golden relic keys",
+      "dimensions": {
+        "width": 800,
+        "height": 600
+      },
+      "difficulty": "medium",
+      "theme": "dungeon",
+      "mechanics": [
+        "player-movement",
+        "enemy-interaction",
+        "score-system",
+        "platform-collision",
+        "collectibles",
+        "level-completion"
+      ],
+      "physics": {
+        "gravityY": 0,
+        "gravityX": 0,
+        "bounce": 0.05,
+        "drag": 120,
+        "playerSpeed": 250,
+        "jumpVelocity": 0
+      },
+      "player": {
+        "startX": 100,
+        "startY": 100,
+        "width": 24,
+        "height": 32,
+        "color": "steelblue",
+        "maxLives": 3,
+        "invulnerabilityDurationMs": 1000
+      },
+      "collectibles": [
+        {
+          "id": "key1",
+          "x": 300,
+          "y": 140,
+          "type": "key",
+          "points": 150
+        },
+        {
+          "id": "gem1",
+          "x": 450,
+          "y": 320,
+          "type": "gem",
+          "points": 100
+        }
+      ],
+      "enemies": [
+        {
+          "id": "guard1",
+          "x": 400,
+          "y": 160,
+          "width": 24,
+          "height": 24,
+          "type": "roamer",
+          "speed": 80,
+          "damage": 1
+        }
+      ],
+      "topDownConfig": {
+        "arenaWidth": 900,
+        "arenaHeight": 700,
+        "walls": [
+          {
+            "x": 300,
+            "y": 200,
+            "width": 200,
+            "height": 28
+          },
+          {
+            "x": 550,
+            "y": 350,
+            "width": 28,
+            "height": 200
+          }
+        ],
+        "exitX": 820,
+        "exitY": 120
+      },
+      "targetFPS": 60,
+      "backgroundColor": "#0f0c1b",
+      "createdFromPrompt": "An ancient crypt dungeon with roaming shadow guards, stone barricades, and golden relic keys",
+      "version": "1.0.0",
+      "createdAt": "2026-11-07T11:49:23.102Z",
+      "updatedAt": "2026-11-07T11:49:23.102Z"
+    },
+    "spec-1794052176466": {
+      "id": "spec-1794052176466",
+      "title": "Synthwave Highway Runner",
+      "genre": "endless-runner",
+      "prompt": "A synthwave highway runner with speed acceleration, laser spikes, and high-altitude barriers",
+      "dimensions": {
+        "width": 800,
+        "height": 600
+      },
+      "difficulty": "hard",
+      "theme": "retro-arcade",
+      "mechanics": [
+        "player-movement",
+        "jumping",
+        "gravity",
+        "platform-collision",
+        "collectibles",
+        "level-completion"
+      ],
+      "physics": {
+        "gravityY": 800,
+        "gravityX": 0,
+        "bounce": 0.05,
+        "drag": 120,
+        "playerSpeed": 350,
+        "jumpVelocity": 550
+      },
+      "player": {
+        "startX": 100,
+        "startY": 400,
+        "width": 24,
+        "height": 32,
+        "color": "#00ffea",
+        "maxLives": 3,
+        "invulnerabilityDurationMs": 1000
+      },
+      "runnerConfig": {
+        "baseSpeed": 280,
+        "maxSpeed": 520,
+        "accelerationRate": 2,
+        "obstacleIntervalMs": 1800,
+        "groundY": 480,
+        "minObstacleGap": 240,
+        "maxObstacleGap": 400
+      },
+      "targetFPS": 60,
+      "backgroundColor": "#09090b",
+      "createdFromPrompt": "A synthwave highway runner with speed acceleration, laser spikes, and high-altitude barriers",
+      "version": "1.0.0",
+      "createdAt": "2026-11-07T11:49:36.466Z",
+      "updatedAt": "2026-11-07T11:49:36.466Z"
+    },
+    "spec-1794052605214": {
+      "id": "spec-1794052605214",
+      "title": "Neon Tower Ascent",
+      "genre": "platformer",
+      "prompt": "A vertical neon cyberpunk tower ascent with moving light-beams and energy shard pickups",
+      "dimensions": {
+        "width": 800,
+        "height": 600
+      },
+      "difficulty": "hard",
+      "theme": "neon-void",
+      "mechanics": [
+        "player-movement",
+        "jumping",
+        "gravity",
+        "platform-collision",
+        "collectibles",
+        "level-completion"
+      ],
+      "physics": {
+        "gravityY": 800,
+        "gravityX": 0,
+        "bounce": 0.05,
+        "drag": 120,
+        "playerSpeed": 300,
+        "jumpVelocity": 550
+      },
+      "player": {
+        "startX": 100,
+        "startY": 520,
+        "width": 24,
+        "height": 32,
+        "color": "#00ffff",
+        "maxLives": 3,
+        "invulnerabilityDurationMs": 1000
+      },
+      "platforms": [
+        {
+          "id": "ground",
+          "x": 0,
+          "y": 560,
+          "width": 1600,
+          "height": 40,
+          "type": "solid"
+        },
+        {
+          "id": "p3",
+          "x": 100,
+          "y": 423.54544,
+          "width": 180,
+          "height": 20,
+          "type": "solid"
+        },
+        {
+          "id": "p1",
+          "x": 200,
+          "y": 460,
+          "width": 200,
+          "height": 20,
+          "type": "solid"
+        },
+        {
+          "id": "p-goal",
+          "x": 200,
+          "y": 323.54544,
+          "width": 120,
+          "height": 20,
+          "type": "solid"
+        },
+        {
+          "id": "p2",
+          "x": 400,
+          "y": 350,
+          "width": 150,
+          "height": 20,
+          "type": "moving",
+          "minX": 300,
+          "maxX": 500
+        }
+      ],
+      "collectibles": [
+        {
+          "id": "c1",
+          "x": 220,
+          "y": 440,
+          "type": "gem",
+          "points": 100
+        },
+        {
+          "id": "c2",
+          "x": 420,
+          "y": 330,
+          "type": "gem",
+          "points": 100
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "x": 350,
+          "y": 350,
+          "width": 24,
+          "height": 24,
+          "type": "patrol",
+          "speed": 60,
+          "minX": 300,
+          "maxX": 500,
+          "damage": 1
+        }
+      ],
+      "finishPoint": {
+        "x": 200,
+        "y": 100,
+        "width": 36,
+        "height": 48,
+        "type": "portal"
+      },
+      "targetFPS": 60,
+      "backgroundColor": "#030712",
+      "createdFromPrompt": "A vertical neon cyberpunk tower ascent with moving light-beams and energy shard pickups",
+      "version": "1.0.0",
+      "createdAt": "2026-11-07T11:56:45.214Z",
+      "updatedAt": "2026-11-07T11:56:45.214Z"
+    },
+    "spec-1794052621524": {
+      "id": "spec-1794052621524",
+      "title": "Ancient Crypt Dungeon",
+      "genre": "top-down",
+      "prompt": "An ancient crypt dungeon with roaming shadow guards, stone barricades, and golden relic keys",
+      "dimensions": {
+        "width": 800,
+        "height": 600
+      },
+      "difficulty": "medium",
+      "theme": "dungeon",
+      "mechanics": [
+        "player-movement",
+        "enemy-interaction",
+        "score-system",
+        "platform-collision",
+        "collectibles",
+        "level-completion"
+      ],
+      "physics": {
+        "gravityY": 0,
+        "gravityX": 0,
+        "bounce": 0.05,
+        "drag": 120,
+        "playerSpeed": 300,
+        "jumpVelocity": 0
+      },
+      "player": {
+        "startX": 80,
+        "startY": 80,
+        "width": 24,
+        "height": 32,
+        "color": "shadowgray",
+        "maxLives": 3,
+        "invulnerabilityDurationMs": 1000
+      },
+      "collectibles": [
+        {
+          "id": "key1",
+          "x": 300,
+          "y": 140,
+          "type": "key",
+          "points": 150
+        },
+        {
+          "id": "relic1",
+          "x": 460,
+          "y": 360,
+          "type": "key",
+          "points": 250
+        }
+      ],
+      "enemies": [
+        {
+          "id": "guard1",
+          "x": 400,
+          "y": 160,
+          "width": 24,
+          "height": 24,
+          "type": "roamer",
+          "speed": 80,
+          "damage": 1
+        },
+        {
+          "id": "guard2",
+          "x": 500,
+          "y": 300,
+          "width": 24,
+          "height": 24,
+          "type": "roamer",
+          "speed": 80,
+          "damage": 1
+        }
+      ],
+      "topDownConfig": {
+        "arenaWidth": 900,
+        "arenaHeight": 700,
+        "walls": [
+          {
+            "x": 300,
+            "y": 200,
+            "width": 200,
+            "height": 28
+          },
+          {
+            "x": 550,
+            "y": 350,
+            "width": 28,
+            "height": 200
+          }
+        ],
+        "exitX": 820,
+        "exitY": 120
+      },
+      "targetFPS": 60,
+      "backgroundColor": "#0f0c1b",
+      "createdFromPrompt": "An ancient crypt dungeon with roaming shadow guards, stone barricades, and golden relic keys",
+      "version": "1.0.0",
+      "createdAt": "2026-11-07T11:57:01.525Z",
+      "updatedAt": "2026-11-07T11:57:01.525Z"
+    },
+    "spec-1794052635890": {
+      "id": "spec-1794052635890",
+      "title": "Synthwave Highway Runner",
+      "genre": "endless-runner",
+      "prompt": "A synthwave highway runner with speed acceleration, laser spikes, and high-altitude barriers",
+      "dimensions": {
+        "width": 800,
+        "height": 600
+      },
+      "difficulty": "hard",
+      "theme": "retro-arcade",
+      "mechanics": [
+        "player-movement",
+        "jumping",
+        "gravity",
+        "platform-collision",
+        "collectibles",
+        "level-completion"
+      ],
+      "physics": {
+        "gravityY": 800,
+        "gravityX": 0,
+        "bounce": 0.05,
+        "drag": 120,
+        "playerSpeed": 300,
+        "jumpVelocity": 500
+      },
+      "player": {
+        "startX": 100,
+        "startY": 448,
+        "width": 24,
+        "height": 32,
+        "color": "#ff00ff",
+        "maxLives": 3,
+        "invulnerabilityDurationMs": 1000
+      },
+      "runnerConfig": {
+        "baseSpeed": 280,
+        "maxSpeed": 520,
+        "accelerationRate": 2,
+        "obstacleIntervalMs": 1800,
+        "groundY": 480,
+        "minObstacleGap": 240,
+        "maxObstacleGap": 400
+      },
+      "targetFPS": 60,
+      "backgroundColor": "#09090b",
+      "createdFromPrompt": "A synthwave highway runner with speed acceleration, laser spikes, and high-altitude barriers",
+      "version": "1.0.0",
+      "createdAt": "2026-11-07T11:57:15.890Z",
+      "updatedAt": "2026-11-07T11:57:15.890Z"
+    },
+    "spec-1794052663804": {
+      "id": "spec-1794052663804",
+      "title": "Neon Cyberpunk Platformer",
+      "genre": "platformer",
+      "prompt": "A neon cyberpunk platformer with variable jump, wall slides, and data shard pickups",
+      "dimensions": {
+        "width": 800,
+        "height": 600
+      },
+      "difficulty": "medium",
+      "theme": "cyberpunk",
+      "mechanics": [
+        "player-movement",
+        "jumping",
+        "gravity",
+        "platform-collision",
+        "collectibles",
+        "level-completion"
+      ],
+      "physics": {
+        "gravityY": 800,
+        "gravityX": 0,
+        "bounce": 0.05,
+        "drag": 120,
+        "playerSpeed": 300,
+        "jumpVelocity": 550
+      },
+      "player": {
+        "startX": 100,
+        "startY": 500,
+        "width": 24,
+        "height": 32,
+        "color": "#00ffff",
+        "maxLives": 3,
+        "invulnerabilityDurationMs": 1000
+      },
+      "platforms": [
+        {
+          "id": "ground",
+          "x": 0,
+          "y": 560,
+          "width": 1600,
+          "height": 40,
+          "type": "solid"
+        },
+        {
+          "id": "p1",
+          "x": 200,
+          "y": 420,
+          "width": 200,
+          "height": 20,
+          "type": "solid"
+        },
+        {
+          "id": "p2",
+          "x": 500,
+          "y": 360,
+          "width": 150,
+          "height": 20,
+          "type": "moving",
+          "minX": 500,
+          "maxX": 800
+        },
+        {
+          "id": "p3",
+          "x": 900,
+          "y": 180,
+          "width": 250,
+          "height": 20,
+          "type": "solid"
+        },
+        {
+          "id": "p-goal",
+          "x": 1400,
+          "y": 200,
+          "width": 120,
+          "height": 20,
+          "type": "solid"
+        }
+      ],
+      "collectibles": [
+        {
+          "id": "c1",
+          "x": 250,
+          "y": 380,
+          "type": "gem",
+          "points": 100
+        },
+        {
+          "id": "c2",
+          "x": 750,
+          "y": 340,
+          "type": "gem",
+          "points": 100
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "x": 600,
+          "y": 340,
+          "width": 24,
+          "height": 24,
+          "type": "patrol",
+          "speed": 60,
+          "minX": 600,
+          "maxX": 900,
+          "damage": 1
+        }
+      ],
+      "finishPoint": {
+        "x": 1400,
+        "y": 200,
+        "width": 36,
+        "height": 48,
+        "type": "portal"
+      },
+      "targetFPS": 60,
+      "backgroundColor": "#070a14",
+      "createdFromPrompt": "A neon cyberpunk platformer with variable jump, wall slides, and data shard pickups",
+      "version": "1.0.0",
+      "createdAt": "2026-11-07T11:57:43.804Z",
+      "updatedAt": "2026-11-07T11:57:43.804Z"
+    },
+    "spec-1794052677702": {
+      "id": "spec-1794052677702",
+      "title": "Dungeon Explorer",
+      "genre": "top-down",
+      "prompt": "A dungeon explorer with roaming guards, locked doors, and ancient keys",
+      "dimensions": {
+        "width": 800,
+        "height": 600
+      },
+      "difficulty": "medium",
+      "theme": "dungeon",
+      "mechanics": [
+        "player-movement",
+        "enemy-interaction",
+        "score-system",
+        "platform-collision",
+        "collectibles",
+        "level-completion"
+      ],
+      "physics": {
+        "gravityY": 0,
+        "gravityX": 0,
+        "bounce": 0.05,
+        "drag": 120,
+        "playerSpeed": 300,
+        "jumpVelocity": 0
+      },
+      "player": {
+        "startX": 100,
+        "startY": 650,
+        "width": 24,
+        "height": 32,
+        "color": "#8B0000",
+        "maxLives": 3,
+        "invulnerabilityDurationMs": 1000
+      },
+      "collectibles": [
+        {
+          "id": "key1",
+          "x": 300,
+          "y": 140,
+          "type": "key",
+          "points": 150
+        },
+        {
+          "id": "gem1",
+          "x": 450,
+          "y": 320,
+          "type": "gem",
+          "points": 100
+        }
+      ],
+      "enemies": [
+        {
+          "id": "guard1",
+          "x": 400,
+          "y": 160,
+          "width": 24,
+          "height": 24,
+          "type": "roamer",
+          "speed": 70,
+          "damage": 1
+        }
+      ],
+      "topDownConfig": {
+        "arenaWidth": 900,
+        "arenaHeight": 700,
+        "walls": [
+          {
+            "x": 300,
+            "y": 200,
+            "width": 200,
+            "height": 28
+          },
+          {
+            "x": 550,
+            "y": 350,
+            "width": 28,
+            "height": 200
+          }
+        ],
+        "exitX": 820,
+        "exitY": 120
+      },
+      "targetFPS": 60,
+      "backgroundColor": "#0f0c1b",
+      "createdFromPrompt": "A dungeon explorer with roaming guards, locked doors, and ancient keys",
+      "version": "1.0.0",
+      "createdAt": "2026-11-07T11:57:57.702Z",
+      "updatedAt": "2026-11-07T11:57:57.702Z"
+    },
+    "spec-1794052691133": {
+      "id": "spec-1794052691133",
+      "title": "Retro Synthwave Highway Runner",
+      "genre": "endless-runner",
+      "prompt": "A retro synthwave highway runner with obstacle jumps and accelerating speed",
+      "dimensions": {
+        "width": 800,
+        "height": 600
+      },
+      "difficulty": "hard",
+      "theme": "retro-arcade",
+      "mechanics": [
+        "player-movement",
+        "jumping",
+        "gravity",
+        "platform-collision",
+        "collectibles",
+        "level-completion"
+      ],
+      "physics": {
+        "gravityY": 800,
+        "gravityX": 0,
+        "bounce": 0.05,
+        "drag": 120,
+        "playerSpeed": 300,
+        "jumpVelocity": 550
+      },
+      "player": {
+        "startX": 100,
+        "startY": 448,
+        "width": 24,
+        "height": 32,
+        "color": "#00ffff",
+        "maxLives": 3,
+        "invulnerabilityDurationMs": 1000
+      },
+      "runnerConfig": {
+        "baseSpeed": 280,
+        "maxSpeed": 520,
+        "accelerationRate": 2,
+        "obstacleIntervalMs": 1800,
+        "groundY": 480,
+        "minObstacleGap": 240,
+        "maxObstacleGap": 400
+      },
+      "targetFPS": 60,
+      "backgroundColor": "#09090b",
+      "createdFromPrompt": "A retro synthwave highway runner with obstacle jumps and accelerating speed",
+      "version": "1.0.0",
+      "createdAt": "2026-11-07T11:58:11.133Z",
+      "updatedAt": "2026-11-07T11:58:11.133Z"
+    },
+    "spec-1794052849285": {
+      "id": "spec-1794052849285",
+      "title": "Neon Cyberpunk Platformer",
+      "genre": "platformer",
+      "prompt": "A neon cyberpunk platformer with variable jump, wall slides, and data shard pickups",
+      "dimensions": {
+        "width": 800,
+        "height": 600
+      },
+      "difficulty": "medium",
+      "theme": "cyberpunk",
+      "mechanics": [
+        "player-movement",
+        "jumping",
+        "gravity",
+        "platform-collision",
+        "collectibles",
+        "level-completion"
+      ],
+      "physics": {
+        "gravityY": 800,
+        "gravityX": 0,
+        "bounce": 0.05,
+        "drag": 120,
+        "playerSpeed": 300,
+        "jumpVelocity": 550
+      },
+      "player": {
+        "startX": 100,
+        "startY": 528,
+        "width": 24,
+        "height": 32,
+        "color": "#00ffff",
+        "maxLives": 3,
+        "invulnerabilityDurationMs": 1000
+      },
+      "platforms": [
+        {
+          "id": "ground",
+          "x": 0,
+          "y": 560,
+          "width": 1600,
+          "height": 40,
+          "type": "solid"
+        },
+        {
+          "id": "p1",
+          "x": 200,
+          "y": 420,
+          "width": 200,
+          "height": 20,
+          "type": "solid"
+        },
+        {
+          "id": "p2",
+          "x": 500,
+          "y": 350,
+          "width": 150,
+          "height": 20,
+          "type": "moving",
+          "minX": 500,
+          "maxX": 800
+        },
+        {
+          "id": "p3",
+          "x": 900,
+          "y": 213.54544,
+          "width": 200,
+          "height": 20,
+          "type": "solid"
+        },
+        {
+          "id": "p-goal",
+          "x": 1300,
+          "y": 260,
+          "width": 120,
+          "height": 20,
+          "type": "solid"
+        }
+      ],
+      "collectibles": [
+        {
+          "id": "c1",
+          "x": 250,
+          "y": 380,
+          "type": "gem",
+          "points": 100
+        },
+        {
+          "id": "c2",
+          "x": 650,
+          "y": 320,
+          "type": "gem",
+          "points": 100
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "x": 400,
+          "y": 528,
+          "width": 24,
+          "height": 24,
+          "type": "patrol",
+          "speed": 60,
+          "minX": 400,
+          "maxX": 700,
+          "damage": 1
+        }
+      ],
+      "finishPoint": {
+        "x": 1310,
+        "y": 240,
+        "width": 36,
+        "height": 48,
+        "type": "portal"
+      },
+      "targetFPS": 60,
+      "backgroundColor": "#070a14",
+      "createdFromPrompt": "A neon cyberpunk platformer with variable jump, wall slides, and data shard pickups",
+      "version": "1.0.0",
+      "createdAt": "2026-11-07T12:00:49.285Z",
+      "updatedAt": "2026-11-07T12:00:49.285Z"
+    },
+    "spec-1794052863221": {
+      "id": "spec-1794052863221",
+      "title": "Dungeon Explorer",
+      "genre": "top-down",
+      "prompt": "A dungeon explorer with roaming guards, locked doors, and ancient keys",
+      "dimensions": {
+        "width": 800,
+        "height": 600
+      },
+      "difficulty": "medium",
+      "theme": "dungeon",
+      "mechanics": [
+        "player-movement",
+        "enemy-interaction",
+        "score-system",
+        "platform-collision",
+        "collectibles",
+        "level-completion"
+      ],
+      "physics": {
+        "gravityY": 0,
+        "gravityX": 0,
+        "bounce": 0.05,
+        "drag": 120,
+        "playerSpeed": 300,
+        "jumpVelocity": 0
+      },
+      "player": {
+        "startX": 100,
+        "startY": 100,
+        "width": 24,
+        "height": 32,
+        "color": "#ffcc00",
+        "maxLives": 3,
+        "invulnerabilityDurationMs": 1000
+      },
+      "collectibles": [
+        {
+          "id": "key1",
+          "x": 300,
+          "y": 140,
+          "type": "key",
+          "points": 150
+        },
+        {
+          "id": "gem1",
+          "x": 450,
+          "y": 320,
+          "type": "gem",
+          "points": 100
+        }
+      ],
+      "enemies": [
+        {
+          "id": "guard1",
+          "x": 400,
+          "y": 160,
+          "width": 24,
+          "height": 24,
+          "type": "roamer",
+          "speed": 70,
+          "damage": 1
+        }
+      ],
+      "topDownConfig": {
+        "arenaWidth": 900,
+        "arenaHeight": 700,
+        "walls": [
+          {
+            "x": 300,
+            "y": 200,
+            "width": 200,
+            "height": 28
+          },
+          {
+            "x": 550,
+            "y": 350,
+            "width": 28,
+            "height": 200
+          }
+        ],
+        "exitX": 820,
+        "exitY": 120
+      },
+      "targetFPS": 60,
+      "backgroundColor": "#0f0c1b",
+      "createdFromPrompt": "A dungeon explorer with roaming guards, locked doors, and ancient keys",
+      "version": "1.0.0",
+      "createdAt": "2026-11-07T12:01:03.221Z",
+      "updatedAt": "2026-11-07T12:01:03.221Z"
+    },
+    "spec-1794052877625": {
+      "id": "spec-1794052877625",
+      "title": "Retro Synthwave Highway Runner",
+      "genre": "endless-runner",
+      "prompt": "A retro synthwave highway runner with obstacle jumps and accelerating speed",
+      "dimensions": {
+        "width": 800,
+        "height": 600
+      },
+      "difficulty": "hard",
+      "theme": "retro-arcade",
+      "mechanics": [
+        "player-movement",
+        "jumping",
+        "gravity",
+        "platform-collision",
+        "collectibles",
+        "level-completion"
+      ],
+      "physics": {
+        "gravityY": 800,
+        "gravityX": 0,
+        "bounce": 0.05,
+        "drag": 120,
+        "playerSpeed": 350,
+        "jumpVelocity": 550
+      },
+      "player": {
+        "startX": 100,
+        "startY": 448,
+        "width": 24,
+        "height": 32,
+        "color": "#ff00ff",
+        "maxLives": 3,
+        "invulnerabilityDurationMs": 1000
+      },
+      "runnerConfig": {
+        "baseSpeed": 280,
+        "maxSpeed": 520,
+        "accelerationRate": 2,
+        "obstacleIntervalMs": 1800,
+        "groundY": 480,
+        "minObstacleGap": 240,
+        "maxObstacleGap": 400
+      },
+      "targetFPS": 60,
+      "backgroundColor": "#09090b",
+      "createdFromPrompt": "A retro synthwave highway runner with obstacle jumps and accelerating speed",
+      "version": "1.0.0",
+      "createdAt": "2026-11-07T12:01:17.625Z",
+      "updatedAt": "2026-11-07T12:01:17.625Z"
     }
   },
   "testResults": [
+    {
+      "runId": "run-1794053361602",
+      "projectId": "spec-1794052849285",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T12:09:21.120Z",
+      "finishedAt": "2026-11-07T12:09:21.602Z",
+      "totalTests": 8,
+      "passedCount": 8,
+      "failedCount": 0,
+      "durationMs": 482,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 300px/s",
+              "expected": "vx = 300",
+              "actual": "vx = 300",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:09:21.181Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "passed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "vy = -550",
+              "passed": true
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "t_apex = 480ms",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:09:21.241Z"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:09:21.301Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:09:21.361Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:09:21.421Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:09:21.482Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:09:21.542Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:09:21.602Z"
+        }
+      ],
+      "overallStatus": "passed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+        "[Telemetry] Result: 8 passed, 0 failed"
+      ]
+    },
+    {
+      "runId": "run-1794053316355",
+      "projectId": "spec-1794052849285",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T12:08:35.873Z",
+      "finishedAt": "2026-11-07T12:08:36.355Z",
+      "totalTests": 8,
+      "passedCount": 7,
+      "failedCount": 1,
+      "durationMs": 482,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 300px/s",
+              "expected": "vx = 300",
+              "actual": "vx = 300",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:08:35.933Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "failed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "vy = -550",
+              "passed": true
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "Kinematic reachability failed: Vertical climb (170px) exceeds maximum safe jump height (161px)",
+              "passed": false
+            }
+          ],
+          "timestamp": "2026-11-07T12:08:35.994Z",
+          "errorMessage": "Kinematic reachability failed: Vertical climb (170px) exceeds maximum safe jump height (161px)"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:08:36.054Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:08:36.114Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:08:36.174Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:08:36.235Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:08:36.295Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:08:36.355Z"
+        }
+      ],
+      "overallStatus": "failed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+        "[Telemetry] Result: 7 passed, 1 failed",
+        "[REACHABILITY_CHECK] WARNING: Vertical climb (170px) exceeds maximum safe jump height (161px)"
+      ]
+    },
+    {
+      "runId": "run-1794053267938",
+      "projectId": "spec-1794052849285",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T12:07:47.456Z",
+      "finishedAt": "2026-11-07T12:07:47.938Z",
+      "totalTests": 8,
+      "passedCount": 7,
+      "failedCount": 1,
+      "durationMs": 482,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 300px/s",
+              "expected": "vx = 300",
+              "actual": "vx = 300",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:07:47.517Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "failed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "vy = -550",
+              "passed": true
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "Kinematic reachability failed: Vertical climb (170px) exceeds maximum safe jump height (161px)",
+              "passed": false
+            }
+          ],
+          "timestamp": "2026-11-07T12:07:47.577Z",
+          "errorMessage": "Kinematic reachability failed: Vertical climb (170px) exceeds maximum safe jump height (161px)"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:07:47.637Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:07:47.697Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:07:47.758Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:07:47.818Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:07:47.878Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:07:47.938Z"
+        }
+      ],
+      "overallStatus": "failed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+        "[Telemetry] Result: 7 passed, 1 failed",
+        "[REACHABILITY_CHECK] WARNING: Vertical climb (170px) exceeds maximum safe jump height (161px)"
+      ]
+    },
+    {
+      "runId": "run-1794053163943",
+      "projectId": "spec-1794052877625",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T12:06:03.762Z",
+      "finishedAt": "2026-11-07T12:06:03.943Z",
+      "totalTests": 3,
+      "passedCount": 3,
+      "failedCount": 0,
+      "durationMs": 181,
+      "tests": [
+        {
+          "id": "test-er-scroll-01",
+          "name": "Continuous Scroll Velocity & Acceleration",
+          "description": "Validates forward scrolling speed increases over time.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 350,
+          "assertions": [
+            {
+              "id": "er1",
+              "description": "Ground obstacles move leftward",
+              "expected": "vx < 0",
+              "actual": "vx = -240",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:06:03.822Z"
+        },
+        {
+          "id": "test-er-jump-02",
+          "name": "Obstacle Jump Clearance",
+          "description": "Checks player can jump over ground spike obstacles.",
+          "mechanic": "jumping",
+          "status": "passed",
+          "durationMs": 420,
+          "assertions": [
+            {
+              "id": "er2",
+              "description": "Jump clears ground obstacle",
+              "expected": "vy < 0",
+              "actual": "cleared",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:06:03.882Z"
+        },
+        {
+          "id": "test-er-obs-03",
+          "name": "Obstacle Collision Game-Over Trigger",
+          "description": "Ensures touching hazard terminates run immediately.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "er3",
+              "description": "Obstacle hit triggers game over",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:06:03.942Z"
+        }
+      ],
+      "overallStatus": "passed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for Retro Synthwave Highway Runner",
+        "[Telemetry] Result: 3 passed, 0 failed"
+      ]
+    },
+    {
+      "runId": "run-1794053086027",
+      "projectId": "spec-1794052877625",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T12:04:45.847Z",
+      "finishedAt": "2026-11-07T12:04:46.027Z",
+      "totalTests": 3,
+      "passedCount": 3,
+      "failedCount": 0,
+      "durationMs": 180,
+      "tests": [
+        {
+          "id": "test-er-scroll-01",
+          "name": "Continuous Scroll Velocity & Acceleration",
+          "description": "Validates forward scrolling speed increases over time.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 350,
+          "assertions": [
+            {
+              "id": "er1",
+              "description": "Ground obstacles move leftward",
+              "expected": "vx < 0",
+              "actual": "vx = -240",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:04:45.907Z"
+        },
+        {
+          "id": "test-er-jump-02",
+          "name": "Obstacle Jump Clearance",
+          "description": "Checks player can jump over ground spike obstacles.",
+          "mechanic": "jumping",
+          "status": "passed",
+          "durationMs": 420,
+          "assertions": [
+            {
+              "id": "er2",
+              "description": "Jump clears ground obstacle",
+              "expected": "vy < 0",
+              "actual": "cleared",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:04:45.967Z"
+        },
+        {
+          "id": "test-er-obs-03",
+          "name": "Obstacle Collision Game-Over Trigger",
+          "description": "Ensures touching hazard terminates run immediately.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "er3",
+              "description": "Obstacle hit triggers game over",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:04:46.027Z"
+        }
+      ],
+      "overallStatus": "passed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for Retro Synthwave Highway Runner",
+        "[Telemetry] Result: 3 passed, 0 failed"
+      ]
+    },
+    {
+      "runId": "run-1794053075875",
+      "projectId": "spec-1794052877625",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T12:04:35.694Z",
+      "finishedAt": "2026-11-07T12:04:35.875Z",
+      "totalTests": 3,
+      "passedCount": 3,
+      "failedCount": 0,
+      "durationMs": 181,
+      "tests": [
+        {
+          "id": "test-er-scroll-01",
+          "name": "Continuous Scroll Velocity & Acceleration",
+          "description": "Validates forward scrolling speed increases over time.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 350,
+          "assertions": [
+            {
+              "id": "er1",
+              "description": "Ground obstacles move leftward",
+              "expected": "vx < 0",
+              "actual": "vx = -240",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:04:35.754Z"
+        },
+        {
+          "id": "test-er-jump-02",
+          "name": "Obstacle Jump Clearance",
+          "description": "Checks player can jump over ground spike obstacles.",
+          "mechanic": "jumping",
+          "status": "passed",
+          "durationMs": 420,
+          "assertions": [
+            {
+              "id": "er2",
+              "description": "Jump clears ground obstacle",
+              "expected": "vy < 0",
+              "actual": "cleared",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:04:35.815Z"
+        },
+        {
+          "id": "test-er-obs-03",
+          "name": "Obstacle Collision Game-Over Trigger",
+          "description": "Ensures touching hazard terminates run immediately.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "er3",
+              "description": "Obstacle hit triggers game over",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:04:35.875Z"
+        }
+      ],
+      "overallStatus": "passed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for Retro Synthwave Highway Runner",
+        "[Telemetry] Result: 3 passed, 0 failed"
+      ]
+    },
+    {
+      "runId": "run-1794052922537",
+      "projectId": "spec-1794052849285",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T12:02:02.055Z",
+      "finishedAt": "2026-11-07T12:02:02.537Z",
+      "totalTests": 8,
+      "passedCount": 8,
+      "failedCount": 0,
+      "durationMs": 482,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 300px/s",
+              "expected": "vx = 300",
+              "actual": "vx = 300",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:02:02.115Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "passed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "vy = -550",
+              "passed": true
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "t_apex = 480ms",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:02:02.175Z"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:02:02.235Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:02:02.296Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:02:02.356Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:02:02.416Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:02:02.476Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:02:02.536Z"
+        }
+      ],
+      "overallStatus": "passed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+        "[Telemetry] Result: 8 passed, 0 failed"
+      ]
+    },
+    {
+      "runId": "run-1794052878603",
+      "projectId": "spec-1794052849285",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T12:01:18.119Z",
+      "finishedAt": "2026-11-07T12:01:18.603Z",
+      "totalTests": 8,
+      "passedCount": 7,
+      "failedCount": 1,
+      "durationMs": 484,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 300px/s",
+              "expected": "vx = 300",
+              "actual": "vx = 300",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:18.179Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "failed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "vy = -550",
+              "passed": true
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "Kinematic reachability failed: Vertical climb (170px) exceeds maximum safe jump height (161px)",
+              "passed": false
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:18.240Z",
+          "errorMessage": "Kinematic reachability failed: Vertical climb (170px) exceeds maximum safe jump height (161px)"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:18.300Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:18.360Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:18.422Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:18.482Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:18.542Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:18.603Z"
+        }
+      ],
+      "overallStatus": "failed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+        "[Telemetry] Result: 7 passed, 1 failed",
+        "[REACHABILITY_CHECK] WARNING: Vertical climb (170px) exceeds maximum safe jump height (161px)"
+      ]
+    },
+    {
+      "runId": "run-1794052878114",
+      "projectId": "spec-1794052849285",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T12:01:17.629Z",
+      "finishedAt": "2026-11-07T12:01:18.114Z",
+      "totalTests": 8,
+      "passedCount": 8,
+      "failedCount": 0,
+      "durationMs": 485,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 300px/s",
+              "expected": "vx = 300",
+              "actual": "vx = 300",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:17.689Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "passed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "vy = -550",
+              "passed": true
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "t_apex = 480ms",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:17.750Z"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:17.811Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:17.871Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:17.933Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:17.993Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:18.053Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T12:01:18.114Z"
+        }
+      ],
+      "overallStatus": "passed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+        "[Telemetry] Result: 8 passed, 0 failed"
+      ]
+    },
+    {
+      "runId": "run-1794052730154",
+      "projectId": "spec-1794052663804",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T11:58:49.672Z",
+      "finishedAt": "2026-11-07T11:58:50.154Z",
+      "totalTests": 8,
+      "passedCount": 7,
+      "failedCount": 1,
+      "durationMs": 482,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 300px/s",
+              "expected": "vx = 300",
+              "actual": "vx = 300",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:49.733Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "failed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "Kinematic reachability failed: Vertical climb (180px) exceeds maximum safe jump height (161px)",
+              "passed": false
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "Kinematic reachability failed: Vertical climb (180px) exceeds maximum safe jump height (161px)",
+              "passed": false
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:49.793Z",
+          "errorMessage": "Kinematic reachability failed: Vertical climb (180px) exceeds maximum safe jump height (161px)"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:49.853Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:49.913Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:49.973Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:50.034Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:50.094Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:50.154Z"
+        }
+      ],
+      "overallStatus": "failed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+        "[Telemetry] Result: 7 passed, 1 failed",
+        "[REACHABILITY_CHECK] WARNING: Vertical climb (180px) exceeds maximum safe jump height (161px)"
+      ]
+    },
+    {
+      "runId": "run-1794052692106",
+      "projectId": "spec-1794052663804",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T11:58:11.624Z",
+      "finishedAt": "2026-11-07T11:58:12.106Z",
+      "totalTests": 8,
+      "passedCount": 7,
+      "failedCount": 1,
+      "durationMs": 482,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 300px/s",
+              "expected": "vx = 300",
+              "actual": "vx = 300",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.684Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "failed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "Kinematic reachability failed: Vertical climb (180px) exceeds maximum safe jump height (161px)",
+              "passed": false
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "Kinematic reachability failed: Vertical climb (180px) exceeds maximum safe jump height (161px)",
+              "passed": false
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.744Z",
+          "errorMessage": "Kinematic reachability failed: Vertical climb (180px) exceeds maximum safe jump height (161px)"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.805Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.865Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.925Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.985Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:12.045Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:12.106Z"
+        }
+      ],
+      "overallStatus": "failed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+        "[Telemetry] Result: 7 passed, 1 failed",
+        "[REACHABILITY_CHECK] WARNING: Vertical climb (180px) exceeds maximum safe jump height (161px)"
+      ]
+    },
+    {
+      "runId": "run-1794052691617",
+      "projectId": "spec-1794052663804",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T11:58:11.136Z",
+      "finishedAt": "2026-11-07T11:58:11.617Z",
+      "totalTests": 8,
+      "passedCount": 8,
+      "failedCount": 0,
+      "durationMs": 481,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 300px/s",
+              "expected": "vx = 300",
+              "actual": "vx = 300",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.196Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "passed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "vy = -550",
+              "passed": true
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "t_apex = 480ms",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.257Z"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.316Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.376Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.436Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.497Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.557Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:58:11.617Z"
+        }
+      ],
+      "overallStatus": "passed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+        "[Telemetry] Result: 8 passed, 0 failed"
+      ]
+    },
+    {
+      "runId": "run-1794052521184",
+      "projectId": "spec-1794042634306",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T11:55:20.702Z",
+      "finishedAt": "2026-11-07T11:55:21.184Z",
+      "totalTests": 8,
+      "passedCount": 8,
+      "failedCount": 0,
+      "durationMs": 482,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 280px/s",
+              "expected": "vx = 280",
+              "actual": "vx = 280",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:20.762Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "passed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "vy = -550",
+              "passed": true
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "t_apex = 480ms",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:20.823Z"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:20.883Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:20.943Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:21.003Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:21.064Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:21.124Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:21.184Z"
+        }
+      ],
+      "overallStatus": "passed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for A neon cyberpunk platformer",
+        "[Telemetry] Result: 8 passed, 0 failed"
+      ]
+    },
+    {
+      "runId": "run-1794052520506",
+      "projectId": "spec-1794042634306",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T11:55:20.023Z",
+      "finishedAt": "2026-11-07T11:55:20.506Z",
+      "totalTests": 8,
+      "passedCount": 7,
+      "failedCount": 1,
+      "durationMs": 483,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 280px/s",
+              "expected": "vx = 280",
+              "actual": "vx = 280",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:20.084Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "failed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "Kinematic reachability failed: Vertical climb (200px) exceeds maximum safe jump height (161px)",
+              "passed": false
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "Kinematic reachability failed: Vertical climb (200px) exceeds maximum safe jump height (161px)",
+              "passed": false
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:20.144Z",
+          "errorMessage": "Kinematic reachability failed: Vertical climb (200px) exceeds maximum safe jump height (161px)"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:20.204Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:20.264Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:20.325Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:20.385Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:20.445Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:55:20.506Z"
+        }
+      ],
+      "overallStatus": "failed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for A neon cyberpunk platformer",
+        "[Telemetry] Result: 7 passed, 1 failed",
+        "[REACHABILITY_CHECK] WARNING: Vertical climb (200px) exceeds maximum safe jump height (161px)"
+      ]
+    },
+    {
+      "runId": "run-1794052406642",
+      "projectId": "spec-1794042634306",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T11:53:26.161Z",
+      "finishedAt": "2026-11-07T11:53:26.642Z",
+      "totalTests": 8,
+      "passedCount": 8,
+      "failedCount": 0,
+      "durationMs": 481,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 280px/s",
+              "expected": "vx = 280",
+              "actual": "vx = 280",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:26.221Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "passed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "vy = -550",
+              "passed": true
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "t_apex = 480ms",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:26.281Z"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:26.341Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:26.401Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:26.462Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:26.522Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:26.582Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:26.642Z"
+        }
+      ],
+      "overallStatus": "passed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for A neon cyberpunk platformer",
+        "[Telemetry] Result: 8 passed, 0 failed"
+      ]
+    },
+    {
+      "runId": "run-1794052405965",
+      "projectId": "spec-1794042634306",
+      "projectVersion": "1.0.0",
+      "startedAt": "2026-11-07T11:53:25.483Z",
+      "finishedAt": "2026-11-07T11:53:25.965Z",
+      "totalTests": 8,
+      "passedCount": 7,
+      "failedCount": 1,
+      "durationMs": 482,
+      "tests": [
+        {
+          "id": "test-move-01",
+          "name": "Horizontal Movement & Acceleration",
+          "description": "Validates that player entity velocity matches configured speed when horizontal inputs are dispatched.",
+          "mechanic": "player-movement",
+          "status": "passed",
+          "durationMs": 380,
+          "assertions": [
+            {
+              "id": "a1",
+              "description": "Player moves right at speed 280px/s",
+              "expected": "vx = 280",
+              "actual": "vx = 280",
+              "passed": true
+            },
+            {
+              "id": "a2",
+              "description": "Player stops when keyup is triggered",
+              "expected": "vx = 0",
+              "actual": "vx = 0",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:25.543Z"
+        },
+        {
+          "id": "test-jump-02",
+          "name": "Jump Velocity & Height Trajectory",
+          "description": "Ensures jump velocity reaches configured impulse and obeys gravity curve.",
+          "mechanic": "jumping",
+          "status": "failed",
+          "durationMs": 520,
+          "assertions": [
+            {
+              "id": "a3",
+              "description": "Initial jump impulse reaches -550px/s",
+              "expected": "vy = -550",
+              "actual": "Kinematic reachability failed: Vertical climb (200px) exceeds maximum safe jump height (161px)",
+              "passed": false
+            },
+            {
+              "id": "a4",
+              "description": "Apex point reached within kinematic window",
+              "expected": "t_apex < 600ms",
+              "actual": "Kinematic reachability failed: Vertical climb (200px) exceeds maximum safe jump height (161px)",
+              "passed": false
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:25.603Z",
+          "errorMessage": "Kinematic reachability failed: Vertical climb (200px) exceeds maximum safe jump height (161px)"
+        },
+        {
+          "id": "test-plat-03",
+          "name": "Platform Collision & Ground Landing",
+          "description": "Verifies player lands cleanly on platforms without tunneling and sets isGrounded=true.",
+          "mechanic": "platform-collision",
+          "status": "passed",
+          "durationMs": 410,
+          "assertions": [
+            {
+              "id": "a5",
+              "description": "Player Y position locks to platform surface",
+              "expected": "y <= platform.y",
+              "actual": "y = platform.y",
+              "passed": true
+            },
+            {
+              "id": "a6",
+              "description": "isGrounded flag transitions to true",
+              "expected": "isGrounded = true",
+              "actual": "isGrounded = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:25.664Z"
+        },
+        {
+          "id": "test-grav-04",
+          "name": "Gravity Acceleration Continuity",
+          "description": "Validates downward acceleration vector during freefall.",
+          "mechanic": "gravity",
+          "status": "passed",
+          "durationMs": 340,
+          "assertions": [
+            {
+              "id": "a7",
+              "description": "Downward gravity applied at 800px/s²",
+              "expected": "gy = 800",
+              "actual": "gy = 800",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:25.724Z"
+        },
+        {
+          "id": "test-coin-05",
+          "name": "Collectible Pickup & Score Increment",
+          "description": "Checks item pickup overlap, sprite destroy event, and score increment.",
+          "mechanic": "collectibles",
+          "status": "passed",
+          "durationMs": 290,
+          "assertions": [
+            {
+              "id": "a8",
+              "description": "Collectible destroyed upon player overlap",
+              "expected": "collectible.active = false",
+              "actual": "collectible.active = false",
+              "passed": true
+            },
+            {
+              "id": "a9",
+              "description": "Score increases upon pickup",
+              "expected": "score >= 100",
+              "actual": "score = 100",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:25.784Z"
+        },
+        {
+          "id": "test-enemy-06",
+          "name": "Enemy Hazard Collision & Life Depletion",
+          "description": "Validates that enemy collision reduces lives and triggers invulnerability frames.",
+          "mechanic": "enemy-interaction",
+          "status": "passed",
+          "durationMs": 430,
+          "assertions": [
+            {
+              "id": "a10",
+              "description": "Player lives decrement on damage",
+              "expected": "lives = 2",
+              "actual": "lives = 2",
+              "passed": true
+            },
+            {
+              "id": "a11",
+              "description": "Invulnerability frames active for 1000ms",
+              "expected": "isInvulnerable = true",
+              "actual": "isInvulnerable = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:25.844Z"
+        },
+        {
+          "id": "test-gameover-07",
+          "name": "Game-Over Condition & Pitfall Boundary",
+          "description": "Checks that falling below viewport height triggers game-over state.",
+          "mechanic": "game-over-condition",
+          "status": "passed",
+          "durationMs": 310,
+          "assertions": [
+            {
+              "id": "a12",
+              "description": "State transitions to game_over=true",
+              "expected": "isGameOver = true",
+              "actual": "isGameOver = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:25.904Z"
+        },
+        {
+          "id": "test-restart-08",
+          "name": "Level Finish & Scene Restart",
+          "description": "Confirms reaching exit portal triggers victory or restart action restores scene.",
+          "mechanic": "level-completion",
+          "status": "passed",
+          "durationMs": 450,
+          "assertions": [
+            {
+              "id": "a13",
+              "description": "Reaching finish portal triggers victory state",
+              "expected": "isVictory = true",
+              "actual": "isVictory = true",
+              "passed": true
+            }
+          ],
+          "timestamp": "2026-11-07T11:53:25.965Z"
+        }
+      ],
+      "overallStatus": "failed",
+      "browserLogs": [
+        "[Playwright] Execution session finished for A neon cyberpunk platformer",
+        "[Telemetry] Result: 7 passed, 1 failed",
+        "[REACHABILITY_CHECK] WARNING: Vertical climb (200px) exceeds maximum safe jump height (161px)"
+      ]
+    },
     {
       "runId": "run-1794042635765",
       "projectId": "spec-1794042634306",
@@ -3215,6 +7702,258 @@
   ],
   "bugReports": [
     {
+      "id": "bug-1794053330810-317",
+      "projectId": "spec-1794052849285",
+      "projectVersion": "1.0.0",
+      "title": "Jump Velocity & Height Trajectory: Apex point reached within kinematic window",
+      "severity": "high",
+      "category": "level-reachability",
+      "affectedMechanic": "jumping",
+      "expectedBehaviour": "t_apex < 600ms",
+      "actualBehaviour": "Kinematic reachability failed: Vertical climb (170px) exceeds maximum safe jump height (161px)",
+      "suspectedSourceLocation": {
+        "file": "game-engine/src/scenes/PlatformerScene.ts",
+        "line": 42,
+        "snippet": "Adjust target platform Y elevation to satisfy ReachabilityMetrics apex threshold."
+      },
+      "evidence": {
+        "testCaseId": "test-jump-02",
+        "failedAssertion": "Apex point reached within kinematic window",
+        "consoleLogs": [
+          "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+          "[Telemetry] Result: 7 passed, 1 failed",
+          "[REACHABILITY_CHECK] WARNING: Vertical climb (170px) exceeds maximum safe jump height (161px)"
+        ]
+      },
+      "repairStatus": "verified-fixed",
+      "createdAt": "2026-11-07T12:08:50.810Z",
+      "updatedAt": "2026-11-07T12:09:21.113Z"
+    },
+    {
+      "id": "bug-1794053291332-707",
+      "projectId": "spec-1794052849285",
+      "projectVersion": "1.0.0",
+      "title": "Jump Velocity & Height Trajectory: Apex point reached within kinematic window",
+      "severity": "high",
+      "category": "level-reachability",
+      "affectedMechanic": "jumping",
+      "expectedBehaviour": "t_apex < 600ms",
+      "actualBehaviour": "Kinematic reachability failed: Vertical climb (170px) exceeds maximum safe jump height (161px)",
+      "suspectedSourceLocation": {
+        "file": "game-engine/src/scenes/PlatformerScene.ts",
+        "line": 42,
+        "snippet": "Reduce the vertical gap between Platform #2 and Platform #3 to ≤ the safe jump height (e.g., ≤ 150–160px), or adjust physics constants (increase jumpVelocity or decrease gravityY) to raise the achievable apex."
+      },
+      "evidence": {
+        "testCaseId": "test-jump-02",
+        "failedAssertion": "Apex point reached within kinematic window",
+        "consoleLogs": [
+          "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+          "[Telemetry] Result: 7 passed, 1 failed",
+          "[REACHABILITY_CHECK] WARNING: Vertical climb (170px) exceeds maximum safe jump height (161px)"
+        ]
+      },
+      "repairStatus": "verified-fixed",
+      "createdAt": "2026-11-07T12:08:11.332Z",
+      "updatedAt": "2026-11-07T12:08:39.429Z"
+    },
+    {
+      "id": "bug-1794052895900-626",
+      "projectId": "spec-1794052849285",
+      "projectVersion": "1.0.0",
+      "title": "Jump Velocity & Height Trajectory: Apex point reached within kinematic window",
+      "severity": "high",
+      "category": "level-reachability",
+      "affectedMechanic": "jumping",
+      "expectedBehaviour": "t_apex < 600ms",
+      "actualBehaviour": "Kinematic reachability failed: Vertical climb (170px) exceeds maximum safe jump height (161px)",
+      "suspectedSourceLocation": {
+        "file": "src/game/levels/level1.ts",
+        "line": 42,
+        "snippet": "Either lower the platform height (or redesign the gap) to ≤ 161 px, or adjust the player’s jump parameters (increase initial jump velocity or reduce gravity) so that the maximum reachable height meets or exceeds 170 px. After changes, re‑run the reachability test to ensure `t_apex < 600ms` passes."
+      },
+      "evidence": {
+        "testCaseId": "test-jump-02",
+        "failedAssertion": "Apex point reached within kinematic window",
+        "consoleLogs": [
+          "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+          "[Telemetry] Result: 7 passed, 1 failed",
+          "[REACHABILITY_CHECK] WARNING: Vertical climb (170px) exceeds maximum safe jump height (161px)"
+        ]
+      },
+      "repairStatus": "verified-fixed",
+      "createdAt": "2026-11-07T12:01:35.900Z",
+      "updatedAt": "2026-11-07T12:02:02.053Z"
+    },
+    {
+      "id": "bug-1794052741389-476",
+      "projectId": "spec-1794052663804",
+      "projectVersion": "1.0.0",
+      "title": "Jump Velocity & Height Trajectory: Initial jump impulse reaches -550px/s",
+      "severity": "high",
+      "category": "level-reachability",
+      "affectedMechanic": "jumping",
+      "expectedBehaviour": "vy = -550",
+      "actualBehaviour": "Kinematic reachability failed: Vertical climb (180px) exceeds maximum safe jump height (161px)",
+      "suspectedSourceLocation": {
+        "file": "game-engine/src/scenes/PlatformerScene.ts",
+        "line": 42,
+        "snippet": "Adjust target platform Y elevation to satisfy ReachabilityMetrics apex threshold."
+      },
+      "evidence": {
+        "testCaseId": "test-jump-02",
+        "failedAssertion": "Initial jump impulse reaches -550px/s",
+        "consoleLogs": [
+          "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+          "[Telemetry] Result: 7 passed, 1 failed",
+          "[REACHABILITY_CHECK] WARNING: Vertical climb (180px) exceeds maximum safe jump height (161px)"
+        ]
+      },
+      "repairStatus": "open",
+      "createdAt": "2026-11-07T11:59:01.389Z",
+      "updatedAt": "2026-11-07T11:59:01.389Z"
+    },
+    {
+      "id": "bug-1794052705629-266",
+      "projectId": "spec-1794052663804",
+      "projectVersion": "1.0.0",
+      "title": "Jump Velocity & Height Trajectory: Initial jump impulse reaches -550px/s",
+      "severity": "high",
+      "category": "physics",
+      "affectedMechanic": "jumping",
+      "expectedBehaviour": "vy = -550",
+      "actualBehaviour": "Kinematic reachability failed: Vertical climb (180px) exceeds maximum safe jump height (161px)",
+      "suspectedSourceLocation": {
+        "file": "src/features/player/playerMovement.ts",
+        "line": 42,
+        "snippet": "Increase the absolute value of the initial jump velocity (e.g., change vy from -550 to a larger magnitude like -600) or lower gravity to raise the maximum safe jump height, then re‑run the test."
+      },
+      "evidence": {
+        "testCaseId": "test-jump-02",
+        "failedAssertion": "Initial jump impulse reaches -550px/s",
+        "consoleLogs": [
+          "[Playwright] Execution session finished for Neon Cyberpunk Platformer",
+          "[Telemetry] Result: 7 passed, 1 failed",
+          "[REACHABILITY_CHECK] WARNING: Vertical climb (180px) exceeds maximum safe jump height (161px)"
+        ]
+      },
+      "repairStatus": "verified-fixed",
+      "createdAt": "2026-11-07T11:58:25.629Z",
+      "updatedAt": "2026-11-07T11:58:49.668Z"
+    },
+    {
+      "id": "bug-live-1794052560473",
+      "projectId": "proj-01",
+      "projectVersion": "0.4.0",
+      "title": "Jump mechanic imparts downward velocity instead of upward impulse",
+      "severity": "high",
+      "category": "logic",
+      "affectedMechanic": "jumping",
+      "expectedBehaviour": "Player should receive upward velocity (-jumpVelocity) when jump key is triggered.",
+      "actualBehaviour": "Player receives positive downward velocity, driving entity into the ground.",
+      "suspectedSourceLocation": {
+        "file": "game-engine/src/scenes/PlatformerScene.ts",
+        "line": 371,
+        "snippet": "this.player.setVelocityY(jumpVelocity); // DEFECT: Inverted jump impulse"
+      },
+      "evidence": {
+        "testCaseId": "test-jump-impulse-02",
+        "failedAssertion": "Player ascends upward on jump impulse",
+        "consoleLogs": [
+          "[TEST_RUNNER] Dispatching synthetic action: jump",
+          "[PHYSICS_TELEMETRY] Player velocity after jump: { vx: 0, vy: 550 }",
+          "[ASSERTION_FAILED] vy must be negative to ascend against gravity."
+        ]
+      },
+      "repairStatus": "verified-fixed",
+      "createdAt": "2026-11-07T11:56:00.473Z",
+      "updatedAt": "2026-11-07T11:56:21.773Z"
+    },
+    {
+      "id": "bug-1794052520607-711",
+      "projectId": "spec-1794042634306",
+      "projectVersion": "1.0.0",
+      "title": "Jump Velocity & Height Trajectory: Initial jump impulse reaches -550px/s",
+      "severity": "high",
+      "category": "level-reachability",
+      "affectedMechanic": "jumping",
+      "expectedBehaviour": "vy = -550",
+      "actualBehaviour": "Kinematic reachability failed: Vertical climb (200px) exceeds maximum safe jump height (161px)",
+      "suspectedSourceLocation": {
+        "file": "game-engine/src/scenes/PlatformerScene.ts",
+        "line": 42,
+        "snippet": "Adjust target platform Y elevation to satisfy ReachabilityMetrics apex threshold."
+      },
+      "evidence": {
+        "testCaseId": "test-jump-02",
+        "failedAssertion": "Initial jump impulse reaches -550px/s",
+        "consoleLogs": [
+          "[Playwright] Execution session finished for A neon cyberpunk platformer",
+          "[Telemetry] Result: 7 passed, 1 failed",
+          "[REACHABILITY_CHECK] WARNING: Vertical climb (200px) exceeds maximum safe jump height (161px)"
+        ]
+      },
+      "repairStatus": "verified-fixed",
+      "createdAt": "2026-11-07T11:55:20.607Z",
+      "updatedAt": "2026-11-07T11:55:20.700Z"
+    },
+    {
+      "id": "bug-1794052406066-344",
+      "projectId": "spec-1794042634306",
+      "projectVersion": "1.0.0",
+      "title": "Jump Velocity & Height Trajectory: Initial jump impulse reaches -550px/s",
+      "severity": "high",
+      "category": "level-reachability",
+      "affectedMechanic": "jumping",
+      "expectedBehaviour": "vy = -550",
+      "actualBehaviour": "Kinematic reachability failed: Vertical climb (200px) exceeds maximum safe jump height (161px)",
+      "suspectedSourceLocation": {
+        "file": "game-engine/src/scenes/PlatformerScene.ts",
+        "line": 42,
+        "snippet": "Adjust target platform Y elevation to satisfy ReachabilityMetrics apex threshold."
+      },
+      "evidence": {
+        "testCaseId": "test-jump-02",
+        "failedAssertion": "Initial jump impulse reaches -550px/s",
+        "consoleLogs": [
+          "[Playwright] Execution session finished for A neon cyberpunk platformer",
+          "[Telemetry] Result: 7 passed, 1 failed",
+          "[REACHABILITY_CHECK] WARNING: Vertical climb (200px) exceeds maximum safe jump height (161px)"
+        ]
+      },
+      "repairStatus": "verified-fixed",
+      "createdAt": "2026-11-07T11:53:26.066Z",
+      "updatedAt": "2026-11-07T11:53:26.159Z"
+    },
+    {
+      "id": "bug-live-1794052063436",
+      "projectId": "proj-01",
+      "projectVersion": "0.4.0",
+      "title": "Jump mechanic imparts downward velocity instead of upward impulse",
+      "severity": "high",
+      "category": "gameplay-logic",
+      "affectedMechanic": "jumping",
+      "expectedBehaviour": "Player should receive upward velocity (-jumpVelocity) when jump key is triggered.",
+      "actualBehaviour": "Player receives positive downward velocity, driving entity into the ground.",
+      "suspectedSourceLocation": {
+        "file": "game-engine/src/scenes/PlatformerScene.ts",
+        "line": 371,
+        "snippet": "this.player.setVelocityY(jumpVelocity); // DEFECT: Inverted jump impulse"
+      },
+      "evidence": {
+        "testCaseId": "test-jump-impulse-02",
+        "failedAssertion": "Player ascends upward on jump impulse",
+        "consoleLogs": [
+          "[TEST_RUNNER] Dispatching synthetic action: jump",
+          "[PHYSICS_TELEMETRY] Player velocity after jump: { vx: 0, vy: 550 }",
+          "[ASSERTION_FAILED] vy must be negative to ascend against gravity."
+        ]
+      },
+      "repairStatus": "verified-fixed",
+      "createdAt": "2026-11-07T11:47:43.436Z",
+      "updatedAt": "2026-11-07T11:48:02.958Z"
+    },
+    {
       "id": "bug-1794042635280-857",
       "projectId": "spec-1794042634306",
       "projectVersion": "1.0.0",
@@ -3327,6 +8066,163 @@
     }
   ],
   "repairIterations": [
+    {
+      "id": "rep-1794053361111",
+      "bugReportId": "bug-1794053330810-317",
+      "projectId": "spec-1794052849285",
+      "iterationNumber": 1,
+      "description": "Targeted patch synthesized for game-engine/src/scenes/PlatformerScene.ts to resolve Jump Velocity & Height Trajectory: Apex point reached within kinematic window",
+      "diffPatch": "--- a/game-engine/src/scenes/PlatformerScene.ts\n+++ b/game-engine/src/scenes/PlatformerScene.ts\n@@ -42,1 +42,1 @@\n-  { id: 'p3', x: 610, y: 180, width: 140, height: 20 },\n+  { id: 'p3', x: 610, y: 320, width: 140, height: 20 },",
+      "affectedFiles": [
+        "game-engine/src/scenes/PlatformerScene.ts"
+      ],
+      "isSuccessful": true,
+      "verificationLogs": [
+        "Deterministic repair synthesizer generated targeted patch.",
+        "Recalculated platform kinematics to satisfy reachability ceiling.",
+        "Fix verified successfully by Playtester on attempt 1.",
+        "All regression assertions passed cleanly.",
+        "Bug Report marked VERIFIED-FIXED."
+      ],
+      "createdAt": "2026-11-07T12:09:21.111Z"
+    },
+    {
+      "id": "rep-1794053319426",
+      "bugReportId": "bug-1794053291332-707",
+      "projectId": "spec-1794052849285",
+      "iterationNumber": 1,
+      "description": "Targeted patch synthesized for game-engine/src/scenes/PlatformerScene.ts to resolve Jump Velocity & Height Trajectory: Apex point reached within kinematic window",
+      "diffPatch": "--- a/game-engine/src/scenes/PlatformerScene.ts\n+++ b/game-engine/src/scenes/PlatformerScene.ts\n@@ -42,1 +42,1 @@\n-  { id: 'p3', x: 610, y: 180, width: 140, height: 20 },\n+  { id: 'p3', x: 610, y: 320, width: 140, height: 20 },",
+      "affectedFiles": [
+        "game-engine/src/scenes/PlatformerScene.ts"
+      ],
+      "isSuccessful": true,
+      "verificationLogs": [
+        "Deterministic repair synthesizer generated targeted patch.",
+        "Recalculated platform kinematics to satisfy reachability ceiling.",
+        "Fix verified successfully by Playtester on attempt 1.",
+        "All regression assertions passed cleanly.",
+        "Bug Report marked VERIFIED-FIXED."
+      ],
+      "createdAt": "2026-11-07T12:08:39.426Z"
+    },
+    {
+      "id": "rep-1794052922051",
+      "bugReportId": "bug-1794052895900-626",
+      "projectId": "spec-1794052849285",
+      "iterationNumber": 1,
+      "description": "Targeted patch synthesized for src/game/levels/level1.ts to resolve Jump Velocity & Height Trajectory: Apex point reached within kinematic window",
+      "diffPatch": "--- a/src/game/levels/level1.ts\n+++ b/src/game/levels/level1.ts\n@@ -42,1 +42,1 @@\n-  { id: 'p3', x: 610, y: 180, width: 140, height: 20 },\n+  { id: 'p3', x: 610, y: 320, width: 140, height: 20 },",
+      "affectedFiles": [
+        "src/game/levels/level1.ts"
+      ],
+      "isSuccessful": true,
+      "verificationLogs": [
+        "Deterministic repair synthesizer generated targeted patch.",
+        "Recalculated platform kinematics to satisfy reachability ceiling.",
+        "Fix verified successfully by Playtester on attempt 1.",
+        "All regression assertions passed cleanly.",
+        "Bug Report marked VERIFIED-FIXED."
+      ],
+      "createdAt": "2026-11-07T12:02:02.051Z"
+    },
+    {
+      "id": "rep-1794052729668",
+      "bugReportId": "bug-1794052705629-266",
+      "projectId": "spec-1794052663804",
+      "iterationNumber": 1,
+      "description": "Targeted patch synthesized for src/features/player/playerMovement.ts to resolve Jump Velocity & Height Trajectory: Initial jump impulse reaches -550px/s",
+      "diffPatch": "--- a/src/features/player/playerMovement.ts\n+++ b/src/features/player/playerMovement.ts\n@@ -371,1 +371,1 @@\n-      this.player.setVelocityY(jumpVelocity);\n+      this.player.setVelocityY(-jumpVelocity);",
+      "affectedFiles": [
+        "src/features/player/playerMovement.ts"
+      ],
+      "isSuccessful": true,
+      "verificationLogs": [
+        "Deterministic repair synthesizer generated targeted patch.",
+        "Fix verified successfully by Playtester on attempt 1.",
+        "All regression assertions passed cleanly.",
+        "Bug Report marked VERIFIED-FIXED."
+      ],
+      "createdAt": "2026-11-07T11:58:49.668Z"
+    },
+    {
+      "id": "rep-1794052581772",
+      "bugReportId": "bug-live-1794052560473",
+      "projectId": "proj-01",
+      "iterationNumber": 1,
+      "description": "The jump logic applied a positive `jumpVelocity`, causing the player to move downwards. In Phaser, a negative Y velocity moves the sprite upward. Changing the call to use `-jumpVelocity` corrects the direction of the impulse while preserving the magnitude and existing variable configuration.",
+      "diffPatch": "--- a/game-engine/src/scenes/PlatformerScene.ts\n+++ b/game-engine/src/scenes/PlatformerScene.ts\n@@\n-    // Jumping Mechanics: Variable Jump Height\n-    if (jumpPressed && isGrounded) {\n-      this.player.setVelocityY(jumpVelocity); // DEFECT: Inverted jump impulse\n-      this.player.setTexture('player_jump');\n-    }\n+    // Jumping Mechanics: Variable Jump Height\n+    if (jumpPressed && isGrounded) {\n+      this.player.setVelocityY(-jumpVelocity); // Fixed: Correct upward impulse\n+      this.player.setTexture('player_jump');\n+    }\n",
+      "affectedFiles": [
+        "game-engine/src/scenes/PlatformerScene.ts"
+      ],
+      "isSuccessful": true,
+      "verificationLogs": [
+        "Live LLM (gpt-oss-120b-medium) synthesized surgical code correction.",
+        "Unified diff patch validated against security policy boundaries."
+      ],
+      "createdAt": "2026-11-07T11:56:21.772Z",
+      "targetSnippet": "this.player.setVelocityY(jumpVelocity); // DEFECT: Inverted jump impulse",
+      "replacementSnippet": "this.player.setVelocityY(-jumpVelocity); // Fixed: Correct upward impulse"
+    },
+    {
+      "id": "rep-1794052520698",
+      "bugReportId": "bug-1794052520607-711",
+      "projectId": "spec-1794042634306",
+      "iterationNumber": 1,
+      "description": "Targeted patch synthesized for game-engine/src/scenes/PlatformerScene.ts to resolve Jump Velocity & Height Trajectory: Initial jump impulse reaches -550px/s",
+      "diffPatch": "--- a/game-engine/src/scenes/PlatformerScene.ts\n+++ b/game-engine/src/scenes/PlatformerScene.ts\n@@ -42,1 +42,1 @@\n-  { id: 'p3', x: 610, y: 180, width: 140, height: 20 },\n+  { id: 'p3', x: 610, y: 320, width: 140, height: 20 },",
+      "affectedFiles": [
+        "game-engine/src/scenes/PlatformerScene.ts"
+      ],
+      "isSuccessful": true,
+      "verificationLogs": [
+        "Deterministic repair synthesizer generated targeted patch.",
+        "Recalculated platform kinematics to satisfy reachability ceiling.",
+        "Fix verified successfully by Playtester on attempt 1.",
+        "All regression assertions passed cleanly.",
+        "Bug Report marked VERIFIED-FIXED."
+      ],
+      "createdAt": "2026-11-07T11:55:20.698Z"
+    },
+    {
+      "id": "rep-1794052406158",
+      "bugReportId": "bug-1794052406066-344",
+      "projectId": "spec-1794042634306",
+      "iterationNumber": 1,
+      "description": "Targeted patch synthesized for game-engine/src/scenes/PlatformerScene.ts to resolve Jump Velocity & Height Trajectory: Initial jump impulse reaches -550px/s",
+      "diffPatch": "--- a/game-engine/src/scenes/PlatformerScene.ts\n+++ b/game-engine/src/scenes/PlatformerScene.ts\n@@ -42,1 +42,1 @@\n-  { id: 'p3', x: 610, y: 180, width: 140, height: 20 },\n+  { id: 'p3', x: 610, y: 320, width: 140, height: 20 },",
+      "affectedFiles": [
+        "game-engine/src/scenes/PlatformerScene.ts"
+      ],
+      "isSuccessful": true,
+      "verificationLogs": [
+        "Deterministic repair synthesizer generated targeted patch.",
+        "Recalculated platform kinematics to satisfy reachability ceiling.",
+        "Fix verified successfully by Playtester on attempt 1.",
+        "All regression assertions passed cleanly.",
+        "Bug Report marked VERIFIED-FIXED."
+      ],
+      "createdAt": "2026-11-07T11:53:26.158Z"
+    },
+    {
+      "id": "rep-1794052082958",
+      "bugReportId": "bug-live-1794052063436",
+      "projectId": "proj-01",
+      "iterationNumber": 1,
+      "description": "In Phaser Arcade physics, a negative Y velocity moves the sprite upward. The original code applied `jumpVelocity` (positive) causing the player to be pushed downwards. Changing it to `-jumpVelocity` restores the intended upward impulse while preserving the surrounding logic for variable jump height.",
+      "diffPatch": "*** Begin Patch\n--- a/game-engine/src/scenes/PlatformerScene.ts\n+++ b/game-engine/src/scenes/PlatformerScene.ts\n@@\n-      this.player.setVelocityY(jumpVelocity); // DEFECT: Inverted jump impulse\n+      this.player.setVelocityY(-jumpVelocity); // Fixed: Apply upward impulse\n*** End Patch",
+      "affectedFiles": [
+        "game-engine/src/scenes/PlatformerScene.ts"
+      ],
+      "isSuccessful": true,
+      "verificationLogs": [
+        "Live LLM (gpt-oss-120b-medium) synthesized surgical code correction.",
+        "Unified diff patch validated against security policy boundaries."
+      ],
+      "createdAt": "2026-11-07T11:48:02.958Z",
+      "targetSnippet": "      this.player.setVelocityY(jumpVelocity); // DEFECT: Inverted jump impulse",
+      "replacementSnippet": "      this.player.setVelocityY(-jumpVelocity); // Fixed: Apply upward impulse"
+    },
     {
       "id": "rep-1794042635281",
       "bugReportId": "bug-1794042635280-857",

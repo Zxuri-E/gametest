@@ -49,12 +49,13 @@ export class ApiClient {
     return this.fetchWithFallback<GameProject | null>(`/projects/${id}`, undefined, () => mockApi.getProjectById(id));
   }
 
-  async exportProject(id: string): Promise<ProjectExportData> {
-    return this.fetchWithFallback<ProjectExportData>(`/projects/${id}/export`, undefined, async () => {
+  async exportProject(id: string, offline = false): Promise<ProjectExportData> {
+    const query = offline ? '?offline=true' : '';
+    return this.fetchWithFallback<ProjectExportData>(`/projects/${id}/export${query}`, undefined, async () => {
       const proj = await mockApi.getProjectById(id);
       if (!proj) throw new Error('Project not found');
       const { exportGameToStandaloneHtml } = await import('@shared/core');
-      return exportGameToStandaloneHtml(proj.specification);
+      return exportGameToStandaloneHtml(proj.specification, { embedOfflineEngine: offline });
     });
   }
 

@@ -62,3 +62,4 @@ test.describe('Phaser 3 Game Genre Mechanics & Telemetry Verification', () => {
     }
   });
 });
+

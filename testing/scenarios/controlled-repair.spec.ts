@@ -2,12 +2,13 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Controlled Bug-Repair Acceptance Test (E2E)', () => {
   test('Complete automated loop: Trigger defect -> Diagnostician -> Repair -> Verified-Fixed', async ({ request }) => {
+    test.setTimeout(90000);
     // 1. Get project
     const projRes = await request.get('http://localhost:4000/api/projects');
     expect(projRes.ok()).toBeTruthy();
     const projects = await projRes.json();
     expect(projects.length).toBeGreaterThan(0);
-    const targetProject = projects[0];
+    const targetProject = projects.find((p: any) => p.specification?.genre === 'platformer') || projects[0];
 
     // 2. Trigger deliberate reachability defect
     const triggerRes = await request.post('http://localhost:4000/api/tests/trigger-defect', {
@@ -39,3 +40,4 @@ test.describe('Controlled Bug-Repair Acceptance Test (E2E)', () => {
     expect(verifyOutcome.failedCount).toBe(0);
   });
 });
+

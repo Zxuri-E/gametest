@@ -20,11 +20,17 @@ export default defineConfig({
   },
   projects: [
     {
+      name: 'api',
+      testMatch: /controlled-repair\.spec\.ts/,
+    },
+    {
       name: 'chromium',
+      testIgnore: /controlled-repair\.spec\.ts/,
       use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'firefox',
+      testIgnore: /controlled-repair\.spec\.ts/,
       use: {
         ...devices['Desktop Firefox'],
         launchOptions: {

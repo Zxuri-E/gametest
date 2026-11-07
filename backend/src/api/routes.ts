@@ -6,14 +6,25 @@ import { exportGameToStandaloneHtml } from '@shared/core';
 
 export const apiRouter = Router();
 
-// 1. Health
+// 1. Health & LLM Status
 apiRouter.get('/health', (_req: Request, res: Response): void => {
   res.json({
     status: 'ok',
     service: 'Novus Backend API',
+    persistence: storage.getPersistenceMode(),
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
   });
+});
+
+apiRouter.get('/llm/test', async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const { llmService } = await import('../services/llm');
+    const result = await llmService.testConnection();
+    res.json(result);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // 2. Projects
@@ -48,7 +59,8 @@ apiRouter.get('/projects/:id/export', async (req: Request, res: Response): Promi
       res.status(404).json({ error: 'Project not found' });
       return;
     }
-    const exportData = exportGameToStandaloneHtml(project.specification);
+    const embedOffline = req.query['offline'] === 'true';
+    const exportData = exportGameToStandaloneHtml(project.specification, { embedOfflineEngine: embedOffline });
     res.json(exportData);
   } catch (err: any) {
     res.status(500).json({ error: err.message });

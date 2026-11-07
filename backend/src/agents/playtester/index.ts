@@ -62,7 +62,8 @@ export class PlaytesterAgent {
             if (
               a.description.toLowerCase().includes('apex') ||
               a.description.toLowerCase().includes('height') ||
-              a.description.toLowerCase().includes('jump')
+              a.description.toLowerCase().includes('climb') ||
+              a.description.toLowerCase().includes('trajectory')
             ) {
               return {
                 ...a,

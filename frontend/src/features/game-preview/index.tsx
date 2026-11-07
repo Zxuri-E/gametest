@@ -16,17 +16,17 @@ export const GameWorkspacePage: React.FC = () => {
   const [isExporting, setIsExporting] = useState(false);
   const [exportSuccess, setExportSuccess] = useState(false);
 
-  const handleExportProject = async () => {
+  const handleExportProject = async (offline = true) => {
     if (!activeProject) return;
     setIsExporting(true);
     try {
-      const exportData = await api.exportProject(activeProject.id);
+      const exportData = await api.exportProject(activeProject.id, offline);
       // Create downloadable HTML file in browser
       const blob = new Blob([exportData.standaloneHtml], { type: 'text/html' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${activeProject.name.toLowerCase().replace(/\s+/g, '-')}-standalone.html`;
+      a.download = exportData.fileName || `${activeProject.name.toLowerCase().replace(/\s+/g, '-')}-standalone.html`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -52,9 +52,19 @@ export const GameWorkspacePage: React.FC = () => {
             size="sm"
             leftIcon={exportSuccess ? <Check className="w-4 h-4 text-emerald-400" /> : <Download className="w-4 h-4 text-cyan-400" />}
             isLoading={isExporting}
-            onClick={handleExportProject}
+            onClick={() => handleExportProject(true)}
+            title="Exports a self-contained HTML file with embedded Phaser engine that runs 100% offline."
           >
-            {exportSuccess ? 'Exported HTML!' : 'Export Standalone HTML'}
+            {exportSuccess ? 'Exported!' : 'Export Offline HTML (Embedded Engine)'}
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleExportProject(false)}
+            title="Lightweight 5KB HTML file that loads Phaser 3 from CDN."
+          >
+            Export CDN HTML
           </Button>
 
           <Button

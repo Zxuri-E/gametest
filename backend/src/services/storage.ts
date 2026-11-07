@@ -195,6 +195,21 @@ export class StorageService {
     return db;
   }
 
+  public getPersistenceMode(): { type: 'firestore' | 'local-json'; target: string; active: boolean } {
+    if (process.env.FIREBASE_PROJECT_ID && (process.env.FIREBASE_PRIVATE_KEY || process.env.GOOGLE_APPLICATION_CREDENTIALS)) {
+      return {
+        type: 'firestore',
+        target: `Firebase Project: ${process.env.FIREBASE_PROJECT_ID}`,
+        active: true,
+      };
+    }
+    return {
+      type: 'local-json',
+      target: this.dbPath,
+      active: true,
+    };
+  }
+
   // --- Projects ---
   public async getProjects(): Promise<GameProject[]> {
     return [...this.data.projects];
