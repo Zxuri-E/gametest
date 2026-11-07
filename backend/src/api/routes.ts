@@ -1,8 +1,28 @@
 import { Router, Request, Response } from 'express';
-import { storage } from '../services/storage';
+import { storage, StoredUser } from '../services/storage';
 import { orchestrator } from '../orchestrator';
 import { testPlannerAgent } from '../agents/test-planner';
-import { exportGameToStandaloneHtml } from '@shared/core';
+import {
+  exportGameToStandaloneHtml,
+  UserRegistrationSchema,
+  UserLoginSchema,
+  BootstrapAdminSchema,
+  UserAccount,
+  UserSession,
+} from '@shared/core';
+import {
+  hashPassword,
+  verifyPassword,
+  generateSessionToken,
+  extractSessionToken,
+  SESSION_COOKIE_NAME,
+  SESSION_DURATION_MS,
+  checkLoginRateLimit,
+  recordFailedLogin,
+  clearLoginAttempts,
+  requireAuth,
+  requireAdmin,
+} from '../services/auth';
 
 export const apiRouter = Router();
 
@@ -173,7 +193,7 @@ apiRouter.get('/tests/history', async (req: Request, res: Response): Promise<voi
 // Controlled Test Fixture Defect Trigger
 apiRouter.post('/tests/trigger-defect', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { projectId } = req.body;
+    const { projectId, defectType = 'kinematic' } = req.body;
     const projects = await storage.getProjects();
     const targetProject = projectId
       ? projects.find((p) => p.id === projectId)
@@ -184,7 +204,7 @@ apiRouter.post('/tests/trigger-defect', async (req: Request, res: Response): Pro
       return;
     }
 
-    const outcome = await orchestrator.triggerControlledDefect(targetProject.id);
+    const outcome = await orchestrator.triggerControlledDefect(targetProject.id, defectType);
     res.status(201).json(outcome);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
@@ -272,7 +292,7 @@ apiRouter.get('/settings', async (_req: Request, res: Response): Promise<void> =
   }
 });
 
-apiRouter.post('/settings', async (req: Request, res: Response): Promise<void> => {
+apiRouter.post('/settings', requireAuth, async (req: Request, res: Response): Promise<void> => {
   try {
     await storage.saveSettings(req.body);
     res.json({ success: true, settings: req.body });
@@ -280,3 +300,388 @@ apiRouter.post('/settings', async (req: Request, res: Response): Promise<void> =
     res.status(500).json({ error: err.message });
   }
 });
+
+// ==========================================
+// 10. Authentication & Session Management
+// ==========================================
+
+// Helper to remove passwordHash from user object
+function sanitizeUser(user: StoredUser): UserAccount {
+  const { passwordHash: _hash, ...safe } = user;
+  return safe;
+}
+
+apiRouter.post('/auth/register', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const parseResult = UserRegistrationSchema.safeParse(req.body);
+    if (!parseResult.success) {
+      res.status(400).json({
+        error: 'Validation failed',
+        details: parseResult.error.flatten().fieldErrors,
+      });
+      return;
+    }
+
+    const { username, password } = parseResult.data;
+    const normalizedUsername = username.toLowerCase().trim();
+
+    // Check uniqueness
+    const existing = await storage.getUserByUsername(normalizedUsername);
+    if (existing) {
+      res.status(409).json({ error: 'Username is already taken' });
+      return;
+    }
+
+    // Hash password with salt
+    const passwordHash = await hashPassword(password);
+    const now = new Date().toISOString();
+
+    const newUser: StoredUser = {
+      id: `user-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      username: normalizedUsername,
+      displayName: username.trim(),
+      passwordHash,
+      role: 'USER',
+      termsAccepted: true,
+      termsAcceptedAt: now,
+      termsVersion: 'v1.0.0',
+      createdAt: now,
+      updatedAt: now,
+      lastActiveAt: now,
+      isActive: true,
+    };
+
+    await storage.saveUser(newUser);
+
+    // Create session
+    const token = generateSessionToken();
+    const expiresAt = new Date(Date.now() + SESSION_DURATION_MS).toISOString();
+    const session: UserSession = {
+      sessionId: token,
+      userId: newUser.id,
+      username: newUser.username,
+      role: newUser.role,
+      expiresAt,
+      createdAt: now,
+    };
+    await storage.saveSession(session);
+
+    // Set HttpOnly cookie
+    res.cookie(SESSION_COOKIE_NAME, token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: SESSION_DURATION_MS,
+      path: '/',
+    });
+
+    res.status(201).json({
+      success: true,
+      user: sanitizeUser(newUser),
+      token,
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: 'Internal server error during registration' });
+  }
+});
+
+apiRouter.post('/auth/login', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const rateLimitKey = `${req.ip || 'ip'}:${req.body.username || 'unknown'}`;
+    const rateLimit = checkLoginRateLimit(rateLimitKey);
+
+    if (!rateLimit.allowed) {
+      res.status(429).json({
+        error: `Too many failed login attempts. Please try again in ${rateLimit.retryAfterSec} seconds.`,
+      });
+      return;
+    }
+
+    const parseResult = UserLoginSchema.safeParse(req.body);
+    if (!parseResult.success) {
+      res.status(400).json({ error: 'Username and password are required' });
+      return;
+    }
+
+    const { username, password } = parseResult.data;
+    const normalizedUsername = username.toLowerCase().trim();
+
+    const user = await storage.getUserByUsername(normalizedUsername);
+    if (!user || !user.isActive) {
+      recordFailedLogin(rateLimitKey);
+      res.status(401).json({ error: 'Invalid username or password' });
+      return;
+    }
+
+    const passwordValid = await verifyPassword(password, user.passwordHash);
+    if (!passwordValid) {
+      recordFailedLogin(rateLimitKey);
+      res.status(401).json({ error: 'Invalid username or password' });
+      return;
+    }
+
+    // Success - clear failed login counter
+    clearLoginAttempts(rateLimitKey);
+
+    // Session rotation
+    const token = generateSessionToken();
+    const now = new Date().toISOString();
+    const expiresAt = new Date(Date.now() + SESSION_DURATION_MS).toISOString();
+
+    const session: UserSession = {
+      sessionId: token,
+      userId: user.id,
+      username: user.username,
+      role: user.role,
+      expiresAt,
+      createdAt: now,
+    };
+    await storage.saveSession(session);
+
+    // Update user activity
+    user.lastActiveAt = now;
+    await storage.saveUser(user);
+
+    // Set HttpOnly cookie
+    res.cookie(SESSION_COOKIE_NAME, token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: SESSION_DURATION_MS,
+      path: '/',
+    });
+
+    res.json({
+      success: true,
+      user: sanitizeUser(user),
+      token,
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: 'Internal server error during login' });
+  }
+});
+
+apiRouter.get('/auth/me', async (req: Request, res: Response): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'Not authenticated' });
+      return;
+    }
+
+    const user = await storage.getUserById(req.user.userId);
+    if (!user || !user.isActive) {
+      res.status(401).json({ error: 'User session invalid or user deactivated' });
+      return;
+    }
+
+    res.json({
+      user: sanitizeUser(user),
+      session: req.user,
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/auth/logout', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const token = extractSessionToken(req);
+    if (token) {
+      await storage.deleteSession(token);
+    }
+    res.clearCookie(SESSION_COOKIE_NAME, { path: '/' });
+    res.json({ success: true, message: 'Logged out successfully' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Admin Bootstrap Endpoint - One time setup, permanently disabled once any ADMIN exists
+apiRouter.post('/auth/bootstrap-admin', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const existingUsers = await storage.getUsers();
+    const hasAdmin = existingUsers.some((u) => u.role === 'ADMIN');
+
+    if (hasAdmin) {
+      res.status(403).json({
+        error: 'Bootstrap disabled: An administrator account has already been initialized.',
+      });
+      return;
+    }
+
+    const parseResult = BootstrapAdminSchema.safeParse(req.body);
+    if (!parseResult.success) {
+      res.status(400).json({
+        error: 'Validation failed',
+        details: parseResult.error.flatten().fieldErrors,
+      });
+      return;
+    }
+
+    const { username, password, displayName } = parseResult.data;
+    const normalizedUsername = username.toLowerCase().trim();
+
+    // Check if username taken
+    const existingUser = await storage.getUserByUsername(normalizedUsername);
+    if (existingUser) {
+      res.status(409).json({ error: 'Username already in use' });
+      return;
+    }
+
+    const passwordHash = await hashPassword(password);
+    const now = new Date().toISOString();
+
+    const adminUser: StoredUser = {
+      id: `admin-${Date.now()}`,
+      username: normalizedUsername,
+      displayName: displayName?.trim() || username.trim(),
+      passwordHash,
+      role: 'ADMIN',
+      termsAccepted: true,
+      termsAcceptedAt: now,
+      termsVersion: 'v1.0.0',
+      createdAt: now,
+      updatedAt: now,
+      lastActiveAt: now,
+      isActive: true,
+    };
+
+    await storage.saveUser(adminUser);
+
+    const token = generateSessionToken();
+    const expiresAt = new Date(Date.now() + SESSION_DURATION_MS).toISOString();
+    const session: UserSession = {
+      sessionId: token,
+      userId: adminUser.id,
+      username: adminUser.username,
+      role: 'ADMIN',
+      expiresAt,
+      createdAt: now,
+    };
+    await storage.saveSession(session);
+
+    res.cookie(SESSION_COOKIE_NAME, token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: SESSION_DURATION_MS,
+      path: '/',
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Initial administrator account created successfully',
+      user: sanitizeUser(adminUser),
+      token,
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to bootstrap administrator' });
+  }
+});
+
+// ==========================================
+// 11. Administrator Operations (Protected)
+// ==========================================
+
+apiRouter.get('/admin/users', requireAdmin, async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const users = await storage.getUsers();
+    res.json(users);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/admin/users/:id/role', requireAdmin, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const id = req.params['id'] as string;
+    const { role } = req.body;
+
+    if (role !== 'USER' && role !== 'ADMIN') {
+      res.status(400).json({ error: 'Role must be either USER or ADMIN' });
+      return;
+    }
+
+    const user = await storage.getUserById(id);
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+
+    // If demoting self, verify at least one other admin exists
+    if (req.user?.userId === id && role === 'USER') {
+      const allUsers = await storage.getUsers();
+      const adminCount = allUsers.filter((u) => u.role === 'ADMIN').length;
+      if (adminCount <= 1) {
+        res.status(400).json({ error: 'Cannot demote the sole remaining administrator' });
+        return;
+      }
+    }
+
+    user.role = role;
+    user.updatedAt = new Date().toISOString();
+    await storage.saveUser(user);
+
+    res.json({
+      success: true,
+      user: sanitizeUser(user),
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.delete('/admin/users/:id', requireAdmin, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const id = req.params['id'] as string;
+
+    if (req.user?.userId === id) {
+      res.status(400).json({ error: 'Cannot delete your own administrative account' });
+      return;
+    }
+
+    const deleted = await storage.deleteUser(id);
+    if (!deleted) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+
+    // Invalidate sessions for deleted user
+    await storage.deleteSessionsForUser(id);
+
+    res.json({ success: true, message: 'User account removed successfully' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.get('/admin/system', requireAdmin, async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const users = await storage.getUsers();
+    const sessions = await storage.getSessions();
+    const projects = await storage.getProjects();
+    const memory = process.memoryUsage();
+
+    res.json({
+      status: 'operational',
+      uptimeSeconds: Math.floor(process.uptime()),
+      nodeVersion: process.version,
+      persistenceMode: storage.getPersistenceMode(),
+      counts: {
+        totalUsers: users.length,
+        adminUsers: users.filter((u) => u.role === 'ADMIN').length,
+        activeSessions: sessions.length,
+        projects: projects.length,
+      },
+      memory: {
+        heapUsedMb: Math.round(memory.heapUsed / (1024 * 1024)),
+        heapTotalMb: Math.round(memory.heapTotal / (1024 * 1024)),
+        rssMb: Math.round(memory.rss / (1024 * 1024)),
+      },
+      timestamp: new Date().toISOString(),
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+

@@ -98,19 +98,33 @@ export class AgentOrchestrator {
    * Deliberately injects a broken reachability or jump defect into the specification to prove:
    * automated failure detection -> diagnosis -> code repair -> verified fix!
    */
-  async triggerControlledDefect(projectId: string): Promise<{ bug: BugReport; testResult: TestResult }> {
+  async triggerControlledDefect(
+    projectId: string,
+    defectType: 'kinematic' | 'state' = 'kinematic'
+  ): Promise<{ bug: BugReport; testResult: TestResult }> {
     const project = await storage.getProjectById(projectId);
     const spec = project?.specification;
     if (!spec) throw new Error(`Project ${projectId} not found`);
 
-    // Inject deliberate kinematic reachability defect:
-    // Move platform p3 to y=180, requiring a vertical climb of 210px which exceeds
-    // the max jump apex of 153px computed from jumpVelocity=520 and gravityY=750.
-    if (spec.platforms) {
-      const p3 = spec.platforms.find((p) => p.id === 'p3');
-      if (p3) {
-        p3.y = 180;
+    if (defectType === 'state') {
+      // Inject deliberate state invariant defect:
+      // Invalidate player maxHealth and maxLives
+      if (spec.player) {
+        spec.player.maxHealth = 0;
+        spec.player.maxLives = 0;
         await storage.saveSpecification(spec);
+      }
+    } else {
+      // Inject deliberate kinematic reachability defect:
+      // Move platform p3 to y=20 (330px vertical climb) and x=1800 (1000px horizontal gap)
+      // which strictly violates theoretical kinematics (maxJumpHeight=219px, maxJumpDistance=450px).
+      if (spec.platforms) {
+        const p3 = spec.platforms.find((p) => p.id === 'p3');
+        if (p3) {
+          p3.y = 20;
+          p3.x = 1800;
+          await storage.saveSpecification(spec);
+        }
       }
     }
 

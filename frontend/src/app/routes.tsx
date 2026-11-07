@@ -8,8 +8,29 @@ import { TestingCenterPage } from '../features/testing';
 import { BugReportsPage } from '../features/bug-reports';
 import { ProjectHistoryPage } from '../features/project-history';
 import { SettingsPage } from '../features/settings';
+import { LoginPage } from '../features/auth/LoginPage';
+import { RegisterPage } from '../features/auth/RegisterPage';
+import { TermsPage } from '../features/auth/TermsPage';
+import { PrivacyPage } from '../features/auth/PrivacyPage';
+import { AdminDashboardPage } from '../features/admin/AdminDashboardPage';
 
 export const routes: RouteObject[] = [
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/register',
+    element: <RegisterPage />,
+  },
+  {
+    path: '/terms',
+    element: <TermsPage />,
+  },
+  {
+    path: '/privacy',
+    element: <PrivacyPage />,
+  },
   {
     path: '/',
     element: <AppShell />,
@@ -42,7 +63,10 @@ export const routes: RouteObject[] = [
         path: 'settings',
         element: <SettingsPage />,
       },
+      {
+        path: 'admin',
+        element: <AdminDashboardPage />,
+      },
     ],
   },
 ];
-

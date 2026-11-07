@@ -1,5 +1,28 @@
-import { TestResult, BugReport, AgentStatus } from '@shared/core';
+import { TestResult, BugReport, AgentStatus, DefectLayer } from '@shared/core';
 import { llmService } from '../../services/llm';
+
+export function classifyDefectLayer(file: string, category: string, description: string): DefectLayer {
+  const f = file.toLowerCase();
+  const d = description.toLowerCase();
+  const c = category.toLowerCase();
+
+  if (c === 'level-reachability' || d.includes('reachab') || f.includes('spec') || f.endsWith('.json')) {
+    return 'specification';
+  }
+  if (f.includes('generated') || f.includes('artifact')) {
+    return 'generated-artifact';
+  }
+  if (
+    f.includes('scenes/') ||
+    f.includes('scene') ||
+    f.includes('adapters/') ||
+    f.includes('assets/') ||
+    f.includes('game-engine')
+  ) {
+    return 'shared-engine';
+  }
+  return 'infrastructure';
+}
 
 export class DiagnosticianAgent {
   private status: AgentStatus = {
@@ -44,6 +67,11 @@ export class DiagnosticianAgent {
         title: `${test.name}: ${failedAssertion?.description || 'Assertion failure'}`,
         severity: test.mechanic === 'jumping' || test.mechanic === 'platform-collision' ? 'high' : 'medium',
         category: diagResponse.data.category as any,
+        defectLayer: classifyDefectLayer(
+          diagResponse.data.suspectedFile,
+          diagResponse.data.category,
+          failedAssertion?.description || test.name
+        ),
         affectedMechanic: test.mechanic,
         expectedBehaviour: failedAssertion?.expected || 'System should operate within nominal parameters',
         actualBehaviour: failedAssertion?.actual || test.errorMessage || 'Failure encountered',

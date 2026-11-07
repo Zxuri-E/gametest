@@ -2,8 +2,8 @@ import React from 'react';
 import {
   Play,
   Pause,
-  Square,
   RotateCcw,
+  Sparkles,
   Maximize2,
   Crosshair,
   Layers,
@@ -23,21 +23,31 @@ export const GameControlsBar: React.FC = () => {
     startGame,
     pauseGame,
     resumeGame,
-    stopGame,
-    resetGame,
     toggleHitboxes,
     toggleVectors,
     toggleGrid,
   } = useWorkspaceStore();
 
   const handleFullscreen = () => {
-    const el = document.getElementById('phaser-mount-container');
+    const el = document.getElementById('phaser-mount-outer');
     if (el) {
       if (!document.fullscreenElement) {
         el.requestFullscreen().catch((err) => console.error(err));
       } else {
         document.exitFullscreen().catch((err) => console.error(err));
       }
+    }
+  };
+
+  const handleRestart = () => {
+    if (typeof window !== 'undefined' && window.__NOVUS_ACTIVE_ADAPTER__) {
+      window.__NOVUS_ACTIVE_ADAPTER__.restart();
+    }
+  };
+
+  const handleNewWorld = () => {
+    if (typeof window !== 'undefined' && window.__NOVUS_ACTIVE_ADAPTER__) {
+      window.__NOVUS_ACTIVE_ADAPTER__.newWorld();
     }
   };
 
@@ -50,7 +60,10 @@ export const GameControlsBar: React.FC = () => {
             variant="secondary"
             size="sm"
             leftIcon={<Pause className="w-4 h-4 text-amber-400" />}
-            onClick={pauseGame}
+            onClick={() => {
+              pauseGame();
+              window.__NOVUS_ACTIVE_ADAPTER__?.pause();
+            }}
           >
             Pause
           </Button>
@@ -59,29 +72,40 @@ export const GameControlsBar: React.FC = () => {
             variant="primary"
             size="sm"
             leftIcon={<Play className="w-4 h-4 fill-current" />}
-            onClick={isRunning ? resumeGame : startGame}
+            onClick={() => {
+              if (isPaused) {
+                resumeGame();
+                window.__NOVUS_ACTIVE_ADAPTER__?.resume();
+              } else {
+                startGame();
+                window.__NOVUS_ACTIVE_ADAPTER__?.start();
+              }
+            }}
           >
-            {isPaused ? 'Resume' : 'Run Engine'}
+            {isPaused ? 'Resume' : 'Start Game'}
           </Button>
         )}
 
-        <Button
-          variant="secondary"
-          size="sm"
-          leftIcon={<Square className="w-4 h-4 text-rose-400" />}
-          onClick={stopGame}
-          disabled={!isRunning}
-        >
-          Stop
-        </Button>
-
+        {/* Restart (Same Seed) */}
         <Button
           variant="secondary"
           size="sm"
           leftIcon={<RotateCcw className="w-4 h-4 text-cyan-400" />}
-          onClick={resetGame}
+          onClick={handleRestart}
+          title="Replay the current level with the exact same seed"
         >
-          Reset Scene
+          Restart
+        </Button>
+
+        {/* New World (New Seed) */}
+        <Button
+          variant="secondary"
+          size="sm"
+          leftIcon={<Sparkles className="w-4 h-4 text-amber-400" />}
+          onClick={handleNewWorld}
+          title="Generate a completely fresh seeded layout"
+        >
+          New World
         </Button>
       </div>
 

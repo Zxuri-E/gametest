@@ -23,6 +23,7 @@ export class PlatformerScene extends Phaser.Scene {
   private isVictory = false;
   private isInvulnerable = false;
   private invulnerableTimer = 0;
+  private currentLevel = 1;
 
   // Debug visual graphics
   private debugGraphics!: Phaser.GameObjects.Graphics;
@@ -34,8 +35,9 @@ export class PlatformerScene extends Phaser.Scene {
     super({ key: 'PlatformerScene' });
   }
 
-  init(data: { spec: GameSpecification }) {
-    this.spec = data.spec;
+  init(data: { spec: GameSpecification; levelIndex?: number }) {
+    this.spec = data?.spec || {};
+    this.currentLevel = data?.levelIndex || 1;
     this.score = 0;
     this.lives = this.spec.player?.maxLives ?? 3;
     this.isGameOver = false;
@@ -180,6 +182,15 @@ export class PlatformerScene extends Phaser.Scene {
     // Debug Graphics Layer
     this.debugGraphics = this.add.graphics();
     this.debugGraphics.setDepth(100);
+
+    // Cleanup on scene shutdown
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.tweens.killAll();
+      this.time.removeAllEvents();
+      if (this.debugGraphics) {
+        this.debugGraphics.clear();
+      }
+    });
 
     // Emit Engine Ready
     this.game.events.emit('game:ready');
@@ -446,11 +457,13 @@ export class PlatformerScene extends Phaser.Scene {
     return {
       isRunning: this.scene.isActive(),
       isPaused: this.scene.isPaused(),
+      lifecycleState: this.isGameOver ? 'GAME_OVER' : this.isVictory ? 'VICTORY' : 'PLAYING',
       isGameOver: this.isGameOver,
       isVictory: this.isVictory,
       score: this.score,
       lives: this.lives,
-      currentLevel: 1,
+      currentLevel: this.currentLevel,
+      seed: this.spec.seed,
       player: {
         x: Math.round(this.player?.x ?? 0),
         y: Math.round(this.player?.y ?? 0),

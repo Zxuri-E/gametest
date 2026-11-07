@@ -40,6 +40,11 @@ export default {
       boxShadow: {
         'subtle-glow': '0 0 20px -5px rgba(6, 182, 212, 0.15)',
         'panel': '0 4px 20px -2px rgba(0, 0, 0, 0.5)',
+        'neu-raised': '4px 4px 14px rgba(0, 0, 0, 0.55), -2px -2px 10px rgba(255, 255, 255, 0.02)',
+        'neu-raised-hover': '6px 6px 18px rgba(0, 0, 0, 0.65), -3px -3px 12px rgba(255, 255, 255, 0.04)',
+        'neu-inset': 'inset 2px 2px 6px rgba(0, 0, 0, 0.6), inset -1px -1px 4px rgba(255, 255, 255, 0.03)',
+        'neu-inset-deep': 'inset 3px 3px 10px rgba(0, 0, 0, 0.8), inset -2px -2px 6px rgba(255, 255, 255, 0.02)',
+        'cyan-glow': '0 0 16px rgba(6, 182, 212, 0.25)',
       },
     },
   },

@@ -21,6 +21,7 @@
     "preview": "npm run preview --workspace=frontend",
     "test": "npm run test --workspace=testing",
     "test:repair": "npx tsx backend/src/scripts/testRepairFixture.ts",
+    "test:state-repair": "npx tsx backend/src/scripts/testStateRepairFixture.ts",
     "test:live-repair": "npx tsx backend/src/scripts/testLiveCodeRepair.ts",
     "test:live-generation": "npx tsx backend/src/scripts/testLiveGameGeneration.ts"
   },

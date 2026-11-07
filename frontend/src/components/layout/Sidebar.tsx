@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import {
   LayoutDashboard,
   Sparkles,
@@ -10,12 +10,17 @@ import {
   Settings,
   Terminal,
   Cpu,
+  ShieldAlert,
+  FileText,
+  Shield,
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useProjectStore } from '../../store/useProjectStore';
+import { useAuthStore } from '../../store/useAuthStore';
 
 export const Sidebar: React.FC = () => {
   const { activeProject } = useProjectStore();
+  const { user } = useAuthStore();
 
   const navItems = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -27,6 +32,10 @@ export const Sidebar: React.FC = () => {
     { to: '/settings', label: 'Settings', icon: Settings },
   ];
 
+  if (user?.role === 'ADMIN') {
+    navItems.push({ to: '/admin', label: 'Admin Control', icon: ShieldAlert, badge: undefined });
+  }
+
   return (
     <aside className="w-64 bg-canvas-900 border-r border-border-default flex flex-col shrink-0 select-none">
       {/* Brand & App Title */}
@@ -36,7 +45,7 @@ export const Sidebar: React.FC = () => {
         </div>
         <div className="flex flex-col">
           <div className="flex items-center gap-1.5">
-            <span className="font-semibold text-sm text-slate-100 tracking-tight">Kinesis</span>
+            <span className="font-semibold text-sm text-slate-100 tracking-tight">Novus</span>
             <span className="text-[10px] font-mono uppercase bg-cyan-950 text-cyan-400 border border-cyan-800/60 px-1 py-0.2 rounded">
               2D Studio
             </span>
@@ -93,6 +102,19 @@ export const Sidebar: React.FC = () => {
         })}
       </nav>
 
+      {/* Legal & Security Quick Links */}
+      <div className="px-4 py-2 border-t border-border-subtle/50 flex items-center justify-between text-[11px] text-slate-500">
+        <Link to="/terms" className="hover:text-slate-300 transition-colors flex items-center gap-1">
+          <FileText className="w-3 h-3" />
+          <span>Terms</span>
+        </Link>
+        <span>•</span>
+        <Link to="/privacy" className="hover:text-slate-300 transition-colors flex items-center gap-1">
+          <Shield className="w-3 h-3 text-emerald-400" />
+          <span>Privacy</span>
+        </Link>
+      </div>
+
       {/* System Status / Telemetry Footer */}
       <div className="p-3 border-t border-border-subtle bg-canvas-950/40 text-xs">
         <div className="flex items-center justify-between text-[11px] text-slate-400">
@@ -104,10 +126,9 @@ export const Sidebar: React.FC = () => {
         </div>
         <div className="mt-2 text-[10px] text-slate-500 flex justify-between">
           <span>Engine: Phaser 3.80</span>
-          <span>Harness: Playwright</span>
+          <span>Zero Surveillance</span>
         </div>
       </div>
     </aside>
   );
 };
-

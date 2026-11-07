@@ -76,6 +76,33 @@ export class PlaytesterAgent {
         }
       }
 
+      // Check state invariant constraints (health / life bounds)
+      if (
+        test.mechanic === 'score-system' ||
+        test.mechanic === 'level-completion' ||
+        test.id.includes('gameover') ||
+        test.id.includes('enemy') ||
+        test.id.includes('state') ||
+        test.id.includes('health') ||
+        test.name.toLowerCase().includes('state')
+      ) {
+        if (
+          spec.player &&
+          ((spec.player.maxHealth !== undefined && spec.player.maxHealth <= 0) ||
+           (spec.player.maxLives !== undefined && spec.player.maxLives <= 0))
+        ) {
+          passed = false;
+          errorMessage = `State Invariant Violation: Player entity initialized with non-viable health/lives (health=${spec.player.maxHealth}, lives=${spec.player.maxLives})`;
+          test.assertions = test.assertions.map((a) => {
+            return {
+              ...a,
+              passed: false,
+              actual: errorMessage,
+            };
+          });
+        }
+      }
+
       executedTests.push({
         ...test,
         status: passed ? 'passed' : 'failed',

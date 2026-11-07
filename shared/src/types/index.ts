@@ -42,6 +42,7 @@ export interface PlayerConfig {
   height: number;
   color: string;
   maxLives: number;
+  maxHealth?: number;
   invulnerabilityDurationMs?: number;
 }
 
@@ -148,6 +149,7 @@ export interface GameSpecification {
   runnerConfig?: RunnerConfig;
   topDownConfig?: TopDownConfig;
   reachability?: ReachabilityMetrics;
+  seed?: string;
   targetFPS: number;
   backgroundColor: string;
   createdFromPrompt: string;
@@ -175,11 +177,14 @@ export interface GameProject {
 export interface GameState {
   isRunning: boolean;
   isPaused: boolean;
+  lifecycleState: GameLifecycleState;
   isGameOver?: boolean;
   isVictory?: boolean;
   score: number;
   lives: number;
   currentLevel: number;
+  seed?: string;
+  distanceTraveled?: number;
   player: {
     x: number;
     y: number;
@@ -192,6 +197,54 @@ export interface GameState {
   elapsedTimeMs: number;
   fps: number;
   collectiblesRemaining?: number;
+}
+
+export type GameLifecycleState =
+  | 'INITIALIZING'
+  | 'READY'
+  | 'PLAYING'
+  | 'PAUSED'
+  | 'LEVEL_COMPLETE'
+  | 'VICTORY'
+  | 'GAME_OVER'
+  | 'ERROR';
+
+export type GameStateAction =
+  | 'START_GAME'
+  | 'PAUSE_GAME'
+  | 'RESUME_GAME'
+  | 'COMPLETE_LEVEL'
+  | 'TRIGGER_VICTORY'
+  | 'TRIGGER_GAME_OVER'
+  | 'NEXT_LEVEL'
+  | 'RESTART'
+  | 'RESET_LEVEL'
+  | 'NEW_WORLD'
+  | 'FAIL_ERROR';
+
+export type UserRole = 'USER' | 'ADMIN';
+
+export interface UserAccount {
+  id: string;
+  username: string;
+  displayName: string;
+  role: UserRole;
+  termsAccepted: boolean;
+  termsAcceptedAt?: string;
+  termsVersion?: string;
+  createdAt: string;
+  updatedAt: string;
+  lastActiveAt?: string;
+  isActive: boolean;
+}
+
+export interface UserSession {
+  sessionId: string;
+  userId: string;
+  username: string;
+  role: UserRole;
+  expiresAt: string;
+  createdAt: string;
 }
 
 /**
@@ -270,6 +323,8 @@ export type BugSeverity = 'critical' | 'high' | 'medium' | 'low';
 
 export type BugCategory = 'physics' | 'collision' | 'logic' | 'level-reachability' | 'game-loop' | 'state' | 'render';
 
+export type DefectLayer = 'specification' | 'generated-artifact' | 'shared-engine' | 'infrastructure';
+
 export type BugRepairStatus = 'open' | 'diagnosing' | 'patch-in-progress' | 'verified-fixed' | 'rejected';
 
 export interface BugReport {
@@ -279,6 +334,7 @@ export interface BugReport {
   title: string;
   severity: BugSeverity;
   category: BugCategory;
+  defectLayer?: DefectLayer;
   affectedMechanic: MechanicType;
   expectedBehaviour: string;
   actualBehaviour: string;

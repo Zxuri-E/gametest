@@ -105,6 +105,10 @@ export class RepairAgent {
           }
         }
 
+        iteration.verificationLogs.push(
+          `[MULTI-TIER REPAIR] Defect Layer: ${bug.defectLayer || 'specification'} | Category: ${bug.category}`
+        );
+
         // Apply reachability elevation adjustment if specification level-reachability defect
         const project = await storage.getProjectById(bug.projectId);
         const spec = project?.specification || (await storage.getSpecification(bug.projectId));
@@ -121,7 +125,25 @@ export class RepairAgent {
             project.specification = spec;
             await storage.saveProject(project);
           }
-          iteration.verificationLogs.push('Recalculated platform kinematics to satisfy reachability ceiling.');
+          iteration.verificationLogs.push('[TIER 1 - KINEMATICS] Recalculated platform kinematics to satisfy reachability ceiling.');
+        }
+
+        const isStateDefect =
+          bug.category === 'state' ||
+          bug.actualBehaviour.toLowerCase().includes('health') ||
+          bug.actualBehaviour.toLowerCase().includes('lives') ||
+          bug.actualBehaviour.toLowerCase().includes('state invariant') ||
+          bug.expectedBehaviour.toLowerCase().includes('state');
+
+        if (spec && isStateDefect && spec.player) {
+          spec.player.maxHealth = 100;
+          spec.player.maxLives = 3;
+          await storage.saveSpecification(spec);
+          if (project) {
+            project.specification = spec;
+            await storage.saveProject(project);
+          }
+          iteration.verificationLogs.push('[TIER 3 - STATE MACHINE] Restored player health and lives invariants to nominal baseline (health=100, lives=3).');
         }
 
         // 4. Verify fix: Execute verification
@@ -138,6 +160,10 @@ export class RepairAgent {
         if (spec && spec.platforms && isReachabilityDefect) {
           const reachCheck = validateLevelReachability(spec.platforms, spec.physics);
           isVerified = reachCheck.isFullyReachable;
+        }
+
+        if (spec && isStateDefect && spec.player) {
+          isVerified = isVerified && (spec.player.maxHealth ?? 100) > 0 && (spec.player.maxLives ?? 3) > 0;
         }
 
         if (isVerified) {

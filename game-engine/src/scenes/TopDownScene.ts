@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { GameSpecification, GameState } from '@shared/core';
+import { GameSpecification, GameState, SeededRandom } from '@shared/core';
 import { generateProceduralTextures } from '../assets/textureGenerator';
 
 export class TopDownScene extends Phaser.Scene {
@@ -23,6 +23,7 @@ export class TopDownScene extends Phaser.Scene {
   private isVictory = false;
   private isInvulnerable = false;
   private invulnerableTimer = 0;
+  private currentLevel = 1;
 
   // Debug visual graphics
   private debugGraphics!: Phaser.GameObjects.Graphics;
@@ -34,8 +35,9 @@ export class TopDownScene extends Phaser.Scene {
     super({ key: 'TopDownScene' });
   }
 
-  init(data: { spec: GameSpecification }) {
-    this.spec = data.spec;
+  init(data: { spec: GameSpecification; levelIndex?: number }) {
+    this.spec = data?.spec || {};
+    this.currentLevel = data?.levelIndex || 1;
     this.score = 0;
     this.health = this.spec.player?.maxLives ?? 3;
     this.totalKeysNeeded = 0;
@@ -52,89 +54,108 @@ export class TopDownScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.scale;
+    const rng = new SeededRandom(this.spec.seed || `novus-crypt-${this.currentLevel}`);
 
-    // Background
-    this.cameras.main.setBackgroundColor(this.spec.backgroundColor || '#0a0d18');
+    // Arena dimensions
+    const arenaW = this.spec.topDownConfig?.arenaWidth || Math.max(width, 1000);
+    const arenaH = this.spec.topDownConfig?.arenaHeight || Math.max(height, 800);
 
-    // Create Groups
+    // Background tile grid
+    this.cameras.main.setBackgroundColor(this.spec.backgroundColor || '#0c0a17');
+    for (let x = 16; x < arenaW; x += 32) {
+      for (let y = 16; y < arenaH; y += 32) {
+        this.add.image(x, y, 'dungeon_floor').setDepth(0);
+      }
+    }
+
+    // Groups
     this.wallsGroup = this.physics.add.staticGroup();
     this.collectiblesGroup = this.physics.add.staticGroup();
     this.enemiesGroup = this.physics.add.group({ allowGravity: false });
 
-    // Build Arena Walls (Outer perimeter + interior maze obstacles)
-    const arenaW = this.spec.topDownConfig?.arenaWidth || Math.max(width, 1000);
-    const arenaH = this.spec.topDownConfig?.arenaHeight || Math.max(height, 800);
-
-    // Perimeter walls
+    // Outer perimeter walls
     this.createWall(arenaW / 2, 12, arenaW, 24); // Top
     this.createWall(arenaW / 2, arenaH - 12, arenaW, 24); // Bottom
     this.createWall(12, arenaH / 2, 24, arenaH); // Left
     this.createWall(arenaW - 12, arenaH / 2, 24, arenaH); // Right
 
-    // Interior walls / Pillars
-    const defaultWalls = [
-      { x: 280, y: 220, width: 180, height: 28 },
-      { x: 540, y: 380, width: 28, height: 200 },
-      { x: 280, y: 480, width: 200, height: 28 },
-      { x: 700, y: 240, width: 140, height: 28 },
-    ];
-    const walls = this.spec.topDownConfig?.walls || defaultWalls;
-    walls.forEach((w) => this.createWall(w.x, w.y, w.width, w.height));
+    // Interior walls: use spec or seeded procedural generation
+    if (this.spec.topDownConfig?.walls && this.spec.topDownConfig.walls.length > 0) {
+      this.spec.topDownConfig.walls.forEach((w) => this.createWall(w.x, w.y, w.width, w.height));
+    } else {
+      // Seeded procedural corridor barriers
+      const wallCount = rng.nextInt(4, 7);
+      for (let i = 0; i < wallCount; i++) {
+        const isHorizontal = rng.nextBoolean();
+        const wx = rng.nextInt(180, arenaW - 180);
+        const wy = rng.nextInt(160, arenaH - 160);
+        const wWidth = isHorizontal ? rng.nextInt(120, 240) : 28;
+        const wHeight = isHorizontal ? 28 : rng.nextInt(120, 240);
+        this.createWall(wx, wy, wWidth, wHeight);
+      }
+    }
 
-    // Exit Portal
+    // Exit Portal at far opposite corner
     const exitX = this.spec.topDownConfig?.exitX || arenaW - 80;
-    const exitY = this.spec.topDownConfig?.exitY || 100;
-    this.exitPortal = this.physics.add.staticSprite(exitX, exitY, 'finish_portal');
+    const exitY = this.spec.topDownConfig?.exitY || arenaH - 80;
+    this.exitPortal = this.physics.add.staticSprite(exitX, exitY, 'finish_portal').setDepth(2);
 
-    // Collectibles (Gems)
-    const collectibles = this.spec.collectibles || [
-      { id: 'gem-1', x: 280, y: 150, type: 'gem' as const, points: 150 },
-      { id: 'gem-2', x: 420, y: 340, type: 'gem' as const, points: 150 },
-      { id: 'gem-3', x: 680, y: 420, type: 'gem' as const, points: 150 },
-      { id: 'gem-4', x: 180, y: 420, type: 'gem' as const, points: 150 },
-    ];
-    this.totalKeysNeeded = collectibles.length;
-
-    collectibles.forEach((c) => {
-      const item = this.collectiblesGroup.create(c.x, c.y, 'collectible_gem') as Phaser.Physics.Arcade.Sprite;
-      item.setData('points', c.points);
-      item.setData('id', c.id);
-    });
-
-    // Enemies (Top-down roaming guards)
-    const enemies = this.spec.enemies || [
-      { id: 'guard-1', x: 420, y: 180, width: 24, height: 24, type: 'roamer' as const, speed: 70, damage: 1 },
-      { id: 'guard-2', x: 620, y: 320, width: 24, height: 24, type: 'roamer' as const, speed: 80, damage: 1 },
-    ];
-
-    enemies.forEach((e) => {
-      const enemy = this.enemiesGroup.create(e.x, e.y, 'enemy_patrol') as Phaser.Physics.Arcade.Sprite;
-      enemy.setBounce(1);
-      enemy.setCollideWorldBounds(true);
-      enemy.setData('speed', e.speed);
-      enemy.setData('damage', e.damage);
-      // Give initial diagonal patrol velocity
-      const angle = Math.random() * Math.PI * 2;
-      enemy.setVelocity(Math.cos(angle) * e.speed, Math.sin(angle) * e.speed);
-    });
-
-    // Player
+    // Player spawn: safe starting area at top-left
     const startX = this.spec.player?.startX || 80;
-    const startY = this.spec.player?.startY || 120;
+    const startY = this.spec.player?.startY || 80;
     this.player = this.physics.add.sprite(startX, startY, 'player_idle');
     this.player.setCollideWorldBounds(true);
-    this.player.setDrag(200);
+    this.player.setDrag(250);
+    this.player.setDepth(10);
+    this.player.setSize(20, 26);
+
+    // Relic Key Collectibles: seeded placement away from player spawn
+    const keyCount = rng.nextInt(3, 5);
+    this.totalKeysNeeded = keyCount;
+    for (let k = 0; k < keyCount; k++) {
+      const kx = rng.nextInt(160, arenaW - 120);
+      const ky = rng.nextInt(140, arenaH - 120);
+      const keyItem = this.collectiblesGroup.create(kx, ky, 'relic_key') as Phaser.Physics.Arcade.Sprite;
+      keyItem.setData('points', 250);
+      keyItem.setData('id', `relic-${k + 1}`);
+      keyItem.setDepth(5);
+    }
+
+    // Enemies (Top-down roaming crypt guards)
+    const enemyCount = rng.nextInt(2, 4);
+    for (let e = 0; e < enemyCount; e++) {
+      // Spawn at least 250px away from player
+      let ex = rng.nextInt(260, arenaW - 100);
+      let ey = rng.nextInt(260, arenaH - 100);
+      const enemy = this.enemiesGroup.create(ex, ey, 'enemy_patrol') as Phaser.Physics.Arcade.Sprite;
+      enemy.setBounce(1);
+      enemy.setCollideWorldBounds(true);
+      const speed = rng.nextInt(60, 95);
+      enemy.setData('speed', speed);
+      enemy.setData('damage', 1);
+      enemy.setDepth(8);
+
+      // Random initial trajectory
+      const angle = rng.nextFloat(0, Math.PI * 2);
+      enemy.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
+    }
 
     // Collisions
     this.physics.add.collider(this.player, this.wallsGroup);
     this.physics.add.collider(this.enemiesGroup, this.wallsGroup);
 
-    // Collectible Overlap
+    // Key Collection Overlap
     this.physics.add.overlap(this.player, this.collectiblesGroup, (_p, colObj) => {
       const col = colObj as Phaser.Physics.Arcade.Sprite;
-      this.score += (col.getData('points') as number) || 100;
+      this.score += (col.getData('points') as number) || 250;
       this.keysCollected += 1;
+      this.createSparkBurst(col.x, col.y, 0xfbbf24);
       col.destroy();
+
+      if (this.keysCollected >= this.totalKeysNeeded) {
+        // Unlock exit portal effect
+        this.exitPortal.setTint(0x34d399);
+      }
       this.game.events.emit('game:state-update', this.getGameState());
     });
 
@@ -143,7 +164,7 @@ export class TopDownScene extends Phaser.Scene {
       this.handleDamage();
     });
 
-    // Exit Portal Overlap
+    // Exit Portal Overlap -> Victory
     this.physics.add.overlap(this.player, this.exitPortal, () => {
       if (this.keysCollected >= Math.max(1, Math.floor(this.totalKeysNeeded * 0.75))) {
         this.handleVictory();
@@ -161,7 +182,7 @@ export class TopDownScene extends Phaser.Scene {
       };
     }
 
-    // Camera
+    // Camera follow player with bounds
     this.cameras.main.setBounds(0, 0, arenaW, arenaH);
     this.physics.world.setBounds(0, 0, arenaW, arenaH);
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
@@ -170,13 +191,23 @@ export class TopDownScene extends Phaser.Scene {
     this.debugGraphics = this.add.graphics();
     this.debugGraphics.setDepth(100);
 
+    // Register clean shutdown listener
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.tweens.killAll();
+      this.time.removeAllEvents();
+      if (this.debugGraphics) {
+        this.debugGraphics.clear();
+      }
+    });
+
     this.game.events.emit('game:ready');
   }
 
   private createWall(x: number, y: number, width: number, height: number) {
-    const wall = this.wallsGroup.create(x, y, 'tile_platform') as Phaser.Physics.Arcade.Sprite;
+    const wall = this.wallsGroup.create(x, y, 'dungeon_wall') as Phaser.Physics.Arcade.Sprite;
     wall.setDisplaySize(width, height);
     wall.refreshBody();
+    wall.setDepth(3);
   }
 
   private handleDamage() {
@@ -184,12 +215,16 @@ export class TopDownScene extends Phaser.Scene {
     this.health -= 1;
     this.isInvulnerable = true;
     this.invulnerableTimer = this.time.now + 1000;
+    this.createSparkBurst(this.player.x, this.player.y, 0xf43f5e);
 
     if (this.health <= 0) {
       this.isGameOver = true;
       this.player.setTint(0xf43f5e);
       this.player.setVelocity(0, 0);
-      this.game.events.emit('game:over', { finalScore: this.score, reason: 'Health depleted by enemy' });
+      this.game.events.emit('game:over', {
+        finalScore: this.score,
+        reason: 'Health depleted by crypt guardian',
+      });
     }
     this.game.events.emit('game:state-update', this.getGameState());
   }
@@ -198,8 +233,31 @@ export class TopDownScene extends Phaser.Scene {
     if (this.isVictory || this.isGameOver) return;
     this.isVictory = true;
     this.player.setVelocity(0, 0);
-    this.game.events.emit('game:victory', { finalScore: this.score });
+    this.createSparkBurst(this.player.x, this.player.y, 0x10b981);
+    this.game.events.emit('game:victory', {
+      finalScore: this.score + 500,
+      keysCollected: this.keysCollected,
+    });
     this.game.events.emit('game:state-update', this.getGameState());
+  }
+
+  private createSparkBurst(x: number, y: number, color: number) {
+    for (let i = 0; i < 6; i++) {
+      const spark = this.add.image(x, y, 'particle_spark');
+      spark.setTint(color);
+      spark.setDepth(50);
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 20 + Math.random() * 25;
+      this.tweens.add({
+        targets: spark,
+        x: x + Math.cos(angle) * dist,
+        y: y + Math.sin(angle) * dist,
+        alpha: 0,
+        scale: 0.2,
+        duration: 350,
+        onComplete: () => spark.destroy(),
+      });
+    }
   }
 
   update(time: number) {
@@ -253,16 +311,15 @@ export class TopDownScene extends Phaser.Scene {
     if (dx < 0) this.player.setFlipX(true);
     if (dx > 0) this.player.setFlipX(false);
 
-    // Roaming Enemy Steering
+    // Roaming Enemy Steering (keep moving smoothly)
     this.enemiesGroup.getChildren().forEach((child) => {
       const enemy = child as Phaser.Physics.Arcade.Sprite;
       if (!enemy.active) return;
       const spd = (enemy.getData('speed') as number) || 70;
-
-      // If within 180px, chase player
-      const dist = Phaser.Math.Distance.Between(enemy.x, enemy.y, this.player.x, this.player.y);
-      if (dist < 180 && dist > 10) {
-        const angle = Phaser.Math.Angle.Between(enemy.x, enemy.y, this.player.x, this.player.y);
+      const vx = enemy.body!.velocity.x;
+      const vy = enemy.body!.velocity.y;
+      if (Math.abs(vx) < 5 && Math.abs(vy) < 5) {
+        const angle = Math.random() * Math.PI * 2;
         enemy.setVelocity(Math.cos(angle) * spd, Math.sin(angle) * spd);
       }
     });
@@ -272,58 +329,62 @@ export class TopDownScene extends Phaser.Scene {
 
   private renderDebugVisuals() {
     this.debugGraphics.clear();
-    const { width, height } = this.scale;
+    if (!this.showHitboxes && !this.showVectors && !this.showGrid) return;
 
     if (this.showGrid) {
-      this.debugGraphics.lineStyle(1, 0xffffff, 0.05);
-      for (let x = 0; x < width * 2; x += 40) {
-        this.debugGraphics.lineBetween(x, 0, x, height * 2);
+      this.debugGraphics.lineStyle(1, 0x1e293b, 0.4);
+      const arenaW = this.spec.topDownConfig?.arenaWidth || 1000;
+      const arenaH = this.spec.topDownConfig?.arenaHeight || 800;
+      for (let x = 0; x < arenaW; x += 40) {
+        this.debugGraphics.lineBetween(x, 0, x, arenaH);
       }
-      for (let y = 0; y < height * 2; y += 40) {
-        this.debugGraphics.lineBetween(0, y, width * 2, y);
+      for (let y = 0; y < arenaH; y += 40) {
+        this.debugGraphics.lineBetween(0, y, arenaW, y);
       }
     }
 
-    if (this.showHitboxes && this.player?.body) {
-      this.debugGraphics.lineStyle(1.5, 0x10b981, 0.9);
-      this.debugGraphics.strokeRect(this.player.body.x, this.player.body.y, this.player.body.width, this.player.body.height);
+    if (this.showHitboxes && this.player) {
+      this.debugGraphics.lineStyle(1.5, 0x10b981, 1);
+      this.debugGraphics.strokeRect(
+        this.player.body!.x,
+        this.player.body!.y,
+        this.player.body!.width,
+        this.player.body!.height
+      );
 
-      this.debugGraphics.lineStyle(1, 0x06b6d4, 0.7);
-      this.wallsGroup.getChildren().forEach((c) => {
-        const body = (c as Phaser.Physics.Arcade.Sprite).body;
-        if (body) this.debugGraphics.strokeRect(body.x, body.y, body.width, body.height);
+      this.debugGraphics.lineStyle(1, 0x38bdf8, 0.8);
+      this.wallsGroup.getChildren().forEach((w) => {
+        const wall = w as Phaser.Physics.Arcade.Sprite;
+        this.debugGraphics.strokeRect(wall.body!.x, wall.body!.y, wall.body!.width, wall.body!.height);
       });
     }
 
-    if (this.showVectors && this.player?.body) {
-      const cx = this.player.x;
-      const cy = this.player.y;
-      const vx = this.player.body.velocity.x * 0.15;
-      const vy = this.player.body.velocity.y * 0.15;
-      this.debugGraphics.lineStyle(2, 0xf59e0b, 1.0);
-      this.debugGraphics.lineBetween(cx, cy, cx + vx, cy + vy);
+    if (this.showVectors && this.player) {
+      this.debugGraphics.lineStyle(2, 0xf59e0b, 1);
+      this.debugGraphics.lineBetween(
+        this.player.x,
+        this.player.y,
+        this.player.x + this.player.body!.velocity.x * 0.15,
+        this.player.y + this.player.body!.velocity.y * 0.15
+      );
     }
   }
 
-  public dispatchAction(action: 'left' | 'right' | 'up' | 'down' | 'jump' | 'attack' | 'stop', durationMs = 200) {
-    if (action === 'stop') {
-      this.programmaticAction = null;
-      if (this.player?.body) this.player.setVelocity(0, 0);
-    } else {
-      this.programmaticAction = action;
-      this.programmaticActionEndTime = this.time.now + durationMs;
-    }
+  public dispatchAction(action: string, durationMs = 200) {
+    this.programmaticAction = action;
+    this.programmaticActionEndTime = this.time.now + durationMs;
   }
 
   public getGameState(): GameState {
     return {
-      isRunning: this.scene.isActive(),
-      isPaused: this.scene.isPaused(),
+      isRunning: !this.isGameOver && !this.isVictory,
+      isPaused: false,
+      lifecycleState: this.isGameOver ? 'GAME_OVER' : this.isVictory ? 'VICTORY' : 'PLAYING',
       isGameOver: this.isGameOver,
       isVictory: this.isVictory,
       score: this.score,
       lives: this.health,
-      currentLevel: 1,
+      currentLevel: this.currentLevel,
       player: {
         x: Math.round(this.player?.x ?? 0),
         y: Math.round(this.player?.y ?? 0),

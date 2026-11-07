@@ -7,6 +7,10 @@ import {
   RepairIteration,
   AgentStatus,
   ProjectExportData,
+  UserAccount,
+  UserRegistrationInput,
+  UserLoginInput,
+  BootstrapAdminInput,
 } from '@shared/core';
 import { mockApi } from '../mock/mockApiService';
 
@@ -18,14 +22,17 @@ export class ApiClient {
   private async fetchWithFallback<T>(url: string, options?: RequestInit, fallbackFn?: () => Promise<T>): Promise<T> {
     try {
       const res = await fetch(`${BASE_URL}${url}`, {
-        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', ...options?.headers },
         ...options,
       });
       if (res.ok) {
         this.isBackendOnline = true;
         return await res.json();
       }
-      throw new Error(`HTTP error ${res.status}: ${res.statusText}`);
+      const errorBody = await res.json().catch(() => null);
+      const msg = errorBody?.error || `HTTP error ${res.status}: ${res.statusText}`;
+      throw new Error(msg);
     } catch (err) {
       if (fallbackFn) {
         this.isBackendOnline = false;
@@ -212,6 +219,107 @@ export class ApiClient {
       method: 'POST',
       body: JSON.stringify(settings),
     });
+  }
+
+  // --- Authentication ---
+  async register(data: UserRegistrationInput): Promise<{ user: UserAccount; token: string }> {
+    return this.fetchWithFallback<{ user: UserAccount; token: string }>(
+      '/auth/register',
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      },
+      async () => {
+        // Fallback for mock mode
+        const mockUser: UserAccount = {
+          id: `user-${Date.now()}`,
+          username: data.username.toLowerCase(),
+          displayName: data.username,
+          role: 'USER',
+          termsAccepted: true,
+          termsAcceptedAt: new Date().toISOString(),
+          termsVersion: 'v1.0.0',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          isActive: true,
+        };
+        return { user: mockUser, token: 'mock-session-token' };
+      }
+    );
+  }
+
+  async login(data: UserLoginInput): Promise<{ user: UserAccount; token: string }> {
+    return this.fetchWithFallback<{ user: UserAccount; token: string }>(
+      '/auth/login',
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      },
+      async () => {
+        // Fallback for mock mode
+        const mockUser: UserAccount = {
+          id: 'user-mock-1',
+          username: data.username.toLowerCase(),
+          displayName: data.username,
+          role: data.username.toLowerCase().includes('admin') ? 'ADMIN' : 'USER',
+          termsAccepted: true,
+          termsAcceptedAt: new Date().toISOString(),
+          termsVersion: 'v1.0.0',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          isActive: true,
+        };
+        return { user: mockUser, token: 'mock-session-token' };
+      }
+    );
+  }
+
+  async getCurrentUser(): Promise<{ user: UserAccount } | null> {
+    try {
+      return await this.fetchWithFallback<{ user: UserAccount }>('/auth/me');
+    } catch {
+      return null;
+    }
+  }
+
+  async logout(): Promise<void> {
+    try {
+      await this.fetchWithFallback<any>('/auth/logout', { method: 'POST' });
+    } catch {
+      // Ignored
+    }
+  }
+
+  async bootstrapAdmin(data: BootstrapAdminInput): Promise<{ user: UserAccount; token: string }> {
+    return this.fetchWithFallback<{ user: UserAccount; token: string }>(
+      '/auth/bootstrap-admin',
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }
+    );
+  }
+
+  // --- Admin Operations ---
+  async getAdminUsers(): Promise<UserAccount[]> {
+    return this.fetchWithFallback<UserAccount[]>('/admin/users');
+  }
+
+  async updateUserRole(userId: string, role: 'USER' | 'ADMIN'): Promise<{ user: UserAccount }> {
+    return this.fetchWithFallback<{ user: UserAccount }>(`/admin/users/${userId}/role`, {
+      method: 'POST',
+      body: JSON.stringify({ role }),
+    });
+  }
+
+  async deleteUser(userId: string): Promise<void> {
+    await this.fetchWithFallback<any>(`/admin/users/${userId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async getAdminSystem(): Promise<any> {
+    return this.fetchWithFallback<any>('/admin/system');
   }
 }
 

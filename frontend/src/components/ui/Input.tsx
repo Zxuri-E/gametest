@@ -29,7 +29,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             ref={ref}
             className={cn(
-              'w-full bg-canvas-900 border border-border-default rounded-md text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors py-2 px-3 disabled:opacity-50 disabled:bg-canvas-950',
+              'w-full bg-canvas-900 border border-border-default rounded-md text-sm text-slate-100 placeholder-slate-500 shadow-neu-inset focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors py-2 px-3 disabled:opacity-50 disabled:bg-canvas-950',
               leftIcon && 'pl-9',
               error && 'border-rose-500 focus:border-rose-500 focus:ring-rose-500',
               className

@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '../../utils/cn';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'default' | 'glass' | 'subtle' | 'interactive';
+  variant?: 'default' | 'glass' | 'subtle' | 'interactive' | 'neu' | 'inset';
   header?: React.ReactNode;
   footer?: React.ReactNode;
 }
@@ -21,6 +21,8 @@ export const Card: React.FC<CardProps> = ({
     subtle: 'bg-canvas-850/60 border border-border-subtle',
     interactive:
       'bg-canvas-900 border border-border-default hover:border-border-hover hover:bg-canvas-850 cursor-pointer transition-all duration-150',
+    neu: 'neu-card rounded-xl',
+    inset: 'neu-well rounded-xl',
   };
 
   return (

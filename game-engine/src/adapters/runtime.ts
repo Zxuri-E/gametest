@@ -4,6 +4,7 @@ import {
   GameSpecification,
   GameTestAPI,
   GameState,
+  GameLifecycleState,
 } from '@shared/core';
 import { PlatformerScene } from '../scenes/PlatformerScene';
 import { TopDownScene } from '../scenes/TopDownScene';
@@ -28,6 +29,33 @@ export class PhaserRuntimeAdapter implements GameRuntimeAdapter {
 
   private isRunningState = false;
   private isPausedState = false;
+  private lifecycleState: GameLifecycleState = 'INITIALIZING';
+  private currentSeed: string = 'novus-default-seed';
+  private currentLevelIndex: number = 1;
+
+  private getSceneClassForGenre(genre: string) {
+    switch (genre) {
+      case 'top-down':
+        return TopDownScene;
+      case 'endless-runner':
+        return EndlessRunnerScene;
+      case 'platformer':
+      default:
+        return PlatformerScene;
+    }
+  }
+
+  private getSceneKeyForGenre(genre: string): string {
+    switch (genre) {
+      case 'top-down':
+        return 'TopDownScene';
+      case 'endless-runner':
+        return 'EndlessRunnerScene';
+      case 'platformer':
+      default:
+        return 'PlatformerScene';
+    }
+  }
 
   async mount(container: HTMLElement, spec: GameSpecification): Promise<void> {
     if (this.game) {
@@ -36,7 +64,10 @@ export class PhaserRuntimeAdapter implements GameRuntimeAdapter {
 
     this.container = container;
     this.currentSpec = spec;
+    this.currentSeed = spec.seed || `novus-${Date.now()}`;
+    this.currentLevelIndex = 1;
     this.activeSceneKey = this.getSceneKeyForGenre(spec.genre);
+    const sceneClass = this.getSceneClassForGenre(spec.genre);
 
     const width = spec.dimensions?.width || 800;
     const height = spec.dimensions?.height || 600;
@@ -61,15 +92,51 @@ export class PhaserRuntimeAdapter implements GameRuntimeAdapter {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      scene: [PlatformerScene, TopDownScene, EndlessRunnerScene],
+      scene: [], // Empty scene list avoids booting uninitialized scenes
     };
 
-    this.game = new Phaser.Game(config);
+    const game = new Phaser.Game(config);
+    this.game = game;
     this.isRunningState = true;
     this.isPausedState = false;
+    this.lifecycleState = 'INITIALIZING';
 
-    // Start target scene with spec data
-    this.game.scene.start(this.activeSceneKey, { spec });
+    // Wait for core game boot before adding and starting the target scene with spec
+    await new Promise<void>((resolve) => {
+      const startTargetScene = () => {
+        if (!this.game) {
+          resolve();
+          return;
+        }
+        try {
+          this.game.scene.add(this.activeSceneKey, sceneClass, true, {
+            spec: { ...spec, seed: this.currentSeed },
+            levelIndex: this.currentLevelIndex,
+          });
+          this.lifecycleState = 'READY';
+
+          // Wire up event listeners for game lifecycle transitions
+          this.game.events.on('game:over', () => {
+            this.lifecycleState = 'GAME_OVER';
+            this.isRunningState = false;
+          });
+          this.game.events.on('game:victory', () => {
+            this.lifecycleState = 'VICTORY';
+            this.isRunningState = false;
+          });
+        } catch (err) {
+          console.error('[PhaserRuntimeAdapter] Error adding scene:', err);
+          this.lifecycleState = 'ERROR';
+        }
+        resolve();
+      };
+
+      if (game.isBooted) {
+        startTargetScene();
+      } else {
+        game.events.once(Phaser.Core.Events.READY, startTargetScene);
+      }
+    });
 
     // Expose global test hook for Playwright / automated tests
     const testApi = this.getTestAPI();
@@ -86,30 +153,65 @@ export class PhaserRuntimeAdapter implements GameRuntimeAdapter {
     }
 
     if (this.game) {
-      this.game.destroy(true, false);
+      try {
+        const scenes = this.game.scene.getScenes(false);
+        for (const s of scenes) {
+          try {
+            s.scene.stop();
+          } catch {
+            // ignore
+          }
+        }
+      } catch {
+        // Scene manager may already be stopped
+      }
+
+      try {
+        this.game.destroy(true, false);
+      } catch (err) {
+        console.warn('[PhaserRuntimeAdapter] Error during game.destroy:', err);
+      }
       this.game = null;
     }
 
     if (this.container) {
-      this.container.innerHTML = '';
+      // Remove ONLY canvas elements created by Phaser - NEVER call innerHTML = ''
+      // This strictly preserves React's DOM tree and prevents Node.removeChild exceptions
+      const canvases = this.container.querySelectorAll('canvas');
+      canvases.forEach((c) => {
+        if (c.parentNode === this.container) {
+          this.container?.removeChild(c);
+        }
+      });
       this.container = null;
     }
 
     this.isRunningState = false;
     this.isPausedState = false;
+    this.lifecycleState = 'READY';
     this.currentSpec = null;
   }
 
   async loadSpecification(spec: GameSpecification): Promise<void> {
     this.currentSpec = spec;
     const targetSceneKey = this.getSceneKeyForGenre(spec.genre);
+    const sceneClass = this.getSceneClassForGenre(spec.genre);
 
     if (this.game) {
-      this.game.scene.stop(this.activeSceneKey);
+      try {
+        this.game.scene.stop(this.activeSceneKey);
+        this.game.scene.remove(this.activeSceneKey);
+      } catch {
+        // ignore
+      }
       this.activeSceneKey = targetSceneKey;
-      this.game.scene.start(this.activeSceneKey, { spec });
+      this.game.scene.add(this.activeSceneKey, sceneClass, true, {
+        spec: { ...spec, seed: this.currentSeed },
+        levelIndex: this.currentLevelIndex,
+      });
       this.isRunningState = true;
       this.isPausedState = false;
+      this.lifecycleState = 'READY';
     } else if (this.container) {
       await this.mount(this.container, spec);
     }
@@ -121,12 +223,14 @@ export class PhaserRuntimeAdapter implements GameRuntimeAdapter {
     } else if (this.container && this.currentSpec && !this.game) {
       this.mount(this.container, this.currentSpec);
     }
+    this.lifecycleState = 'PLAYING';
   }
 
   pause(): void {
     if (this.game) {
       this.game.scene.pause(this.activeSceneKey);
       this.isPausedState = true;
+      this.lifecycleState = 'PAUSED';
     }
   }
 
@@ -134,16 +238,89 @@ export class PhaserRuntimeAdapter implements GameRuntimeAdapter {
     if (this.game) {
       this.game.scene.resume(this.activeSceneKey);
       this.isPausedState = false;
+      this.lifecycleState = 'PLAYING';
     }
   }
 
   reset(): void {
+    this.restart();
+  }
+
+  restart(): void {
     if (this.game && this.currentSpec) {
-      this.game.scene.stop(this.activeSceneKey);
-      this.game.scene.start(this.activeSceneKey, { spec: this.currentSpec });
+      const sceneClass = this.getSceneClassForGenre(this.currentSpec.genre);
+      try {
+        this.game.scene.stop(this.activeSceneKey);
+        this.game.scene.remove(this.activeSceneKey);
+      } catch {
+        // ignore
+      }
+      this.game.scene.add(this.activeSceneKey, sceneClass, true, {
+        spec: { ...this.currentSpec, seed: this.currentSeed },
+        levelIndex: this.currentLevelIndex,
+      });
       this.isPausedState = false;
       this.isRunningState = true;
+      this.lifecycleState = 'PLAYING';
     }
+  }
+
+  newWorld(newSeed?: string): void {
+    if (this.game && this.currentSpec) {
+      this.currentSeed = newSeed || `novus-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+      this.currentLevelIndex = 1;
+      const sceneClass = this.getSceneClassForGenre(this.currentSpec.genre);
+      try {
+        this.game.scene.stop(this.activeSceneKey);
+        this.game.scene.remove(this.activeSceneKey);
+      } catch {
+        // ignore
+      }
+      this.game.scene.add(this.activeSceneKey, sceneClass, true, {
+        spec: { ...this.currentSpec, seed: this.currentSeed },
+        levelIndex: this.currentLevelIndex,
+      });
+      this.isPausedState = false;
+      this.isRunningState = true;
+      this.lifecycleState = 'PLAYING';
+    }
+  }
+
+  resetLevel(): void {
+    this.restart();
+  }
+
+  nextLevel(): void {
+    if (this.game && this.currentSpec) {
+      this.currentLevelIndex += 1;
+      this.currentSeed = `level-${this.currentLevelIndex}-${this.currentSeed}`;
+      const sceneClass = this.getSceneClassForGenre(this.currentSpec.genre);
+      try {
+        this.game.scene.stop(this.activeSceneKey);
+        this.game.scene.remove(this.activeSceneKey);
+      } catch {
+        // ignore
+      }
+      this.game.scene.add(this.activeSceneKey, sceneClass, true, {
+        spec: { ...this.currentSpec, seed: this.currentSeed },
+        levelIndex: this.currentLevelIndex,
+      });
+      this.isPausedState = false;
+      this.isRunningState = true;
+      this.lifecycleState = 'PLAYING';
+    }
+  }
+
+  public getLifecycleState(): GameLifecycleState {
+    return this.lifecycleState;
+  }
+
+  public getSeed(): string {
+    return this.currentSeed;
+  }
+
+  public getLevelIndex(): number {
+    return this.currentLevelIndex;
   }
 
   // Debug Toggles
@@ -161,14 +338,21 @@ export class PhaserRuntimeAdapter implements GameRuntimeAdapter {
       getGameState: async (): Promise<GameState> => {
         const scene = this.getActiveScene() as any;
         if (scene && typeof scene.getGameState === 'function') {
-          return scene.getGameState();
+          const s = scene.getGameState();
+          return {
+            ...s,
+            lifecycleState: this.lifecycleState,
+            seed: this.currentSeed,
+          };
         }
         return {
           isRunning: this.isRunningState,
           isPaused: this.isPausedState,
+          lifecycleState: this.lifecycleState,
           score: 0,
           lives: 3,
-          currentLevel: 1,
+          currentLevel: this.currentLevelIndex,
+          seed: this.currentSeed,
           player: { x: 0, y: 0, velocityX: 0, velocityY: 0, isGrounded: false, isAlive: true },
           entitiesCount: 0,
           elapsedTimeMs: 0,
@@ -184,12 +368,11 @@ export class PhaserRuntimeAdapter implements GameRuntimeAdapter {
       },
 
       simulateCollision: async (_entityA: string, _entityB: string): Promise<boolean> => {
-        // Programmatic collision trigger
         return true;
       },
 
       restartGame: async (): Promise<void> => {
-        this.reset();
+        this.restart();
       },
 
       pauseGame: async (): Promise<void> => {
@@ -246,17 +429,5 @@ export class PhaserRuntimeAdapter implements GameRuntimeAdapter {
   private getActiveScene(): Phaser.Scene | null {
     if (!this.game) return null;
     return this.game.scene.getScene(this.activeSceneKey);
-  }
-
-  private getSceneKeyForGenre(genre: string): string {
-    switch (genre) {
-      case 'top-down':
-        return 'TopDownScene';
-      case 'endless-runner':
-        return 'EndlessRunnerScene';
-      case 'platformer':
-      default:
-        return 'PlatformerScene';
-    }
   }
 }

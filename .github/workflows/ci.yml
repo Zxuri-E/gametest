@@ -1,0 +1,41 @@
+name: Novus Continuous Integration
+
+on:
+  push:
+    branches: [main, feature/**]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Typecheck, Build & Automated Verification
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install Workspace Dependencies
+        run: npm install
+
+      - name: Strict TypeScript Compilation (All Workspaces)
+        run: npm run typecheck
+
+      - name: Build Shared, Game Engine & Frontend
+        run: npm run build
+
+      - name: Build Backend Server
+        run: npm run build:backend
+
+      - name: Verify Autonomous Repair Fixtures
+        run: npm run test:repair

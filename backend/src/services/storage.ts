@@ -6,7 +6,13 @@ import {
   TestResult,
   BugReport,
   RepairIteration,
+  UserAccount,
+  UserSession,
 } from '@shared/core';
+
+export interface StoredUser extends UserAccount {
+  passwordHash: string;
+}
 
 export interface NovusDatabase {
   projects: GameProject[];
@@ -15,6 +21,8 @@ export interface NovusDatabase {
   bugReports: BugReport[];
   repairIterations: RepairIteration[];
   settings: Record<string, any>;
+  users: StoredUser[];
+  sessions: UserSession[];
 }
 
 export class StorageService {
@@ -31,15 +39,186 @@ export class StorageService {
   }
 
   private loadDatabase(): NovusDatabase {
+    let db: NovusDatabase;
     try {
       if (fs.existsSync(this.dbPath)) {
         const raw = fs.readFileSync(this.dbPath, 'utf-8');
-        return JSON.parse(raw);
+        db = JSON.parse(raw);
+      } else {
+        db = this.createInitialData();
       }
     } catch (err) {
       console.warn('[Storage] Failed to read existing db, initializing defaults:', err);
+      db = this.createInitialData();
     }
-    return this.createInitialData();
+
+    if (!db.users) db.users = [];
+    if (!db.sessions) db.sessions = [];
+    if (!db.projects) db.projects = [];
+    if (!db.specifications) db.specifications = {};
+
+    this.ensureDefaultProjects(db);
+    return db;
+  }
+
+  private ensureDefaultProjects(db: NovusDatabase): void {
+    // 1. Neon Vault Runner (Endless Runner)
+    let p1 = db.projects.find((p) => p.id === 'proj-01');
+    if (!p1 || p1.genre !== 'endless-runner') {
+      const spec1: GameSpecification = {
+        id: 'spec-runner-01',
+        title: 'Neon Vault Runner',
+        genre: 'endless-runner',
+        prompt: 'A dark cyberpunk vault endless runner with automatic forward movement, energy barriers, and data-shard pickups.',
+        dimensions: { width: 800, height: 600 },
+        difficulty: 'medium',
+        theme: 'cyberpunk',
+        mechanics: ['player-movement', 'jumping', 'gravity', 'platform-collision', 'collectibles', 'score-system', 'game-over-condition'],
+        physics: { gravityY: 850, gravityX: 0, bounce: 0, drag: 120, playerSpeed: 280, jumpVelocity: 580 },
+        player: { startX: 140, startY: 450, width: 24, height: 32, color: '#06b6d4', maxLives: 3, invulnerabilityDurationMs: 1200 },
+        runnerConfig: { baseSpeed: 260, maxSpeed: 520, accelerationRate: 2.0, obstacleIntervalMs: 1800, groundY: 480, minObstacleGap: 240, maxObstacleGap: 450 },
+        targetFPS: 60,
+        backgroundColor: '#070a14',
+        createdFromPrompt: 'A dark cyberpunk vault endless runner with automatic forward movement, energy barriers, and data-shard pickups.',
+        version: '1.0.0',
+        createdAt: '2026-11-04T10:15:00.000Z',
+        updatedAt: '2026-11-05T14:30:00.000Z',
+      };
+      if (p1) {
+        p1.genre = 'endless-runner';
+        p1.specification = spec1;
+        p1.description = 'Dark cyberpunk endless vault runner with dynamic obstacles, speed scaling, and high-contrast visuals.';
+      } else {
+        db.projects.push({
+          id: 'proj-01',
+          name: 'Neon Vault Runner',
+          description: 'Dark cyberpunk endless vault runner with dynamic obstacles, speed scaling, and high-contrast visuals.',
+          status: 'ready',
+          currentVersion: '1.0.0',
+          genre: 'endless-runner',
+          specification: spec1,
+          createdAt: '2026-11-04T10:15:00.000Z',
+          updatedAt: '2026-11-05T14:30:00.000Z',
+          totalRuns: 24,
+          testsPassed: 8,
+          testsFailed: 0,
+          openBugsCount: 0,
+        });
+      }
+      db.specifications[spec1.id] = spec1;
+    }
+
+    // 2. Shadow Crypt Crawler (Top-Down Dungeon)
+    let p2 = db.projects.find((p) => p.id === 'proj-02');
+    if (!p2 || p2.genre !== 'top-down' || !p2.specification?.topDownConfig) {
+      const spec2: GameSpecification = {
+        id: 'spec-crawler-02',
+        title: 'Shadow Crypt Crawler',
+        genre: 'top-down',
+        prompt: 'Top-down rogue-lite arena with directional movement, roaming shadow guards, relic keys, and stone barricades.',
+        dimensions: { width: 800, height: 600 },
+        difficulty: 'hard',
+        theme: 'dungeon',
+        mechanics: ['player-movement', 'enemy-interaction', 'collectibles', 'score-system', 'game-over-condition', 'level-completion'],
+        physics: { gravityY: 0, gravityX: 0, bounce: 0, drag: 200, playerSpeed: 240, jumpVelocity: 0 },
+        player: { startX: 80, startY: 80, width: 24, height: 28, color: '#a855f7', maxLives: 3, invulnerabilityDurationMs: 1000 },
+        topDownConfig: {
+          arenaWidth: 1000,
+          arenaHeight: 800,
+          walls: [
+            { x: 280, y: 220, width: 180, height: 28 },
+            { x: 540, y: 380, width: 28, height: 200 },
+            { x: 280, y: 480, width: 200, height: 28 },
+            { x: 700, y: 240, width: 140, height: 28 },
+          ],
+          exitX: 920,
+          exitY: 720,
+        },
+        collectibles: [
+          { id: 'relic-1', x: 280, y: 150, type: 'gem', points: 250 },
+          { id: 'relic-2', x: 420, y: 340, type: 'gem', points: 250 },
+          { id: 'relic-3', x: 680, y: 420, type: 'gem', points: 250 },
+        ],
+        enemies: [
+          { id: 'guard-1', x: 420, y: 180, width: 24, height: 24, type: 'roamer', speed: 70, damage: 1 },
+          { id: 'guard-2', x: 620, y: 320, width: 24, height: 24, type: 'roamer', speed: 80, damage: 1 },
+        ],
+        targetFPS: 60,
+        backgroundColor: '#0c0a17',
+        createdFromPrompt: 'Top-down rogue-lite arena with directional movement, roaming shadow guards, relic keys, and stone barricades.',
+        version: '1.0.0',
+        createdAt: '2026-11-01T08:20:00.000Z',
+        updatedAt: '2026-11-03T19:45:00.000Z',
+      };
+      if (p2) {
+        p2.genre = 'top-down';
+        p2.specification = spec2;
+        p2.description = 'Top-down rogue-lite crypt crawler with directional dashing, stone barricades, and relic keys.';
+      } else {
+        db.projects.push({
+          id: 'proj-02',
+          name: 'Shadow Crypt Crawler',
+          description: 'Top-down rogue-lite crypt crawler with directional dashing, stone barricades, and relic keys.',
+          status: 'verified',
+          currentVersion: '1.0.0',
+          genre: 'top-down',
+          specification: spec2,
+          createdAt: '2026-11-01T08:20:00.000Z',
+          updatedAt: '2026-11-03T19:45:00.000Z',
+          totalRuns: 48,
+          testsPassed: 8,
+          testsFailed: 0,
+          openBugsCount: 0,
+        });
+      }
+      db.specifications[spec2.id] = spec2;
+    }
+
+    // 3. Hyper Velocity Dash (Endless Runner)
+    let p3 = db.projects.find((p) => p.id === 'proj-03');
+    if (!p3 || p3.genre !== 'endless-runner' || !p3.specification?.runnerConfig) {
+      const spec3: GameSpecification = {
+        id: 'spec-runner-03',
+        title: 'Hyper Velocity Dash',
+        genre: 'endless-runner',
+        prompt: 'A futuristic high-speed obstacle runner with ascending speed curves, neon barriers, and gold energy coins.',
+        dimensions: { width: 800, height: 600 },
+        difficulty: 'hard',
+        theme: 'retro-arcade',
+        mechanics: ['player-movement', 'jumping', 'gravity', 'platform-collision', 'collectibles', 'score-system', 'game-over-condition'],
+        physics: { gravityY: 850, gravityX: 0, bounce: 0, drag: 120, playerSpeed: 320, jumpVelocity: 580 },
+        player: { startX: 140, startY: 450, width: 24, height: 32, color: '#f59e0b', maxLives: 3, invulnerabilityDurationMs: 1200 },
+        runnerConfig: { baseSpeed: 300, maxSpeed: 600, accelerationRate: 2.5, obstacleIntervalMs: 1600, groundY: 480, minObstacleGap: 260, maxObstacleGap: 480 },
+        targetFPS: 60,
+        backgroundColor: '#09090b',
+        createdFromPrompt: 'A futuristic high-speed obstacle runner with ascending speed curves, neon barriers, and gold energy coins.',
+        version: '1.0.0',
+        createdAt: '2026-10-28T14:00:00.000Z',
+        updatedAt: '2026-10-30T11:10:00.000Z',
+      };
+      if (p3) {
+        p3.genre = 'endless-runner';
+        p3.specification = spec3;
+        p3.description = 'High-speed retro-arcade endless runner with ascending velocity curves and laser barriers.';
+      } else {
+        db.projects.push({
+          id: 'proj-03',
+          name: 'Hyper Velocity Dash',
+          description: 'High-speed retro-arcade endless runner with ascending velocity curves and laser barriers.',
+          status: 'ready',
+          currentVersion: '1.0.0',
+          genre: 'endless-runner',
+          specification: spec3,
+          createdAt: '2026-10-28T14:00:00.000Z',
+          updatedAt: '2026-10-30T11:10:00.000Z',
+          totalRuns: 16,
+          testsPassed: 8,
+          testsFailed: 0,
+          openBugsCount: 0,
+        });
+      }
+      db.specifications[spec3.id] = spec3;
+    }
   }
 
   private saveDatabase(): void {
@@ -190,6 +369,8 @@ export class StorageService {
         diagnosticianModel: 'claude-3-5-sonnet-20241022',
         repairModel: 'claude-3-5-sonnet-20241022',
       },
+      users: [],
+      sessions: [],
     };
 
     return db;
@@ -313,6 +494,77 @@ export class StorageService {
 
   public async saveSettings(settings: Record<string, any>): Promise<void> {
     this.data.settings = { ...this.data.settings, ...settings };
+    this.saveDatabase();
+  }
+
+  // --- Users & Authentication ---
+  public async getUsers(): Promise<UserAccount[]> {
+    return this.data.users.map(({ passwordHash, ...safeUser }) => ({ ...safeUser }));
+  }
+
+  public async getUserById(id: string): Promise<StoredUser | null> {
+    const found = this.data.users.find((u) => u.id === id);
+    return found ? { ...found } : null;
+  }
+
+  public async getUserByUsername(username: string): Promise<StoredUser | null> {
+    const found = this.data.users.find((u) => u.username.toLowerCase() === username.toLowerCase());
+    return found ? { ...found } : null;
+  }
+
+  public async saveUser(user: StoredUser): Promise<void> {
+    const idx = this.data.users.findIndex((u) => u.id === user.id);
+    if (idx >= 0) {
+      this.data.users[idx] = { ...user };
+    } else {
+      this.data.users.push({ ...user });
+    }
+    this.saveDatabase();
+  }
+
+  public async deleteUser(id: string): Promise<boolean> {
+    const before = this.data.users.length;
+    this.data.users = this.data.users.filter((u) => u.id !== id);
+    if (this.data.users.length !== before) {
+      this.saveDatabase();
+      return true;
+    }
+    return false;
+  }
+
+  // --- Sessions ---
+  public async getSessions(): Promise<UserSession[]> {
+    const now = Date.now();
+    return this.data.sessions.filter((s) => new Date(s.expiresAt).getTime() >= now);
+  }
+
+  public async getSession(sessionId: string): Promise<UserSession | null> {
+    const found = this.data.sessions.find((s) => s.sessionId === sessionId);
+    if (!found) return null;
+    if (new Date(found.expiresAt).getTime() < Date.now()) {
+      await this.deleteSession(sessionId);
+      return null;
+    }
+    return { ...found };
+  }
+
+  public async saveSession(session: UserSession): Promise<void> {
+    const idx = this.data.sessions.findIndex((s) => s.sessionId === session.sessionId);
+    if (idx >= 0) {
+      this.data.sessions[idx] = { ...session };
+    } else {
+      this.data.sessions.push({ ...session });
+    }
+    this.saveDatabase();
+  }
+
+  public async deleteSession(sessionId: string): Promise<void> {
+    this.data.sessions = this.data.sessions.filter((s) => s.sessionId !== sessionId);
+    this.saveDatabase();
+  }
+
+  public async deleteSessionsForUser(userId: string): Promise<void> {
+    this.data.sessions = this.data.sessions.filter((s) => s.userId !== userId);
     this.saveDatabase();
   }
 }

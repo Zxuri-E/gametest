@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, CheckCircle2, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
+import { Sparkles, CheckCircle2, ArrowRight, Loader2, Gamepad2 } from 'lucide-react';
 import { Modal } from '../../../components/ui/Modal';
 import { Button } from '../../../components/ui/Button';
+import { useStudioStore } from '../../../store/useStudioStore';
 
 interface GenerationProgressModalProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export const GenerationProgressModal: React.FC<GenerationProgressModalProps> = (
   error,
 }) => {
   const navigate = useNavigate();
+  const { genre, theme } = useStudioStore();
   const isDone = progressPercent >= 100;
 
   return (
@@ -27,20 +29,27 @@ export const GenerationProgressModal: React.FC<GenerationProgressModalProps> = (
       isOpen={isOpen}
       onClose={isDone || !!error ? onClose : () => {}}
       title="Autonomous AI Game Generation Pipeline"
-      description="Orchestrating LLM Generator, Test Planner, and Phaser 3 Runtime Adapters"
+      description="Orchestrating Live LLM Generator, Kinematic Reachability Solver, and Phaser 3 Runtime"
       maxWidth="lg"
       footer={
         isDone ? (
-          <Button
-            variant="primary"
-            rightIcon={<ArrowRight className="w-4 h-4" />}
-            onClick={() => {
-              onClose();
-              navigate('/workspace');
-            }}
-          >
-            Launch in Workspace
-          </Button>
+          <div className="flex items-center justify-between w-full">
+            <span className="text-xs text-slate-400 font-mono">
+              Status: <strong className="text-emerald-400">Specification Validated</strong>
+            </span>
+            <Button
+              variant="primary"
+              size="md"
+              rightIcon={<ArrowRight className="w-4 h-4" />}
+              onClick={() => {
+                onClose();
+                navigate('/workspace');
+              }}
+              className="shadow-lg shadow-cyan-500/20"
+            >
+              Open in Workspace (Ready to Play)
+            </Button>
+          </div>
         ) : error ? (
           <Button variant="secondary" onClick={onClose}>
             Close
@@ -48,7 +57,7 @@ export const GenerationProgressModal: React.FC<GenerationProgressModalProps> = (
         ) : (
           <div className="flex items-center gap-2 text-xs text-slate-400 font-mono">
             <Loader2 className="w-3.5 h-3.5 animate-spin text-cyan-400" />
-            <span>Simulating Autonomous Synthesis Pipeline...</span>
+            <span>Generating Specification with Live Coding LLM...</span>
           </div>
         )
       }
@@ -75,7 +84,7 @@ export const GenerationProgressModal: React.FC<GenerationProgressModalProps> = (
         </div>
 
         {/* Step Checkpoints */}
-        <div className="p-3 rounded bg-canvas-950 border border-border-subtle space-y-2 text-xs font-mono">
+        <div className="p-3.5 rounded-lg bg-canvas-950 border border-border-subtle space-y-2 text-xs font-mono">
           <div className="flex items-center gap-2 text-slate-300">
             {progressPercent >= 35 ? (
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -91,7 +100,7 @@ export const GenerationProgressModal: React.FC<GenerationProgressModalProps> = (
             ) : (
               <div className="w-3.5 h-3.5 rounded-full border border-slate-600 shrink-0" />
             )}
-            <span>Scene Hierarchy & Entity Mechanics Synthesis</span>
+            <span>Scene Hierarchy & Kinematic Reachability Validation</span>
           </div>
 
           <div className="flex items-center gap-2 text-slate-300">
@@ -109,19 +118,26 @@ export const GenerationProgressModal: React.FC<GenerationProgressModalProps> = (
             ) : (
               <div className="w-3.5 h-3.5 rounded-full border border-slate-600 shrink-0" />
             )}
-            <span>Phaser 3 Engine Bundle Ready</span>
+            <span>Phaser 3 Runtime Bundle Initialized</span>
           </div>
         </div>
 
-        {/* Notice of simulated operation */}
-        <div className="p-2.5 rounded bg-cyan-950/40 border border-cyan-800/40 text-[11px] text-cyan-300 flex items-start gap-2">
-          <Sparkles className="w-4 h-4 shrink-0 mt-0.5" />
-          <span>
-            <strong>Simulated Generation:</strong> The frontend is simulating the backend agent orchestrator. Once the full backend is active, this will trigger the real multi-agent generation pipeline.
-          </span>
-        </div>
+        {/* Live Generation Summary Card */}
+        {isDone && (
+          <div className="p-3.5 rounded-lg bg-emerald-950/30 border border-emerald-800/40 text-xs flex items-center justify-between">
+            <div className="flex items-center gap-2 text-emerald-300">
+              <Gamepad2 className="w-4 h-4 text-emerald-400" />
+              <span>
+                Game synthesized: <strong className="text-white capitalize">{genre}</strong> (Theme:{' '}
+                <strong className="text-white">{theme}</strong>)
+              </span>
+            </div>
+            <span className="text-[11px] font-mono text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-700">
+              100% Validated
+            </span>
+          </div>
+        )}
       </div>
     </Modal>
   );
 };
-

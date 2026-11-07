@@ -138,6 +138,7 @@ export const GameSpecificationSchema = z.object({
     height: z.number().default(32),
     color: z.string().default('#06b6d4'),
     maxLives: z.number().int().default(3),
+    maxHealth: z.number().optional().default(100),
     invulnerabilityDurationMs: z.number().optional().default(1000),
   }).optional(),
   platforms: z.array(LevelPlatformSchema).optional(),
@@ -148,6 +149,7 @@ export const GameSpecificationSchema = z.object({
   runnerConfig: RunnerConfigSchema.optional(),
   topDownConfig: TopDownConfigSchema.optional(),
   reachability: ReachabilityMetricsSchema.optional(),
+  seed: z.string().optional(),
   targetFPS: z.number().int().min(30).max(144).default(60),
   backgroundColor: z.string().default('#0a0f1d'),
   createdFromPrompt: z.string(),
@@ -163,6 +165,7 @@ export const BugReportSchema = z.object({
   title: z.string().min(1),
   severity: z.enum(['critical', 'high', 'medium', 'low']),
   category: z.enum(['physics', 'collision', 'logic', 'level-reachability', 'game-loop', 'state', 'render']),
+  defectLayer: z.enum(['specification', 'generated-artifact', 'shared-engine', 'infrastructure']).optional(),
   affectedMechanic: MechanicTypeSchema,
   expectedBehaviour: z.string(),
   actualBehaviour: z.string(),
@@ -193,3 +196,45 @@ export const GenerationPromptRequestSchema = z.object({
   theme: VisualThemeSchema.optional(),
   additionalNotes: z.string().optional(),
 });
+
+export const UserRegistrationSchema = z.object({
+  username: z.string().min(3, 'Username must be at least 3 characters').max(30).regex(/^[a-zA-Z0-9_-]+$/, 'Username can only contain letters, numbers, underscores, and dashes'),
+  password: z.string().min(8, 'Password must be at least 8 characters').max(100),
+  confirmPassword: z.string(),
+  termsAccepted: z.boolean().refine((val) => val === true, {
+    message: 'You must accept the Terms and Conditions to register',
+  }),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: 'Passwords do not match',
+  path: ['confirmPassword'],
+});
+
+export const UserLoginSchema = z.object({
+  username: z.string().min(1, 'Username is required'),
+  password: z.string().min(1, 'Password is required'),
+});
+
+export const UserAccountSchema = z.object({
+  id: z.string(),
+  username: z.string(),
+  displayName: z.string(),
+  role: z.enum(['USER', 'ADMIN']),
+  termsAccepted: z.boolean(),
+  termsAcceptedAt: z.string().optional(),
+  termsVersion: z.string().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  lastActiveAt: z.string().optional(),
+  isActive: z.boolean().default(true),
+});
+
+export const BootstrapAdminSchema = z.object({
+  username: z.string().min(3, 'Username must be at least 3 characters').max(30).regex(/^[a-zA-Z0-9_-]+$/),
+  password: z.string().min(8, 'Password must be at least 8 characters').max(100),
+  displayName: z.string().min(1).max(50).optional(),
+});
+
+export type UserRegistrationInput = z.infer<typeof UserRegistrationSchema>;
+export type UserLoginInput = z.infer<typeof UserLoginSchema>;
+export type BootstrapAdminInput = z.infer<typeof BootstrapAdminSchema>;
+

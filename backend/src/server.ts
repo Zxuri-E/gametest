@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { apiRouter } from './api/routes';
+import { authenticateSession } from './services/auth';
 
 dotenv.config();
 
@@ -13,10 +14,25 @@ export interface ServerConfig {
 export function createServer() {
   const app = express();
 
-  // Middleware
-  app.use(cors());
+  // Security Headers
+  app.use((_req: Request, res: Response, next: NextFunction) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    next();
+  });
+
+  // Middleware with CORS credential support
+  app.use(cors({
+    origin: true,
+    credentials: true,
+  }));
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true }));
+
+  // Session Authentication Middleware
+  app.use(authenticateSession);
 
   // API Routes
   app.use('/api', apiRouter);
